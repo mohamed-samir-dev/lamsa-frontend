@@ -23,36 +23,36 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   return (
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
-      transform: visible ? "translateY(0) scale(1)" : "translateY(28px) scale(0.98)",
-      transition: `opacity 0.65s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 0.65s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      transform: visible ? "translateY(0)" : "translateY(24px)",
+      transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
     }}>
       {children}
     </div>
   );
 }
 
-/* ── Icons ── */
+/* Icons */
 const IconBox = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" strokeLinecap="round" strokeLinejoin="round"/>
     <polyline points="3.27 6.96 12 12.01 20.73 6.96" strokeLinecap="round" strokeLinejoin="round"/>
     <line x1="12" y1="22.08" x2="12" y2="12" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 const IconClock = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <circle cx="12" cy="12" r="10"/>
     <polyline points="12 6 12 12 16 14" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 const IconBan = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <circle cx="12" cy="12" r="10"/>
     <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" strokeLinecap="round"/>
   </svg>
 );
 const IconXCircle = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <circle cx="12" cy="12" r="10"/>
     <line x1="15" y1="9" x2="9" y2="15" strokeLinecap="round"/>
     <line x1="9" y1="9" x2="15" y2="15" strokeLinecap="round"/>
@@ -63,9 +63,6 @@ const sections = [
   {
     Icon: IconBox,
     title: "حالة المنتج",
-    gradient: "from-blue-500 to-indigo-600",
-    bg: "bg-blue-50",
-    iconText: "text-blue-600",
     content: [
       "يشترط أن يكون المنتج في حالته الأصلية وغير مستخدم، مع الحفاظ على التغليف والملحقات والفاتورة إن وجدت.",
     ],
@@ -73,9 +70,6 @@ const sections = [
   {
     Icon: IconClock,
     title: "مدة طلب الاسترجاع",
-    gradient: "from-violet-500 to-purple-600",
-    bg: "bg-violet-50",
-    iconText: "text-violet-600",
     content: [
       "يتم تقديم طلبات الاستبدال أو الاسترجاع خلال 14 يومًا من تاريخ استلام الطلب حسب سياسة المتجر، وبعد مراجعة حالة الطلب والمنتج.",
     ],
@@ -83,9 +77,6 @@ const sections = [
   {
     Icon: IconBan,
     title: "المنتجات غير القابلة للاسترجاع",
-    gradient: "from-rose-500 to-red-600",
-    bg: "bg-rose-50",
-    iconText: "text-rose-600",
     content: [
       "بعض المنتجات قد لا تكون قابلة للاسترجاع أو الاستبدال بعد فتحها أو استخدامها، وخاصة المنتجات الشخصية أو الرقمية أو التي تم تجهيزها بطلب خاص.",
     ],
@@ -93,9 +84,6 @@ const sections = [
   {
     Icon: IconXCircle,
     title: "إلغاء الطلبات",
-    gradient: "from-orange-400 to-amber-500",
-    bg: "bg-orange-50",
-    iconText: "text-orange-600",
     content: [
       "يمكن إلغاء الطلب قبل التجهيز أو الشحن، أما إذا تم شحن الطلب فيتم التعامل معه وفق سياسة الاسترجاع المعتمدة.",
     ],
@@ -117,61 +105,57 @@ export default function ReturnPolicyClient() {
     style: {
       opacity: heroVisible ? 1 : 0,
       transform: heroVisible ? "translateY(0)" : "translateY(22px)",
-      transition: `opacity 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
     },
   } as React.HTMLAttributes<HTMLElement>);
 
   return (
-    <main className="min-h-screen bg-[#f8f9fc] overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-[#faf7f2] overflow-x-hidden" dir="rtl">
 
       {/* ════════ HERO ════════ */}
-      <section className="relative w-full overflow-hidden bg-linear-to-bl from-[#1a3a6e] via-[#1e5fc4] to-[#4f8ef7]">
+      <section className="relative w-full overflow-hidden" style={{ background: "linear-gradient(135deg, #0A1825 0%, #122a42 50%, #0A1825 100%)" }}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-white/5 blur-[80px]" />
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-indigo-300/10 blur-[60px]" />
-          <div className="absolute bottom-0 left-1/2 w-[600px] h-40 -translate-x-1/2 bg-blue-900/30 blur-[50px]" />
+          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #BC9255, transparent)" }} />
+          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle, #BC9255, transparent)" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03]" style={{ border: "1px solid #BC9255" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.05]" style={{ border: "1px solid #BC9255" }} />
         </div>
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }}
-        />
-        <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-32 text-center text-white">
-          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-blue-100 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+
+        <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-28 text-center">
+          <div {...anim(100)} className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-6" style={{ backgroundColor: "rgba(188,146,85,0.15)", color: "#BC9255", border: "1px solid rgba(188,146,85,0.3)" }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#BC9255] animate-pulse" />
             الشروط والسياسات
           </div>
-          <h1 {...anim(220)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight">
-            سياسة الاستبدال
-            <span className="block text-transparent bg-clip-text bg-linear-to-l from-blue-200 to-white">
-              والاسترجاع
-            </span>
+
+          <h1 {...anim(200)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight text-white">
+            سياسة{" "}
+            <span className="text-[#BC9255]">الاستبدال</span>
+            <span className="block text-white/90 text-2xl sm:text-4xl lg:text-5xl mt-2">والاسترجاع</span>
           </h1>
-          <p {...anim(360)} className="text-blue-100/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
-            الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة  بصمة هاتفي المعتمد 
+
+          <p {...anim(350)} className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة بصمة هاتفي المعتمد
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 w-full">
-          <svg viewBox="0 0 1440 70" className="w-full h-12 sm:h-16" preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#f8f9fc" />
-          </svg>
-        </div>
+
+        <div className="absolute bottom-0 left-0 w-full h-1" style={{ background: "linear-gradient(to right, transparent, #BC9255, transparent)" }} />
       </section>
 
       {/* ════════ SECTIONS ════════ */}
-      <section className="w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 py-8 sm:py-10 space-y-4 sm:space-y-5">
+      <section className="w-full max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-10 space-y-4 sm:space-y-5">
         {sections.map((s, i) => (
           <FadeUp key={s.title} delay={i * 100}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+            <div className="group bg-white rounded-2xl overflow-hidden hover:shadow-md transition-all duration-300" style={{ border: "1px solid rgba(188,146,85,0.2)" }}>
               <div className="flex flex-col sm:flex-row">
-                <div className={`w-full h-1.5 sm:w-1.5 sm:h-auto bg-linear-to-r sm:bg-linear-to-b ${s.gradient} shrink-0`} />
+                <div className="w-full h-1 sm:w-1 sm:h-auto shrink-0" style={{ background: "linear-gradient(to bottom, #BC9255, #A77D4B)" }} />
                 <div className="flex-1 p-4 sm:p-7">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${s.bg} ${s.iconText} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300`}>
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0 text-[#A77D4B] group-hover:scale-105 transition-transform duration-300" style={{ backgroundColor: "rgba(188,146,85,0.1)" }}>
                       <s.Icon />
                     </div>
                     <div>
-                      <h2 className="text-base sm:text-xl font-extrabold text-gray-800">{s.title}</h2>
-                      <div className={`h-0.5 w-8 mt-1 rounded-full bg-linear-to-l ${s.gradient}`} />
+                      <h2 className="text-base sm:text-xl font-extrabold text-[#0A1825]">{s.title}</h2>
+                      <div className="h-0.5 w-8 mt-1 rounded-full" style={{ background: "linear-gradient(to left, #BC9255, #A77D4B)" }} />
                     </div>
                   </div>
                   <div className="space-y-2">

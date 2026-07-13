@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Headphones, Zap, ShieldCheck, Package, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+
 const slides = [
   {
     image: "/hero1.png",
@@ -27,11 +28,12 @@ const slides = [
 
 export default function Banner() {
   const [current, setCurrent] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), []);
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + slides.length) % slides.length), []);
 
   useEffect(() => {
+    setMounted(true);
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
   }, [next]);
@@ -40,24 +42,29 @@ export default function Banner() {
 
   return (
     <section className="relative w-full min-h-[40vh] sm:min-h-[55vh] md:min-h-[85vh] flex items-center overflow-hidden" style={{ backgroundColor: "#0A1825" }}>
-      {/* Background Images */}
+      {/* Preload hero images */}
+      <link rel="preload" as="image" href="/hero1.png" />
+
+      {/* Background Images - use Next Image for optimization */}
       <AnimatePresence mode="sync">
         <motion.div
           key={current}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('${slide.image}')` }}
-          initial={{ opacity: 0, scale: 1.1 }}
+          className="absolute inset-0"
+          initial={mounted ? { opacity: 0, scale: 1.1 } : false}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-        />
+        >
+          <Image
+            src={slide.image}
+            alt={slide.tag}
+            fill
+            className="object-cover object-center"
+            priority={current === 0}
+            sizes="100vw"
+          />
+        </motion.div>
       </AnimatePresence>
-
-
-
-
-
-
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10 sm:py-14 md:py-16">
@@ -66,7 +73,7 @@ export default function Banner() {
             key={current}
             className="max-w-2xl text-right"
             style={{ fontFamily: "'Cairo', sans-serif" }}
-            initial="hidden"
+            initial={mounted ? "hidden" : "visible"}
             animate="visible"
             exit="exit"
             variants={{
@@ -142,8 +149,6 @@ export default function Banner() {
                 </motion.a>
               ))}
             </motion.div>
-
-          
           </motion.div>
         </AnimatePresence>
       </div>

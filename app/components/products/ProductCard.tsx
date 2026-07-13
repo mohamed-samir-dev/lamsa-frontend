@@ -30,7 +30,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
   const salePrice = product.salePrice && product.salePrice > 0 ? product.salePrice : undefined;
   const hasDiscount = salePrice != null && salePrice < originalPrice;
   const displayPrice = hasDiscount ? salePrice : originalPrice;
-  const savings = hasDiscount ? originalPrice - salePrice : 0;
+
   const addItem = useCartStore((s) => s.addItem);
   const router = useRouter();
   const [added, setAdded] = useState(false);

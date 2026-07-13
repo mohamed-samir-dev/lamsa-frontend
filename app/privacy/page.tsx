@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import ContactSection from "../components/ContactSection";
 
-/* ── Intersection Observer hook ── */
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -24,41 +23,41 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   return (
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
-      transform: visible ? "translateY(0) scale(1)" : "translateY(28px) scale(0.98)",
-      transition: `opacity 0.65s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 0.65s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      transform: visible ? "translateY(0)" : "translateY(24px)",
+      transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
     }}>
       {children}
     </div>
   );
 }
 
-/* ── Icons ── */
+/* Icons */
 const IconShield = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 const IconLock = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <rect x="3" y="11" width="18" height="11" rx="2" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M7 11V7a5 5 0 0110 0v4" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 const IconInfo = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <circle cx="12" cy="12" r="10"/>
     <line x1="12" y1="8" x2="12" y2="8.01" strokeLinecap="round"/>
     <line x1="12" y1="12" x2="12" y2="16" strokeLinecap="round"/>
   </svg>
 );
 const IconChat = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 const IconDoc = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.8}>
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.8}>
     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" strokeLinecap="round" strokeLinejoin="round"/>
     <polyline points="14 2 14 8 20 8" strokeLinecap="round" strokeLinejoin="round"/>
     <line x1="16" y1="13" x2="8" y2="13" strokeLinecap="round"/>
@@ -66,14 +65,10 @@ const IconDoc = () => (
   </svg>
 );
 
-/* ── Data ── */
 const sections = [
   {
     Icon: IconDoc,
     title: "استخدام الموقع",
-    gradient: "from-blue-500 to-indigo-600",
-    bg: "bg-blue-50",
-    iconText: "text-blue-600",
     content: [
       "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل لمسه للاجهزه الذكيه.",
     ],
@@ -81,9 +76,6 @@ const sections = [
   {
     Icon: IconShield,
     title: "الخصوصية وحماية البيانات",
-    gradient: "from-violet-500 to-purple-600",
-    bg: "bg-violet-50",
-    iconText: "text-violet-600",
     content: [
       "نلتزم بالحفاظ على خصوصية بيانات العملاء وعدم استخدامها إلا في حدود معالجة الطلبات وتحسين الخدمة والتواصل عند الحاجة.",
     ],
@@ -91,9 +83,6 @@ const sections = [
   {
     Icon: IconInfo,
     title: "دقة المعلومات",
-    gradient: "from-emerald-500 to-teal-500",
-    bg: "bg-emerald-50",
-    iconText: "text-emerald-600",
     content: [
       "نحرص على عرض المعلومات والمنتجات والأسعار بأكبر قدر ممكن من الدقة، ومع ذلك قد تحدث تحديثات أو تعديلات دون إشعار مسبق.",
     ],
@@ -101,16 +90,11 @@ const sections = [
   {
     Icon: IconChat,
     title: "الطلبات والتواصل",
-    gradient: "from-orange-400 to-rose-500",
-    bg: "bg-orange-50",
-    iconText: "text-orange-500",
     content: [
       "يحق للمتجر مراجعة أو تأكيد الطلبات والتواصل مع العميل عند الحاجة لإتمام البيانات أو تأكيد تفاصيل الشحن والدفع.",
     ],
   },
 ];
-
-const storeInfoGradient = "from-slate-500 to-slate-700";
 
 type Company = { nameAr?: string; addressAr?: string; phone?: string; whatsapp?: string; email?: string; taxNumber?: string };
 
@@ -127,61 +111,57 @@ export default function PrivacyPage() {
     style: {
       opacity: heroVisible ? 1 : 0,
       transform: heroVisible ? "translateY(0)" : "translateY(22px)",
-      transition: `opacity 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
     },
   } as React.HTMLAttributes<HTMLElement>);
 
   return (
-    <main className="min-h-screen bg-[#f8f9fc] overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-[#faf7f2] overflow-x-hidden" dir="rtl">
 
       {/* ════════ HERO ════════ */}
-      <section className="relative w-full overflow-hidden bg-linear-to-bl from-[#1a3a6e] via-[#1e5fc4] to-[#4f8ef7]">
+      <section className="relative w-full overflow-hidden" style={{ background: "linear-gradient(135deg, #0A1825 0%, #122a42 50%, #0A1825 100%)" }}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-white/5 blur-[80px]" />
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-indigo-300/10 blur-[60px]" />
-          <div className="absolute bottom-0 left-1/2 w-[600px] h-40 -translate-x-1/2 bg-blue-900/30 blur-[50px]" />
+          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #BC9255, transparent)" }} />
+          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle, #BC9255, transparent)" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03]" style={{ border: "1px solid #BC9255" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.05]" style={{ border: "1px solid #BC9255" }} />
         </div>
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }}
-        />
-        <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-32 text-center text-white">
-          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-blue-100 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+
+        <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-28 text-center">
+          <div {...anim(100)} className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-6" style={{ backgroundColor: "rgba(188,146,85,0.15)", color: "#BC9255", border: "1px solid rgba(188,146,85,0.3)" }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#BC9255] animate-pulse" />
             الشروط والسياسات
           </div>
-          <h1 {...anim(220)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight">
-            سياسة الخصوصية
-            <span className="block text-transparent bg-clip-text bg-linear-to-l from-blue-200 to-white">
-              واتفاقية الاستخدام
-            </span>
+
+          <h1 {...anim(200)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight text-white">
+            سياسة{" "}
+            <span className="text-[#BC9255]">الخصوصية</span>
+            <span className="block text-white/90 text-2xl sm:text-4xl lg:text-5xl mt-2">واتفاقية الاستخدام</span>
           </h1>
-          <p {...anim(360)} className="text-blue-100/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
-            الشروط العامة المنظمة لاستخدام موقع لمسه للاجهزه الذكيه 
+
+          <p {...anim(350)} className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            الشروط العامة المنظمة لاستخدام موقع لمسه للاجهزه الذكيه
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 w-full">
-          <svg viewBox="0 0 1440 70" className="w-full h-12 sm:h-16" preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#f8f9fc" />
-          </svg>
-        </div>
+
+        <div className="absolute bottom-0 left-0 w-full h-1" style={{ background: "linear-gradient(to right, transparent, #BC9255, transparent)" }} />
       </section>
 
       {/* ════════ SECTIONS ════════ */}
-      <section className="w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 py-8 sm:py-10 space-y-4 sm:space-y-5">
+      <section className="w-full max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-10 space-y-4 sm:space-y-5">
         {sections.map((s, i) => (
           <FadeUp key={s.title} delay={i * 100}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+            <div className="group bg-white rounded-2xl overflow-hidden hover:shadow-md transition-all duration-300" style={{ border: "1px solid rgba(188,146,85,0.2)" }}>
               <div className="flex flex-col sm:flex-row">
-                <div className={`w-full h-1.5 sm:w-1.5 sm:h-auto bg-linear-to-r sm:bg-linear-to-b ${s.gradient} shrink-0`} />
+                <div className="w-full h-1 sm:w-1 sm:h-auto shrink-0" style={{ background: "linear-gradient(to bottom, #BC9255, #A77D4B)" }} />
                 <div className="flex-1 p-4 sm:p-7">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${s.bg} ${s.iconText} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300`}>
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0 text-[#A77D4B] group-hover:scale-105 transition-transform duration-300" style={{ backgroundColor: "rgba(188,146,85,0.1)" }}>
                       <s.Icon />
                     </div>
                     <div>
-                      <h2 className="text-base sm:text-xl font-extrabold text-gray-800">{s.title}</h2>
-                      <div className={`h-0.5 w-8 mt-1 rounded-full bg-linear-to-l ${s.gradient}`} />
+                      <h2 className="text-base sm:text-xl font-extrabold text-[#0A1825]">{s.title}</h2>
+                      <div className="h-0.5 w-8 mt-1 rounded-full" style={{ background: "linear-gradient(to left, #BC9255, #A77D4B)" }} />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -198,25 +178,25 @@ export default function PrivacyPage() {
         {/* ════════ STORE INFO ════════ */}
         {company && (
           <FadeUp delay={sections.length * 100}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+            <div className="group bg-white rounded-2xl overflow-hidden hover:shadow-md transition-all duration-300" style={{ border: "1px solid rgba(188,146,85,0.2)" }}>
               <div className="flex flex-col sm:flex-row">
-                <div className={`w-full h-1.5 sm:w-1.5 sm:h-auto bg-linear-to-r sm:bg-linear-to-b ${storeInfoGradient} shrink-0`} />
+                <div className="w-full h-1 sm:w-1 sm:h-auto shrink-0" style={{ background: "linear-gradient(to bottom, #0A1825, #1a3a5c)" }} />
                 <div className="flex-1 p-4 sm:p-7">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-slate-50 text-slate-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0 text-[#0A1825] group-hover:scale-105 transition-transform duration-300" style={{ backgroundColor: "rgba(10,24,37,0.08)" }}>
                       <IconLock />
                     </div>
                     <div>
-                      <h2 className="text-base sm:text-xl font-extrabold text-gray-800">معلومات المتجر</h2>
-                      <div className={`h-0.5 w-8 mt-1 rounded-full bg-linear-to-l ${storeInfoGradient}`} />
+                      <h2 className="text-base sm:text-xl font-extrabold text-[#0A1825]">معلومات المتجر</h2>
+                      <div className="h-0.5 w-8 mt-1 rounded-full" style={{ background: "linear-gradient(to left, #0A1825, #1a3a5c)" }} />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                    {company.nameAr    && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-gray-700">اسم الجهة:</span> {company.nameAr}</p>}
-                    {company.addressAr && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-gray-700">العنوان:</span> {company.addressAr}</p>}
-                    {company.phone     && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-gray-700">الهاتف:</span> {company.phone}</p>}
-                    {company.email     && <p className="text-gray-600 text-sm sm:text-base break-all"><span className="font-semibold text-gray-700">البريد الإلكتروني:</span> {company.email}</p>}
-                    {company.taxNumber && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-gray-700">الرقم الضريبي:</span> {company.taxNumber}</p>}
+                    {company.nameAr    && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-[#0A1825]">اسم الجهة:</span> {company.nameAr}</p>}
+                    {company.addressAr && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-[#0A1825]">العنوان:</span> {company.addressAr}</p>}
+                    {company.phone     && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-[#0A1825]">الهاتف:</span> {company.phone}</p>}
+                    {company.email     && <p className="text-gray-600 text-sm sm:text-base break-all"><span className="font-semibold text-[#0A1825]">البريد الإلكتروني:</span> {company.email}</p>}
+                    {company.taxNumber && <p className="text-gray-600 text-sm sm:text-base"><span className="font-semibold text-[#0A1825]">الرقم الضريبي:</span> {company.taxNumber}</p>}
                   </div>
                 </div>
               </div>

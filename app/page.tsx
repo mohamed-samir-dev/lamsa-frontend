@@ -15,8 +15,56 @@ async function getCompany() {
   }
 }
 
+async function getProducts() {
+  try {
+    const r = await fetch(
+      `${BACKEND}/api/products?fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment`,
+      { next: { revalidate: 60 } }
+    );
+    return r.ok ? r.json() : [];
+  } catch {
+    return [];
+  }
+}
+
+async function getHomeConfig() {
+  try {
+    const [settingsRes, maxRes] = await Promise.all([
+      fetch(`${BACKEND}/api/admin/sub-categories/home-settings`, { next: { revalidate: 120 } }),
+      fetch(`${BACKEND}/api/admin/sub-categories/max`, { next: { revalidate: 120 } }),
+    ]);
+    const settings = settingsRes.ok ? await settingsRes.json() : [];
+    const maxData = maxRes.ok ? await maxRes.json() : { max: 4 };
+    return { settings, max: maxData.max ?? 4 };
+  } catch {
+    return { settings: [], max: 4 };
+  }
+}
+
+async function getCategoryBanners(categories: string[]) {
+  if (!categories.length) return {};
+  try {
+    const r = await fetch(
+      `${BACKEND}/api/admin/category-banners?categories=${encodeURIComponent(categories.join(","))}`,
+      { next: { revalidate: 300 } }
+    );
+    return r.ok ? r.json() : {};
+  } catch {
+    return {};
+  }
+}
+
 export default async function Home() {
-  const c = await getCompany();
+  const [c, products, homeConfig] = await Promise.all([
+    getCompany(),
+    getProducts(),
+    getHomeConfig(),
+  ]);
+
+  // Get category banners in parallel after we know the categories
+  const categories = [...new Set((products as { category?: string }[]).map((p) => p.category).filter(Boolean))] as string[];
+  const bannerMap = await getCategoryBanners(categories);
+
   const siteName = c.nameAr || "بصمة هاتفي المعتمد";
   const logoUrl = c.logo
     ? (c.logo.startsWith("http") ? c.logo : `${BACKEND}${c.logo}`)
@@ -79,11 +127,11 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
-      <main className="min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-teal-50/30">
+      <main className="min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-[#f5f0e8]/30">
         <Banner />
         <ShopByCategory />
         <div id="products">
-          <ProductGrid />
+          <ProductGrid initialProducts={products} initialHomeConfig={homeConfig} initialBannerMap={bannerMap} />
         </div>
         <CustomerReviews />
       </main>

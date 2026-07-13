@@ -14,7 +14,7 @@ function FadeUp({ children, delay = 0 }: { children: ReactNode; delay?: number }
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(22px)", transition: `opacity 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms` }}>
+    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(22px)", transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms` }}>
       {children}
     </div>
   );
@@ -73,17 +73,16 @@ const IconInfo = () => (
 );
 
 const paymentMethods = [
-  { title: "بطاقة مدى",        desc: "ادفع بسهولة عبر بطاقة مدى المحلية.",                        gradient: "from-blue-500 to-indigo-600",   imgBg: true,  Icon: IconMada },
-  { title: "بطاقات الائتمان", desc: "نقبل فيزا وماستركارد وجميع البطاقات الائتمانية.",            gradient: "from-violet-500 to-purple-600", imgBg: true,  Icon: IconVisa },
-  { title: "الأقساط",          desc: "اشتري الآن وادفع على دفعات شهرية مريحة بدون فوائد.",        gradient: "from-emerald-500 to-teal-600",  imgBg: false, Icon: IconInstallment },
-  { title: "الدفع عند الاستلام", desc: "ادفع نقداً عند استلام طلبك مباشرة.",                      gradient: "from-amber-500 to-orange-500",  imgBg: false, Icon: IconCash },
+  { title: "بطاقة مدى", desc: "ادفع بسهولة عبر بطاقة مدى المحلية.", imgBg: true, Icon: IconMada },
+  { title: "بطاقات الائتمان", desc: "نقبل فيزا وماستركارد وجميع البطاقات الائتمانية.", imgBg: true, Icon: IconVisa },
+  { title: "الأقساط", desc: "اشتري الآن وادفع على دفعات شهرية مريحة بدون فوائد.", imgBg: false, Icon: IconInstallment },
 ];
 
 const sections = [
-  { title: "الدفع المعتمد",     gradient: "from-blue-500 to-indigo-600",   Icon: IconShield,   content: ["يتم توفير طرق دفع متعددة وآمنة تناسب احتياجات العملاء."] },
-  { title: "العملة المستخدمة", gradient: "from-emerald-500 to-teal-600",  Icon: IconCurrency, content: ["العملة الرسمية المستخدمة في جميع المعاملات هي الريال السعودي (SAR)."] },
-  { title: "التحويل والشحن",   gradient: "from-violet-500 to-purple-600", Icon: IconShipping, content: ["يتم تنسيق الشحن بعد تأكيد الطلب حسب بيانات العميل."] },
-  { title: "ملاحظة هامة",      gradient: "from-amber-500 to-orange-500",  Icon: IconInfo,     content: ["نحرص في مؤسسة بصمة هاتفي المعتمد  على توفير تجربة دفع واضحة وآمنة.", "بعد إتمام الطلب سيتم مراجعة البيانات والتواصل مع العميل عند الحاجة لتأكيد التفاصيل أو استكمال إجراءات الطلب."] },
+  { title: "الدفع المعتمد", Icon: IconShield, content: ["يتم توفير طرق دفع متعددة وآمنة تناسب احتياجات العملاء."] },
+  { title: "العملة المستخدمة", Icon: IconCurrency, content: ["العملة الرسمية المستخدمة في جميع المعاملات هي الريال السعودي (SAR)."] },
+  { title: "التحويل والشحن", Icon: IconShipping, content: ["يتم تنسيق الشحن بعد تأكيد الطلب حسب بيانات العميل."] },
+  { title: "ملاحظة هامة", Icon: IconInfo, content: ["نحرص في مؤسسة بصمة هاتفي المعتمد  على توفير تجربة دفع واضحة وآمنة.", "بعد إتمام الطلب سيتم مراجعة البيانات والتواصل مع العميل عند الحاجة لتأكيد التفاصيل أو استكمال إجراءات الطلب."] },
 ];
 
 interface Company { phone?: string; whatsapp?: string; email?: string; [k: string]: string | undefined; }
@@ -96,57 +95,56 @@ export default function PaymentClient({ company }: { company: Company }) {
     style: {
       opacity: heroVisible ? 1 : 0,
       transform: heroVisible ? "translateY(0)" : "translateY(22px)",
-      transition: `opacity 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
     },
   });
 
   return (
-    <main className="min-h-screen bg-[#f8f9fc] overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-[#faf7f2] overflow-x-hidden" dir="rtl">
 
       {/* ══ HERO ══ */}
-      <section className="relative w-full overflow-hidden bg-linear-to-bl from-[#1a3a6e] via-[#1e5fc4] to-[#4f8ef7]">
+      <section className="relative w-full overflow-hidden" style={{ background: "linear-gradient(135deg, #0A1825 0%, #122a42 50%, #0A1825 100%)" }}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -right-24 w-64 h-64 sm:w-[500px] sm:h-[500px] rounded-full bg-white/5 blur-[60px] sm:blur-[80px]" />
-          <div className="absolute top-6 left-6 w-40 h-40 sm:w-64 sm:h-64 rounded-full bg-indigo-300/10 blur-2xl sm:blur-[60px]" />
-          <div className="absolute bottom-0 left-1/2 w-72 sm:w-[600px] h-24 sm:h-40 -translate-x-1/2 bg-blue-900/30 blur-2xl sm:blur-[50px]" />
+          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #BC9255, transparent)" }} />
+          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle, #BC9255, transparent)" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03]" style={{ border: "1px solid #BC9255" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.05]" style={{ border: "1px solid #BC9255" }} />
         </div>
-        <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
 
-        <div className="relative w-full px-4 sm:px-10 lg:px-20 py-14 sm:py-24 lg:py-32 text-center text-white">
-          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-medium text-blue-100 mb-4 sm:mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            مؤسسة بصمة هاتفي المعتمد 
+        <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-28 text-center">
+          <div {...anim(100)} className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-6" style={{ backgroundColor: "rgba(188,146,85,0.15)", color: "#BC9255", border: "1px solid rgba(188,146,85,0.3)" }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#BC9255] animate-pulse" />
+            مؤسسة بصمة هاتفي المعتمد
           </div>
-          <h1 {...anim(220)} className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-3 sm:mb-5 leading-tight tracking-tight">
-            تعرف على وسائل الدفع
-            <span className="block text-transparent bg-clip-text bg-linear-to-l from-blue-200 to-white">المتاحة</span>
+
+          <h1 {...anim(200)} className="text-2xl sm:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight text-white">
+            تعرف على وسائل{" "}
+            <span className="text-[#BC9255]">الدفع</span>
+            <span className="block text-white/90 text-xl sm:text-4xl lg:text-5xl mt-2">المتاحة</span>
           </h1>
-          <p {...anim(360)} className="text-blue-100/90 text-sm sm:text-lg lg:text-xl max-w-xl sm:max-w-2xl mx-auto leading-relaxed px-2">
-            طرق دفع متعددة وآمنة تناسب احتياجات عملائنا داخل مؤسسة تبارك الذكية
+
+          <p {...anim(350)} className="text-white/70 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            طرق دفع متعددة وآمنة تناسب احتياجات عملائنا
           </p>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full">
-          <svg viewBox="0 0 1440 70" className="w-full h-8 sm:h-14 lg:h-16" preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#f8f9fc" />
-          </svg>
-        </div>
+        <div className="absolute bottom-0 left-0 w-full h-1" style={{ background: "linear-gradient(to right, transparent, #BC9255, transparent)" }} />
       </section>
 
       {/* ══ PAYMENT METHODS ══ */}
-      <section className="w-full px-3 sm:px-8 lg:px-20 pt-6 sm:pt-10 pb-2">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 max-w-6xl mx-auto">
+      <section className="w-full px-3 sm:px-8 lg:px-20 pt-10 pb-2">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
           {paymentMethods.map((m, i) => (
-            <FadeUp key={m.title} delay={i * 90}>
-              <div className="group relative bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-5 lg:p-6 text-center overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full flex flex-col items-center">
-                <div className={`absolute top-0 left-0 w-full h-1 bg-linear-to-l ${m.gradient}`} />
-                <div className={`w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md group-hover:scale-110 transition-transform duration-300 ${
-                  m.imgBg ? "bg-white border border-gray-100 p-2 sm:p-3" : `bg-linear-to-br ${m.gradient} text-white`
-                }`}>
+            <FadeUp key={m.title} delay={i * 80}>
+              <div className="group relative bg-white rounded-2xl p-4 sm:p-5 text-center overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full flex flex-col items-center" style={{ border: "1px solid rgba(188,146,85,0.2)" }}>
+                <div className="absolute top-0 left-0 w-full h-0.5" style={{ background: "linear-gradient(to right, #BC9255, #A77D4B)" }} />
+                <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md group-hover:scale-110 transition-transform duration-300 ${
+                  m.imgBg ? "bg-white border p-2 sm:p-3" : "text-white"
+                }`} style={m.imgBg ? { borderColor: "rgba(188,146,85,0.3)" } : { background: "linear-gradient(135deg, #BC9255, #A77D4B)" }}>
                   <m.Icon />
                 </div>
-                <p className="text-xs sm:text-sm lg:text-base font-extrabold text-gray-800 mb-1 leading-snug">{m.title}</p>
-                <p className="text-[10px] sm:text-xs text-gray-500 leading-relaxed">{m.desc}</p>
+                <p className="text-xs sm:text-sm font-extrabold text-[#0A1825] mb-1">{m.title}</p>
+                <p className="text-[10px] sm:text-xs text-[#A77D4B]/80 leading-relaxed">{m.desc}</p>
               </div>
             </FadeUp>
           ))}
@@ -154,25 +152,25 @@ export default function PaymentClient({ company }: { company: Company }) {
       </section>
 
       {/* ══ INFO SECTIONS ══ */}
-      <section className="w-full px-3 sm:px-8 lg:px-20 py-6 sm:py-10 max-w-6xl mx-auto space-y-3 sm:space-y-5">
+      <section className="w-full px-3 sm:px-8 lg:px-20 py-8 sm:py-10 max-w-5xl mx-auto space-y-4 sm:space-y-5">
         {sections.map((s, i) => (
           <FadeUp key={s.title} delay={i * 100}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div className="group bg-white rounded-2xl overflow-hidden hover:shadow-md transition-all duration-300" style={{ border: "1px solid rgba(188,146,85,0.2)" }}>
               <div className="flex flex-col sm:flex-row">
-                <div className={`sm:w-2 w-full h-1.5 sm:h-auto bg-linear-to-b ${s.gradient} shrink-0`} />
-                <div className="flex-1 p-4 sm:p-7 lg:p-9">
-                  <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-5">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl bg-linear-to-br ${s.gradient} flex items-center justify-center text-white shrink-0 shadow-md group-hover:scale-105 transition-transform duration-300`}>
+                <div className="w-full h-1 sm:w-1 sm:h-auto shrink-0" style={{ background: "linear-gradient(to bottom, #BC9255, #A77D4B)" }} />
+                <div className="flex-1 p-4 sm:p-7">
+                  <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 text-white shadow-md group-hover:scale-105 transition-transform duration-300" style={{ background: "linear-gradient(135deg, #BC9255, #A77D4B)" }}>
                       <s.Icon />
                     </div>
                     <div>
-                      <h2 className="text-base sm:text-xl lg:text-2xl font-extrabold text-gray-800">{s.title}</h2>
-                      <div className={`h-0.5 w-8 sm:w-10 mt-1 sm:mt-1.5 rounded-full bg-linear-to-l ${s.gradient}`} />
+                      <h2 className="text-base sm:text-xl font-extrabold text-[#0A1825]">{s.title}</h2>
+                      <div className="h-0.5 w-8 mt-1 rounded-full" style={{ background: "linear-gradient(to left, #BC9255, #A77D4B)" }} />
                     </div>
                   </div>
-                  <div className="space-y-2 sm:space-y-4">
+                  <div className="space-y-2">
                     {s.content.map((p, j) => (
-                      <p key={j} className="text-gray-600 leading-relaxed sm:leading-loose text-xs sm:text-sm lg:text-base">{p}</p>
+                      <p key={j} className="text-gray-600 leading-relaxed text-sm sm:text-base">{p}</p>
                     ))}
                   </div>
                 </div>
