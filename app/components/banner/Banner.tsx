@@ -28,12 +28,14 @@ const slides = [
 
 export default function Banner() {
   const [current, setCurrent] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
 
-  const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), []);
+  const next = useCallback(() => {
+    setIsFirst(false);
+    setCurrent((c) => (c + 1) % slides.length);
+  }, []);
 
   useEffect(() => {
-    setMounted(true);
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
   }, [next]);
@@ -42,15 +44,12 @@ export default function Banner() {
 
   return (
     <section className="relative w-full min-h-[40vh] sm:min-h-[55vh] md:min-h-[85vh] flex items-center overflow-hidden" style={{ backgroundColor: "#0A1825" }}>
-      {/* Preload hero images */}
-      <link rel="preload" as="image" href="/hero1.png" />
-
-      {/* Background Images - use Next Image for optimization */}
+      {/* Background Images */}
       <AnimatePresence mode="sync">
         <motion.div
           key={current}
           className="absolute inset-0"
-          initial={mounted ? { opacity: 0, scale: 1.1 } : false}
+          initial={isFirst ? false : { opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
@@ -73,7 +72,7 @@ export default function Banner() {
             key={current}
             className="max-w-2xl text-right"
             style={{ fontFamily: "'Cairo', sans-serif" }}
-            initial={mounted ? "hidden" : "visible"}
+            initial="hidden"
             animate="visible"
             exit="exit"
             variants={{
