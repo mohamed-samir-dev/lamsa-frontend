@@ -45,7 +45,7 @@ async function getCategoryBanners(categories: string[]) {
   if (!categories.length) return {};
   try {
     const r = await fetch(
-      `${BACKEND}/api/admin/category-banners?categories=${encodeURIComponent(categories.join(","))}`,
+      `${BACKEND}/api/admin/category-banners-bulk?categories=${encodeURIComponent(categories.join(","))}`,
       { next: { revalidate: 300 } }
     );
     return r.ok ? r.json() : {};
