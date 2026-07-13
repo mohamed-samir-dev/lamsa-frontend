@@ -53,7 +53,7 @@ export default async function Footer() {
         <div>
           <h3 className="text-green-300 font-bold text-xl mb-3">من نحن</h3>
           <p className="text-sm leading-relaxed text-green-100">
-            {c.details || "بصمة هاتفي المعتمد هو اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية."}
+            {c.details || "لمسه للاجهزه الذكيه هو اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية."}
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default async function Footer() {
           <h3 className="text-green-300 font-bold text-xl mb-4">روابط مهمة</h3>
           <ul className="space-y-2.5 text-sm">
             {[
-              { label: "عن بصمة هاتفي المعتمد", href: "/about" },
+              { label: "عن لمسه للاجهزه الذكيه", href: "/about" },
               { label: "طرق الدفع", href: "/payment" },
               { label: "سياسة الاستبدال والاسترجاع", href: "/return-policy" },
               { label: "سياسة الخصوصية واتفاقية الاستخدام", href: "/privacy" },
@@ -148,7 +148,7 @@ export default async function Footer() {
           <Image src="/cc975b.png" alt="cc" width={50} height={30} className="object-contain" style={{ width: "auto" }} />
           <Image src="/mada975b.png" alt="mada" width={50} height={30} className="object-contain" style={{ width: "auto" }} />
         </div>
-        <span>الحقوق محفوظة بصمة هاتفي المعتمد © 2026</span>
+        <span>الحقوق محفوظة لمسه للاجهزه الذكيه © 2026</span>
       </div>
     </footer>
   );
