@@ -30,7 +30,7 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
         >
           {images.map((src, i) => (
             <div key={i} className="min-w-full">
-              <img src={src} alt={`banner ${i + 1}`} className="w-full object-cover max-h-48 sm:max-h-110" loading={i === 0 ? "eager" : "lazy"} />
+              <img src={src} alt={`banner ${i + 1}`} className="w-full object-cover max-h-64 sm:max-h-110" loading={i === 0 ? "eager" : "lazy"} />
             </div>
           ))}
         </div>
