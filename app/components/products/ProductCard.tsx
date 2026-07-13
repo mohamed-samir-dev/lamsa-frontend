@@ -165,16 +165,16 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           {/* Price section */}
           <div className="flex items-end justify-between gap-1 pt-2 border-t border-[#EBE6E2]">
             <div className="flex flex-col">
-              <div className="flex items-baseline gap-0.5">
+              <div className="flex items-center gap-0.5">
                 <span className="text-[16px] sm:text-[22px] font-black tracking-tight leading-none" style={{ color: '#121E2E' }}>
                   {fmt(displayPrice)}
                 </span>
-                <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5 sm:w-5 sm:h-4" />
+                <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5 sm:w-5 sm:h-5" />
               </div>
             </div>
             {hasDiscount && (
               <span className="text-[9px] sm:text-[11px] line-through opacity-50 flex items-center gap-0.5" style={{ color: '#1F2C3E' }}>
-                {fmt(originalPrice)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                {fmt(originalPrice)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5 sm:w-5 sm:h-5 align-middle" />
               </span>
             )}
           </div>
@@ -206,15 +206,17 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         </div>
 
         <style jsx>{`
-          .shimmer-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(223,196,164,0.3), transparent);
-            animation: shimmer 4s infinite;
+          @media (min-width: 1024px) {
+            .shimmer-btn::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: -100%;
+              width: 60%;
+              height: 100%;
+              background: linear-gradient(90deg, transparent, rgba(223,196,164,0.3), transparent);
+              animation: shimmer 4s infinite;
+            }
           }
           @keyframes shimmer {
             0% { left: -100%; }
