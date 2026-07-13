@@ -145,8 +145,8 @@ export default function ProductGrid({ initialProducts, initialHomeConfig, initia
       .map((s) => s.category)
       .filter((c, idx, arr) => arr.indexOf(c) === idx)
       .filter((c) => allCats.includes(c));
-    const unconfigured = allCats.filter((c) => !settings.some((s) => s.category === c) && c !== "أخرى");
-    return [...orderedCats, ...unconfigured];
+    const remaining = allCats.filter((c) => !orderedCats.includes(c));
+    return [...orderedCats, ...remaining];
   }, [grouped, homeConfig]);
 
   if (!products.length) return <p className="text-center text-gray-400 py-10">لا توجد منتجات حالياً</p>;
