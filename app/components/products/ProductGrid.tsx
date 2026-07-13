@@ -63,40 +63,46 @@ const categoryPageMap: Record<string, string> = {
   "العاب": "/games/ps5-games",
 };
 
-/* ── alternating accent colors per category row ── */
-const accents = [
-  { gradient: "linear-gradient(135deg, #0d9488, #059669)", shadow: "rgba(13,148,136,0.3)" },
-  { gradient: "linear-gradient(135deg, #059669, #16a34a)", shadow: "rgba(5,150,105,0.3)" },
-  { gradient: "linear-gradient(135deg, #0891b2, #0d9488)", shadow: "rgba(8,145,178,0.3)" },
-];
-
 function CategoryRow({ category, items, isFirst, accentIdx }: { category: string; items: Product[]; isFirst?: boolean; accentIdx: number }) {
   const visible = items.slice(0, LIMIT);
   const href = categoryPageMap[category] ?? categoryPageMap[category.toLowerCase()] ?? "#";
-  const accent = accents[accentIdx % accents.length];
+  const isGold = accentIdx % 2 === 0;
+  const accentColor = isGold ? '#A77D4B' : '#0d9488';
+  const accentGradient = isGold
+    ? 'linear-gradient(135deg, #BC9255, #A77D4B)'
+    : 'linear-gradient(135deg, #14b8a6, #0d9488)';
+  const bgTint = isGold
+    ? 'linear-gradient(160deg, #fffdf8 0%, #faf5ed 100%)'
+    : 'linear-gradient(160deg, #f8fffe 0%, #f0fdf9 100%)';
+  const borderColor = isGold ? 'rgba(188,146,85,0.2)' : 'rgba(13,148,136,0.15)';
 
   return (
-    <div
-      className="rounded-3xl overflow-hidden mb-6 border border-gray-100/80 bg-white"
-      style={{ boxShadow: "0 2px 20px -4px rgba(0,0,0,0.06)" }}
-      dir="rtl"
-    >
-      <div
-        className="flex items-center justify-between px-4 sm:px-6 py-3.5"
-        style={{ background: accent.gradient, boxShadow: `0 4px 16px -4px ${accent.shadow}` }}
-      >
-        <h2 className="text-sm sm:text-base md:text-lg font-bold text-white truncate">{category}</h2>
+    <div className="mb-10" dir="rtl">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5 px-1">
+        <div className="flex items-center gap-3">
+          <span
+            className="w-1.5 h-9 rounded-full"
+            style={{ background: accentGradient }}
+          />
+          <h2 className="text-lg sm:text-xl font-extrabold text-[#1a1a2e]">{category}</h2>
+        </div>
         <Link
           href={href}
-          className="shrink-0 flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-white bg-white/15 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-full transition-all duration-300 border border-white/10 hover:border-white/25"
+          className="group flex items-center gap-1.5 text-xs font-bold px-5 py-2.5 rounded-full text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          style={{ background: accentGradient, boxShadow: `0 4px 14px -3px ${accentColor}50` }}
         >
           عرض الكل
-          <IoArrowBack size={13} />
+          <IoArrowBack size={13} className="transition-transform group-hover:-translate-x-0.5" />
         </Link>
       </div>
 
-      <div className="p-3 sm:p-5">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* Products Container */}
+      <div
+        className="rounded-[20px] p-4 sm:p-5"
+        style={{ background: bgTint, border: `1px solid ${borderColor}`, boxShadow: '0 4px 24px -8px rgba(0,0,0,0.04)' }}
+      >
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
           {visible.map((p, i) => (
             <ProductCard key={p._id} product={p} priority={isFirst && i === 0} />
           ))}
@@ -165,19 +171,23 @@ export default function ProductGrid() {
   if (loading) return (
     <section className="w-full max-w-6xl mx-auto px-3 sm:px-6 py-8">
       {[1, 2, 3].map((g) => (
-        <div key={g} className="mb-6 rounded-3xl overflow-hidden border border-gray-100">
-          <div className="h-12 bg-gray-100 animate-pulse" />
-          <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-50">
-                <div className="w-full aspect-square bg-gray-50 animate-pulse" />
-                <div className="p-3 space-y-2.5">
-                  <div className="h-4 bg-gray-100 animate-pulse rounded-full w-3/4" />
-                  <div className="h-4 bg-gray-100 animate-pulse rounded-full w-1/2" />
+        <div key={g} className="mb-10">
+          <div className="flex items-center gap-3 mb-5 px-1">
+            <div className="w-1.5 h-9 rounded-full bg-[#BC9255]/20 animate-pulse" />
+            <div className="h-5 w-32 bg-gray-200/80 animate-pulse rounded-full" />
+          </div>
+          <div className="rounded-[20px] p-4 sm:p-5" style={{ background: '#faf7f2', border: '1px solid rgba(188,146,85,0.1)' }}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                  <div className="w-full aspect-square bg-gray-100/60 animate-pulse" />
+                  <div className="p-3 space-y-2.5">
+                    <div className="h-4 bg-gray-100 animate-pulse rounded-full w-3/4" />
+                    <div className="h-4 bg-gray-100 animate-pulse rounded-full w-1/2" />
+                  </div>
                 </div>
-                <div className="h-11 bg-gray-50 animate-pulse mx-3 mb-3 rounded-xl" />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       ))}
