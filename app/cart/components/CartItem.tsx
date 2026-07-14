@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IoAddCircle, IoRemoveCircle, IoTrashOutline } from "react-icons/io5";
+import { IoAdd, IoRemove, IoClose } from "react-icons/io5";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
@@ -28,46 +28,54 @@ export default function CartItem({ product, qty, onUpdateQty, onRemove }: CartIt
   const img = rawImg ? resolveImg(rawImg) : undefined;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-3 sm:p-4 flex gap-3 sm:gap-4 shadow-sm hover:border-teal-100 transition-colors">
-      {/* Image */}
-      <div className="relative w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-gradient-to-br from-slate-50 to-teal-50/30 rounded-xl overflow-hidden">
-        {img ? (
-          <Image src={img} alt={product.name} fill className="object-contain p-2" />
-        ) : (
-          <span className="text-2xl flex items-center justify-center w-full h-full">📱</span>
-        )}
-      </div>
+    <div className="group relative rounded-2xl overflow-hidden transition-all hover:shadow-md" style={{ backgroundColor: "#fff", border: "1px solid rgba(188,146,85,0.12)" }}>
+      {/* Remove button */}
+      <button
+        onClick={() => onRemove(product._id)}
+        className="absolute top-2 left-2 z-10 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+        style={{ backgroundColor: "rgba(239,68,68,0.08)" }}
+      >
+        <IoClose size={12} className="text-red-500" />
+      </button>
 
-      {/* Content */}
-      <div className="flex-1 min-w-0 flex flex-col justify-between">
-        <div>
-          <h3 className="text-xs sm:text-sm font-bold text-gray-900 leading-snug line-clamp-2">{product.name}</h3>
-          <p className="text-xs sm:text-sm font-extrabold text-teal-700 mt-1">
-            {fmt(price)} <span className="text-[10px] sm:text-xs font-medium text-teal-600/70">ر.س</span>
-          </p>
+      <div className="flex">
+        {/* Image */}
+        <div className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0" style={{ backgroundColor: "#faf7f2" }}>
+          {img ? (
+            <Image src={img} alt={product.name} fill className="object-contain p-3" />
+          ) : (
+            <span className="text-3xl flex items-center justify-center w-full h-full">📱</span>
+          )}
         </div>
 
-        {/* Bottom row: qty + subtotal + delete */}
-        <div className="mt-2 flex items-center justify-between">
-          <div className="flex items-center gap-0.5 bg-gray-50 rounded-full px-1.5 py-0.5 border border-gray-100">
-            <button onClick={() => onUpdateQty(product._id, qty - 1)} className="transition hover:scale-110">
-              <IoRemoveCircle size={20} className="text-gray-400 hover:text-gray-600 transition" />
-            </button>
-            <span className="text-xs sm:text-sm font-bold w-6 text-center text-gray-900">{qty}</span>
-            <button onClick={() => onUpdateQty(product._id, qty + 1)} className="transition hover:scale-110">
-              <IoAddCircle size={20} className="text-teal-500 hover:text-teal-600 transition" />
-            </button>
+        {/* Details */}
+        <div className="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
+          <div>
+            <h3 className="text-sm font-bold line-clamp-1" style={{ color: "#0A1825" }}>{product.name}</h3>
+            <p className="text-lg font-black mt-1" style={{ color: "#BC9255" }}>
+              {fmt(price)} <span className="text-[10px] font-medium" style={{ color: "#A77D4B" }}>ر.س</span>
+            </p>
           </div>
 
-          {qty > 1 && (
-            <span className="text-[10px] sm:text-xs text-gray-400 font-medium">
-              = {fmt(price * qty)} ر.س
-            </span>
-          )}
+          <div className="flex items-center justify-between mt-2">
+            {/* Qty controls */}
+            <div className="flex items-center rounded-lg overflow-hidden" style={{ border: "1.5px solid rgba(188,146,85,0.25)" }}>
+              <button onClick={() => onUpdateQty(product._id, qty - 1)} className="w-8 h-8 flex items-center justify-center transition hover:opacity-70" style={{ backgroundColor: "rgba(188,146,85,0.08)" }}>
+                <IoRemove size={14} style={{ color: "#A77D4B" }} />
+              </button>
+              <span className="w-10 h-8 flex items-center justify-center text-sm font-black" style={{ color: "#0A1825", backgroundColor: "#fff" }}>{qty}</span>
+              <button onClick={() => onUpdateQty(product._id, qty + 1)} className="w-8 h-8 flex items-center justify-center transition hover:opacity-70" style={{ backgroundColor: "rgba(188,146,85,0.08)" }}>
+                <IoAdd size={14} style={{ color: "#A77D4B" }} />
+              </button>
+            </div>
 
-          <button onClick={() => onRemove(product._id)} className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-red-50 hover:bg-red-100 flex items-center justify-center transition">
-            <IoTrashOutline size={14} className="text-red-400" />
-          </button>
+            {/* Subtotal */}
+            {qty > 1 && (
+              <span className="text-xs font-bold" style={{ color: "#A77D4B" }}>
+                المجموع: {fmt(price * qty)} ر.س
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

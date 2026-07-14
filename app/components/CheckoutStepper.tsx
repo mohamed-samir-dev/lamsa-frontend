@@ -20,34 +20,30 @@ export default function CheckoutStepper({ active }: { active: "cart" | "payment"
 
         return (
           <div key={step.key} className="flex items-center">
-            {/* Step circle + label */}
             <div className="flex flex-col items-center gap-1.5">
               <div
-                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all ${
-                  current
-                    ? "bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-lg shadow-teal-200/50 scale-110"
-                    : done
-                    ? "bg-teal-100 text-teal-600"
-                    : "bg-gray-100 text-gray-400"
-                }`}
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all"
+                style={{
+                  backgroundColor: current ? "rgba(188,146,85,0.12)" : done ? "rgba(188,146,85,0.08)" : "rgba(188,146,85,0.04)",
+                  border: current ? "2px solid #BC9255" : done ? "2px solid rgba(188,146,85,0.4)" : "2px solid rgba(188,146,85,0.15)",
+                  color: current ? "#BC9255" : done ? "#A77D4B" : "rgba(167,125,75,0.4)",
+                  transform: current ? "scale(1.1)" : "scale(1)",
+                }}
               >
                 <Icon size={current ? 22 : 20} />
               </div>
               <span
-                className={`text-[11px] sm:text-xs font-bold transition-colors ${
-                  current ? "text-teal-700" : done ? "text-teal-600" : "text-gray-400"
-                }`}
+                className="text-[11px] sm:text-xs font-bold"
+                style={{ color: current ? "#0A1825" : done ? "#A77D4B" : "rgba(167,125,75,0.4)" }}
               >
                 {step.label}
               </span>
             </div>
 
-            {/* Connector line */}
             {i < steps.length - 1 && (
               <div
-                className={`w-12 sm:w-20 h-0.5 rounded-full mx-2 sm:mx-3 mb-5 transition-colors ${
-                  i < activeIdx ? "bg-teal-400" : "bg-gray-200"
-                }`}
+                className="w-12 sm:w-20 h-0.5 rounded-full mx-2 sm:mx-3 mb-5"
+                style={{ backgroundColor: i < activeIdx ? "#BC9255" : "rgba(188,146,85,0.15)" }}
               />
             )}
           </div>

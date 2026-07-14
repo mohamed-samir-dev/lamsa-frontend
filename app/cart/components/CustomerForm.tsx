@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { IoPersonOutline, IoCardOutline, IoLogoWhatsapp, IoCalendarOutline } from "react-icons/io5";
+import { IoPersonOutline, IoCallOutline, IoWalletOutline, IoCalendarOutline, IoCheckmarkCircle } from "react-icons/io5";
 import type { CustomerInfo } from "../../store/cartStore";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -38,20 +38,9 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     const now = new Date();
     return Array.from({ length: months }, (_, i) => {
       const d = new Date(now.getFullYear(), now.getMonth() + i + 1, now.getDate());
-      return {
-        index: i + 1,
-        date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
-        amount: monthlyPayment,
-      };
+      return { index: i + 1, date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`, amount: monthlyPayment };
     });
   }, [months, monthlyPayment]);
-
-  const inputClass = (field: string) =>
-    `w-full border rounded-xl px-3 py-2.5 text-sm text-gray-900 focus:outline-none transition placeholder:text-gray-400 ${
-      errors[field]
-        ? "border-red-300 bg-red-50/30 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-        : "border-gray-200 bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100"
-    }`;
 
   const handleSubmit = () => {
     const newErrors: Record<string, string> = {};
@@ -70,134 +59,157 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     onSubmit({ name, nationalId, whatsapp, address, installmentType, months, downPayment });
   };
 
+  const inputBase = "w-full h-11 rounded-lg px-4 text-sm font-medium focus:outline-none transition";
+  const getInputStyle = (field: string) => ({
+    backgroundColor: "#faf7f2",
+    border: errors[field] ? "1.5px solid #ef4444" : "1.5px solid rgba(188,146,85,0.2)",
+    color: "#0A1825",
+  });
+
   return (
-    <>
-      {/* ── Personal Info ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-          <IoPersonOutline size={15} className="text-teal-600" />
-          <span className="text-xs sm:text-sm font-bold text-gray-700">المعلومات الشخصية</span>
-        </div>
-        <div className="p-3 sm:p-4 space-y-3">
-          <Field id="field-name" label="الاسم كاملاً" error={errors.name}>
-            <input value={name} onChange={(e) => { setName(e.target.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, "")); setErrors((p) => ({ ...p, name: "" })); }} placeholder="محمد أحمد" className={inputClass("name")} />
-          </Field>
-          <Field id="field-nationalId" label="رقم الهوية / الإقامة" error={errors.nationalId}>
-            <input value={nationalId} onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }} placeholder="10XXXXXXXX" maxLength={10} className={inputClass("nationalId")} />
-          </Field>
-        </div>
-      </div>
-
-      {/* ── Contact Info ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mt-3">
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-          <IoLogoWhatsapp size={15} className="text-teal-600" />
-          <span className="text-xs sm:text-sm font-bold text-gray-700">معلومات التواصل</span>
-        </div>
-        <div className="p-3 sm:p-4 space-y-3">
-          <Field id="field-whatsapp" label="رقم الواتساب" error={errors.whatsapp}>
-            <input type="tel" value={whatsapp} onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }} placeholder="05XXXXXXXX" className={inputClass("whatsapp")} dir="ltr" />
-          </Field>
-          <Field id="field-address" label="العنوان" error={errors.address}>
-            <input value={address} onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: "" })); }} placeholder="المدينة - الحي - الشارع" className={inputClass("address")} />
-          </Field>
+    <div className="space-y-4">
+      {/* ── Section: Personal ── */}
+      <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#fff", border: "1px solid rgba(188,146,85,0.12)" }}>
+        <SectionHeader icon={<IoPersonOutline size={16} />} title="البيانات الشخصية" />
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div id="field-name">
+            <Label text="الاسم الكامل" required error={errors.name} />
+            <input
+              value={name}
+              onChange={(e) => { setName(e.target.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, "")); setErrors((p) => ({ ...p, name: "" })); }}
+              placeholder="أدخل اسمك"
+              className={inputBase}
+              style={getInputStyle("name")}
+            />
+          </div>
+          <div id="field-nationalId">
+            <Label text="رقم الهوية" required error={errors.nationalId} />
+            <input
+              value={nationalId}
+              onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }}
+              placeholder="10XXXXXXXX"
+              maxLength={10}
+              className={inputBase}
+              style={getInputStyle("nationalId")}
+            />
+          </div>
         </div>
       </div>
 
-      {/* ── Payment Method ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mt-3">
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-          <IoCardOutline size={15} className="text-teal-600" />
-          <span className="text-xs sm:text-sm font-bold text-gray-700">طريقة الدفع</span>
+      {/* ── Section: Contact ── */}
+      <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#fff", border: "1px solid rgba(188,146,85,0.12)" }}>
+        <SectionHeader icon={<IoCallOutline size={16} />} title="التواصل والعنوان" />
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div id="field-whatsapp">
+            <Label text="واتساب" required error={errors.whatsapp} />
+            <input
+              type="tel"
+              value={whatsapp}
+              onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }}
+              placeholder="05XXXXXXXX"
+              className={inputBase}
+              style={getInputStyle("whatsapp")}
+              dir="ltr"
+            />
+          </div>
+          <div id="field-address">
+            <Label text="العنوان" required error={errors.address} />
+            <input
+              value={address}
+              onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: "" })); }}
+              placeholder="المدينة - الحي"
+              className={inputBase}
+              style={getInputStyle("address")}
+            />
+          </div>
         </div>
-        <div className="p-3 sm:p-4 space-y-3">
-          {/* Payment type cards */}
-          <div className="grid grid-cols-2 gap-2.5">
+      </div>
+
+      {/* ── Section: Payment ── */}
+      <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#fff", border: "1px solid rgba(188,146,85,0.12)" }}>
+        <SectionHeader icon={<IoWalletOutline size={16} />} title="طريقة السداد" />
+        <div className="p-4 space-y-4">
+          {/* Toggle */}
+          <div className="flex rounded-xl overflow-hidden" style={{ border: "1.5px solid rgba(188,146,85,0.25)" }}>
             <button
               type="button"
               onClick={() => setInstallmentType("full")}
-              className={`p-3 rounded-xl border-2 text-center transition-all ${
-                installmentType === "full"
-                  ? "border-teal-500 bg-teal-50"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
+              className="flex-1 py-3 text-sm font-bold transition-all flex items-center justify-center gap-1.5"
+              style={{
+                backgroundColor: installmentType === "full" ? "rgba(188,146,85,0.12)" : "#fff",
+                color: installmentType === "full" ? "#0A1825" : "#A77D4B",
+              }}
             >
-              <p className={`text-xs sm:text-sm font-bold ${installmentType === "full" ? "text-teal-700" : "text-gray-600"}`}>سداد كامل</p>
-              <p className={`text-[10px] sm:text-xs mt-0.5 ${installmentType === "full" ? "text-teal-600" : "text-gray-400"}`}>دفع المبلغ مرة واحدة</p>
+              {installmentType === "full" && <IoCheckmarkCircle size={14} style={{ color: "#BC9255" }} />}
+              كاش
             </button>
             <button
               type="button"
               onClick={() => setInstallmentType("installment")}
-              className={`p-3 rounded-xl border-2 text-center transition-all ${
-                installmentType === "installment"
-                  ? "border-teal-500 bg-teal-50"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
+              className="flex-1 py-3 text-sm font-bold transition-all flex items-center justify-center gap-1.5"
+              style={{
+                backgroundColor: installmentType === "installment" ? "rgba(188,146,85,0.12)" : "#fff",
+                color: installmentType === "installment" ? "#0A1825" : "#A77D4B",
+              }}
             >
-              <p className={`text-xs sm:text-sm font-bold ${installmentType === "installment" ? "text-teal-700" : "text-gray-600"}`}>تقسيط</p>
-              <p className={`text-[10px] sm:text-xs mt-0.5 ${installmentType === "installment" ? "text-teal-600" : "text-gray-400"}`}>أقساط شهرية مريحة</p>
+              {installmentType === "installment" && <IoCheckmarkCircle size={14} style={{ color: "#BC9255" }} />}
+              تقسيط
             </button>
           </div>
 
           {installmentType === "installment" && (
-            <div className="space-y-3 pt-1">
-              <Field label="عدد الأشهر">
-                <select
-                  value={months}
-                  onChange={(e) => setMonths(Number(e.target.value))}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-bold text-gray-900 bg-white focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition cursor-pointer"
-                >
-                  {MONTHS_OPTIONS.map((m) => (
-                    <option key={m} value={m}>{m} شهر</option>
-                  ))}
-                </select>
-              </Field>
-
-              <Field label="الدفعة الأولى">
-                <select
-                  value={String(downPaymentExtra)}
-                  onChange={(e) => setDownPaymentExtra(Number(e.target.value))}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-bold text-gray-900 bg-white focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition cursor-pointer"
-                >
-                  {DOWN_PAYMENT_OPTIONS.map((v) => (
-                    <option key={v} value={v - minDownPayment}>{fmt(v)} ر.س</option>
-                  ))}
-                  <option value={total - minDownPayment}>الدفع بالكامل ({fmt(total)} ر.س)</option>
-                </select>
-              </Field>
-
-              {/* Monthly payment highlight */}
-              <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-100 rounded-xl p-3 sm:p-4 flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-bold text-teal-700">القسط الشهري</span>
-                <span className="text-base sm:text-lg font-black text-teal-700">{fmt(monthlyPayment)} <span className="text-xs font-medium text-teal-600/70">ر.س</span></span>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label text="عدد الأشهر" />
+                  <select
+                    value={months}
+                    onChange={(e) => setMonths(Number(e.target.value))}
+                    className={`${inputBase} cursor-pointer`}
+                    style={{ backgroundColor: "#faf7f2", border: "1.5px solid rgba(188,146,85,0.2)", color: "#0A1825" }}
+                  >
+                    {MONTHS_OPTIONS.map((m) => <option key={m} value={m}>{m} شهر</option>)}
+                  </select>
+                </div>
+                <div>
+                  <Label text="الدفعة الأولى" />
+                  <select
+                    value={String(downPaymentExtra)}
+                    onChange={(e) => setDownPaymentExtra(Number(e.target.value))}
+                    className={`${inputBase} cursor-pointer`}
+                    style={{ backgroundColor: "#faf7f2", border: "1.5px solid rgba(188,146,85,0.2)", color: "#0A1825" }}
+                  >
+                    {DOWN_PAYMENT_OPTIONS.map((v) => <option key={v} value={v - minDownPayment}>{fmt(v)} ر.س</option>)}
+                    <option value={total - minDownPayment}>كامل ({fmt(total)})</option>
+                  </select>
+                </div>
               </div>
 
-              {/* Schedule table */}
+              {/* Monthly highlight */}
+              <div className="rounded-xl p-4 text-center" style={{ backgroundColor: "rgba(188,146,85,0.08)", border: "1.5px solid rgba(188,146,85,0.2)" }}>
+                <p className="text-[10px] mb-1" style={{ color: "#A77D4B" }}>القسط الشهري</p>
+                <p className="text-2xl font-black" style={{ color: "#0A1825" }}>{fmt(monthlyPayment)} <span className="text-xs font-normal" style={{ color: "#A77D4B" }}>ر.س</span></p>
+              </div>
+
+              {/* Schedule */}
               {months > 0 && (
-                <div className="rounded-xl overflow-hidden border border-gray-100">
-                  <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <IoCalendarOutline size={14} className="text-teal-600" />
-                    <span className="text-xs font-bold text-gray-600">جدول الأقساط</span>
+                <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(188,146,85,0.15)" }}>
+                  <div className="flex items-center gap-2 px-4 py-2.5" style={{ backgroundColor: "#faf7f2", borderBottom: "1px solid rgba(188,146,85,0.1)" }}>
+                    <IoCalendarOutline size={13} style={{ color: "#BC9255" }} />
+                    <span className="text-xs font-bold" style={{ color: "#0A1825" }}>جدول السداد</span>
                   </div>
-                  <div className="max-h-52 overflow-y-auto scrollbar-visible">
-                    <table className="w-full text-xs sm:text-sm">
-                      <thead className="sticky top-0">
-                        <tr className="bg-gray-50/90 backdrop-blur-sm">
-                          <th className="py-2 px-3 text-right font-bold text-gray-500 w-12">#</th>
-                          <th className="py-2 px-3 text-right font-bold text-gray-500">التاريخ</th>
-                          <th className="py-2 px-3 text-right font-bold text-gray-500">المبلغ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {schedule.map((row, i) => (
-                          <tr key={row.index} className={`${i % 2 === 0 ? "bg-white" : "bg-teal-50/30"} border-t border-gray-50`}>
-                            <td className="py-2 px-3 text-gray-400 font-bold">{row.index}</td>
-                            <td className="py-2 px-3 text-gray-700">{row.date}</td>
-                            <td className="py-2 px-3 font-bold text-gray-900">{fmt(row.amount)} ر.س</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div className="max-h-48 overflow-y-auto">
+                    {schedule.map((row, i) => (
+                      <div
+                        key={row.index}
+                        className="flex items-center justify-between px-4 py-2 text-xs"
+                        style={{ backgroundColor: i % 2 === 0 ? "#fff" : "#faf7f2", borderBottom: "1px solid rgba(188,146,85,0.06)" }}
+                      >
+                        <span className="font-bold w-6" style={{ color: "#A77D4B" }}>{row.index}</span>
+                        <span style={{ color: "#0A1825" }}>{row.date}</span>
+                        <span className="font-bold" style={{ color: "#0A1825" }}>{fmt(row.amount)} ر.س</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -209,22 +221,30 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
       {/* ── Submit ── */}
       <button
         onClick={handleSubmit}
-        className="w-full mt-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 active:scale-[0.98] text-white font-bold py-3.5 sm:py-4 rounded-2xl transition-all text-sm sm:text-base shadow-lg shadow-teal-200/50"
+        className="w-full py-4 rounded-xl font-black text-base transition hover:scale-[1.01] active:scale-[0.98] shadow-xl"
+        style={{ backgroundColor: "#BC9255", color: "#0A1825" }}
       >
-        متابعة الطلب
+        إتمام الطلب ←
       </button>
-    </>
+    </div>
   );
 }
 
-function Field({ id, label, error, children }: { id?: string; label: string; error?: string; children: React.ReactNode }) {
+function SectionHeader({ icon, title }: { icon: React.ReactNode; title: string }) {
   return (
-    <div id={id}>
-      <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
-        {label} {error !== undefined && <span className="text-red-400 text-[10px]">*</span>}
-      </label>
-      {children}
-      {error && <p className="text-red-500 text-[11px] font-bold mt-1">{error}</p>}
+    <div className="flex items-center gap-2 px-4 py-3" style={{ backgroundColor: "#faf7f2", borderBottom: "1px solid rgba(188,146,85,0.12)" }}>
+      <span style={{ color: "#BC9255" }}>{icon}</span>
+      <span className="text-xs font-bold" style={{ color: "#0A1825" }}>{title}</span>
+    </div>
+  );
+}
+
+function Label({ text, required, error }: { text: string; required?: boolean; error?: string }) {
+  return (
+    <div className="flex items-center gap-1 mb-1.5">
+      <span className="text-xs font-bold" style={{ color: "#0A1825" }}>{text}</span>
+      {required && <span className="text-red-400 text-[9px]">*</span>}
+      {error && <span className="text-red-500 text-[10px] font-bold mr-auto">{error}</span>}
     </div>
   );
 }

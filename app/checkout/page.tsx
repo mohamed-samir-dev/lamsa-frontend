@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { IoArrowForward, IoHomeOutline, IoLockClosedOutline } from "react-icons/io5";
+import { IoChevronBack, IoLockClosedOutline, IoShieldCheckmarkOutline } from "react-icons/io5";
 import CheckoutStepper from "../components/CheckoutStepper";
 import { useCartStore } from "../store/cartStore";
 import OrderSummary from "./components/OrderSummary";
@@ -52,55 +52,64 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-24" dir="rtl">
-      {/* ── Header ── */}
-      <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-600 sticky top-0 z-10 shadow-md">
-        <div className="max-w-5xl mx-auto px-3 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/cart" className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center transition text-white">
-              <IoArrowForward size={18} />
-            </Link>
-            <div>
-              <h1 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
-                <IoLockClosedOutline size={16} />
-                إتمام الطلب
-              </h1>
-              <p className="text-[11px] sm:text-xs text-teal-100">دفع آمن ومشفر</p>
-            </div>
-          </div>
-          <Link href="/" className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center transition text-white">
-            <IoHomeOutline size={16} />
+    <main className="min-h-screen pb-10" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
+      {/* ── Top Bar ── */}
+      <div className="sticky top-0 z-20 backdrop-blur-md" style={{ backgroundColor: "rgba(255,255,255,0.9)", borderBottom: "1px solid rgba(188,146,85,0.15)" }}>
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/cart" className="flex items-center gap-1 text-sm font-bold transition hover:opacity-70" style={{ color: "#A77D4B" }}>
+            <IoChevronBack size={18} />
+            السلة
+          </Link>
+          <h1 className="text-sm font-black flex items-center gap-1.5" style={{ color: "#0A1825" }}>
+            <IoLockClosedOutline size={14} style={{ color: "#BC9255" }} />
+            إتمام الدفع
+          </h1>
+          <Link href="/" className="text-xs font-bold px-3 py-1.5 rounded-lg transition hover:opacity-80" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>
+            الرئيسية
           </Link>
         </div>
       </div>
 
-      {/* ── Steps indicator ── */}
-      <div className="max-w-5xl mx-auto px-3 sm:px-6">
+      {/* ── Stepper ── */}
+      <div className="max-w-5xl mx-auto px-4">
         <CheckoutStepper active="payment" />
       </div>
 
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 pt-3">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 sm:gap-6">
+      {/* ── Security badge ── */}
+      <div className="max-w-5xl mx-auto px-4 mb-4">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ backgroundColor: "rgba(188,146,85,0.06)", border: "1px solid rgba(188,146,85,0.1)" }}>
+          <IoShieldCheckmarkOutline size={16} style={{ color: "#BC9255" }} />
+          <span className="text-[11px] font-medium" style={{ color: "#A77D4B" }}>جميع بياناتك مشفرة ومحمية بالكامل</span>
+        </div>
+      </div>
 
-          {/* ── Order Summary (order 1 on mobile, order 2 on desktop) ── */}
-          <div className="lg:col-span-2 order-1 lg:order-2">
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          {/* ── Payment Form ── */}
+          <div className="lg:col-span-7">
+            <PaymentForm onSubmit={handleSubmit} />
+          </div>
+
+          {/* ── Order Summary (desktop sidebar / mobile bottom bar) ── */}
+          <div className="lg:col-span-5 hidden lg:block">
             <div className="lg:sticky lg:top-20">
-              <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-                <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-                ملخص الطلب
-              </h2>
               <OrderSummary total={total} downPayment={downPayment} />
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* ── Payment Form (order 2 on mobile, order 1 on desktop) ── */}
-          <div className="lg:col-span-3 order-2 lg:order-1">
-            <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-              بيانات الدفع
-            </h2>
-            <PaymentForm onSubmit={handleSubmit} />
+      {/* ── Mobile fixed bottom total ── */}
+      <div className="fixed bottom-0 inset-x-0 z-30 lg:hidden" style={{ backgroundColor: "#fff", borderTop: "1px solid rgba(188,146,85,0.2)", boxShadow: "0 -4px 20px rgba(0,0,0,0.06)" }}>
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div>
+            <p className="text-[10px]" style={{ color: "#A77D4B" }}>المطلوب الآن</p>
+            <p className="text-xl font-black" style={{ color: "#0A1825" }}>
+              {(downPayment > 0 ? downPayment : total).toLocaleString("en-US")} <span className="text-xs font-medium" style={{ color: "#A77D4B" }}>ر.س</span>
+            </p>
           </div>
+          <span className="text-[10px] font-bold" style={{ color: "#BC9255" }}>🔒 دفع آمن</span>
         </div>
       </div>
     </main>

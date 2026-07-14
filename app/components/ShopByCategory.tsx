@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { FaApple } from "react-icons/fa";
@@ -15,13 +16,45 @@ const categories = [
 ];
 
 export default function ShopByCategory() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setTranslateX(dragOffset);
+  }, [dragOffset]);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const diff = e.clientX - startX;
+    setDragOffset(translateX + diff);
+  }, [isDragging, startX, translateX]);
+
+  const onMouseUp = useCallback(() => setIsDragging(false), []);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+    setTranslateX(dragOffset);
+  }, [dragOffset]);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const diff = e.touches[0].clientX - startX;
+    setDragOffset(translateX + diff);
+  }, [isDragging, startX, translateX]);
+
+  const onTouchEnd = useCallback(() => setIsDragging(false), []);
+
   return (
     <section className="w-full py-10 sm:py-16 overflow-hidden" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
       {/* Header */}
-      <div
-        className="text-center mb-8 sm:mb-12 px-4"
-        style={{ fontFamily: "'Cairo', sans-serif" }}
-      >
+      <div className="text-center mb-8 sm:mb-12 px-4" style={{ fontFamily: "'Cairo', sans-serif" }}>
         <span
           className="inline-block font-bold text-[10px] sm:text-xs md:text-sm tracking-widest uppercase mb-3 sm:mb-4 border-b-2 pb-1"
           style={{ color: "#BC9255", borderColor: "#BC9255" }}
@@ -38,13 +71,28 @@ export default function ShopByCategory() {
         </p>
       </div>
 
-      {/* Marquee */}
-      <div className="relative overflow-hidden px-2 sm:px-0">
-        <div className="flex animate-marquee-rtl gap-3 sm:gap-4 w-max will-change-transform">
+      {/* Marquee + Drag */}
+      <div
+        ref={containerRef}
+        className={`relative overflow-hidden px-2 sm:px-0 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        <div
+          className={`flex gap-3 sm:gap-4 w-max will-change-transform ${!isDragging ? "animate-marquee-rtl" : ""}`}
+          style={{ transform: `translate3d(${dragOffset}px, 0, 0)` }}
+        >
           {[...categories, ...categories, ...categories, ...categories].map((cat, i) => (
             <Link
               href={cat.href}
               key={`${cat.name}-${i}`}
+              draggable={false}
+              onClick={(e) => { if (Math.abs(dragOffset - translateX) > 5) e.preventDefault(); }}
               className="group relative w-40 sm:w-52 md:w-60 flex-shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-white border border-[#BC9255]/10 hover:border-[#BC9255]/40 shadow-[0_4px_20px_rgba(188,146,85,0.08)] transition-shadow duration-300"
             >
               {/* Image */}
@@ -55,6 +103,7 @@ export default function ShopByCategory() {
                   alt={cat.name}
                   className="relative w-full h-full object-cover"
                   loading="lazy"
+                  draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
               </div>
@@ -66,9 +115,7 @@ export default function ShopByCategory() {
                   <h3 className="text-[13px] sm:text-[15px] font-bold text-[#0A1825]">{cat.name}</h3>
                 </div>
                 <p className="text-[10px] sm:text-[11px] text-[#0A1825]/50 mb-2 sm:mb-3 leading-relaxed">{cat.desc}</p>
-                <div
-                  className="flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border-2 border-[#BC9255]/40 group-hover:border-[#BC9255] group-hover:bg-[#BC9255] transition-colors duration-300"
-                >
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border-2 border-[#BC9255]/40 group-hover:border-[#BC9255] group-hover:bg-[#BC9255] transition-colors duration-300">
                   <span className="text-[10px] sm:text-xs font-extrabold text-[#BC9255] group-hover:text-white transition-colors duration-300">تسوّق الآن</span>
                   <ArrowLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#BC9255] group-hover:text-white transition-colors duration-300" />
                 </div>
@@ -85,9 +132,6 @@ export default function ShopByCategory() {
         }
         .animate-marquee-rtl {
           animation: marquee-rtl 80s linear infinite;
-        }
-        .animate-marquee-rtl:hover {
-          animation-play-state: paused;
         }
       `}</style>
     </section>

