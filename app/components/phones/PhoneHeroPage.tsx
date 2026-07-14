@@ -38,7 +38,7 @@ export interface PhoneHeroPageProps {
   nameEnLine2?: string;
   tagline: string;
   description: string;
-  features?: { icon: "battery" | "camera" | "chip" | "display"; label: string }[];
+  features?: { icon: "battery" | "camera" | "chip" | "display" | "design"; label: string }[];
 }
 
 const iconMap = {
@@ -46,9 +46,10 @@ const iconMap = {
   camera: IoCameraOutline,
   chip: HiOutlineCpuChip,
   display: IoPhonePortraitOutline,
+  design: IoColorPaletteOutline,
 };
 
-const defaultFeatures: { icon: "battery" | "camera" | "chip" | "display"; label: string }[] = [
+const defaultFeatures: { icon: "battery" | "camera" | "chip" | "display" | "design"; label: string }[] = [
   { icon: "battery", label: "بطارية تدوم طول اليوم" },
   { icon: "camera", label: "نظام كاميرات احترافي" },
   { icon: "chip", label: "معالج فائق السرعة" },
