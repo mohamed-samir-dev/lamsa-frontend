@@ -28,19 +28,16 @@ export default function ShopByModel({ filters, categoryImages, categoryCounts }:
   const [activeIndex, setActiveIndex] = useState(0);
   const totalDots = Math.min(visibleCategories.length, 5);
 
-  const updateActiveIndex = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const scrollRatio = el.scrollLeft / (el.scrollWidth - el.clientWidth || 1);
-    setActiveIndex(Math.round(scrollRatio * (totalDots - 1)));
-  };
-
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    el.addEventListener("scroll", updateActiveIndex);
-    return () => el.removeEventListener("scroll", updateActiveIndex);
-  }, [visibleCategories.length]);
+    const handleScroll = () => {
+      const scrollRatio = el.scrollLeft / (el.scrollWidth - el.clientWidth || 1);
+      setActiveIndex(Math.round(scrollRatio * (totalDots - 1)));
+    };
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, [visibleCategories.length, totalDots]);
 
   const scroll = (dir: "left" | "right") => {
     const el = scrollRef.current;

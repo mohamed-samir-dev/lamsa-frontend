@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IoCartOutline, IoChevronBack, IoSparkles } from "react-icons/io5";
@@ -10,13 +10,14 @@ import CartItem from "./components/CartItem";
 import CustomerForm from "./components/CustomerForm";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
+const subscribe = (cb: () => void) => { cb(); return () => {}; };
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export default function CartPage() {
   const router = useRouter();
   const { items, removeItem, updateQty, totalPrice, totalItems, setCustomer, customer } = useCartStore();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const total = mounted ? totalPrice() : 0;
   const count = mounted ? totalItems() : 0;
