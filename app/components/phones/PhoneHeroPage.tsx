@@ -116,7 +116,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
               الرئيسية
             </Link>
             <IoChevronBack size={10} />
-            <span className="text-[#3D2B1A]">الهواتف</span>
+            <span className="text-[#3D2B1A]">{config?.parentLabel || "الهواتف"}</span>
             <IoChevronBack size={10} />
             <span className="text-[#1F2C3E] font-semibold truncate max-w-[100px] sm:max-w-none">{config?.label}</span>
           </nav>

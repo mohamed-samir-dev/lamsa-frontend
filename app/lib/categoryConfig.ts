@@ -258,6 +258,12 @@ export const slugConfigs: Record<string, SlugConfig> = {
     parentHref: "/tablets",
     filters: { brand: "Apple", category: "tablet" },
   },
+  ipad: {
+    label: "ايباد",
+    parentLabel: "الاجهزة اللوحية ايبادات",
+    parentHref: "/tablets",
+    filters: { category: "tablet" },
+  },
 
   // ─── Accessories ───────────────────────────────────────────
   "anker-batteries": {
@@ -265,6 +271,12 @@ export const slugConfigs: Record<string, SlugConfig> = {
     parentLabel: "بطاريات متنقلة وكيابل",
     parentHref: "/accessories",
     filters: { category: "بطاريات متنقله" },
+  },
+  airpods: {
+    label: "سماعات AirPods",
+    parentLabel: "الاكسسوارات",
+    parentHref: "/accessories",
+    filters: { brand: "Apple", nameIncludes: ["airpods", "ايربودز", "سماعة ابل"] },
   },
 
   // ─── Games ─────────────────────────────────────────────────
