@@ -99,7 +99,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
   return (
     <main className="min-h-screen" style={{ backgroundColor: "#FDFBF7" }} dir="rtl">
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative h-[55vh] sm:h-[65vh] md:h-[70vh] min-h-[320px] sm:min-h-[420px] max-h-[650px] overflow-hidden">
+      <section className="relative h-[45vh] sm:h-[55vh] md:h-[60vh] min-h-[280px] sm:min-h-[360px] max-h-[550px] overflow-hidden">
         <Image
           src={heroImage}
           alt={nameEn}
@@ -125,7 +125,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="pb-8 sm:pb-16 md:pb-20"
+            className="pb-6 sm:pb-10 md:pb-14"
           >
             <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-[#1F2C3E] leading-tight mb-2 sm:mb-3">
               {nameEn}
