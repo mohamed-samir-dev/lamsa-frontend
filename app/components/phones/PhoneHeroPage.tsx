@@ -6,10 +6,10 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoHomeOutline, IoChevronBack, IoArrowForward, IoArrowBack, IoBatteryFullOutline, IoCameraOutline, IoColorPaletteOutline, IoServerOutline, IoSwapVerticalOutline, IoCloseCircle } from "react-icons/io5";
 import { HiOutlineCpuChip } from "react-icons/hi2";
-import ProductCard from "../../../components/products/ProductCard";
-import type { Product } from "../../../components/products/types";
-import { slugConfigs } from "../../../lib/categoryConfig";
-import { sortProducts } from "../../../lib/sortProducts";
+import ProductCard from "../products/ProductCard";
+import type { Product } from "../products/types";
+import { slugConfigs } from "../../lib/categoryConfig";
+import { sortProducts } from "../../lib/sortProducts";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const ITEMS_PER_PAGE = 12;
@@ -31,15 +31,29 @@ function filterProducts(products: Product[], slug: string): Product[] {
   });
 }
 
-interface PhoneHeroPageProps {
+export interface PhoneHeroPageProps {
   slug: string;
   heroImage: string;
   nameEn: string;
+  nameEnLine2?: string;
   tagline: string;
   description: string;
+  features?: { icon: "battery" | "camera" | "chip"; label: string }[];
 }
 
-export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, description }: PhoneHeroPageProps) {
+const iconMap = {
+  battery: IoBatteryFullOutline,
+  camera: IoCameraOutline,
+  chip: HiOutlineCpuChip,
+};
+
+const defaultFeatures: { icon: "battery" | "camera" | "chip"; label: string }[] = [
+  { icon: "battery", label: "بطارية تدوم طول اليوم" },
+  { icon: "camera", label: "نظام كاميرات احترافي" },
+  { icon: "chip", label: "معالج فائق السرعة" },
+];
+
+export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, tagline, description, features = defaultFeatures }: PhoneHeroPageProps) {
   const config = slugConfigs[slug];
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,7 +98,6 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
     <main className="min-h-screen" style={{ backgroundColor: "#FDFBF7" }} dir="rtl">
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative h-[70vh] min-h-[420px] max-h-[650px] overflow-hidden">
-        {/* Background Image - no overlay */}
         <Image
           src={heroImage}
           alt={nameEn}
@@ -94,9 +107,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
           sizes="100vw"
         />
 
-        {/* Content */}
         <div className="relative z-10 h-full max-w-6xl mx-auto px-5 sm:px-8 flex flex-col justify-between">
-          {/* Breadcrumb */}
           <nav className="pt-5 flex items-center gap-1.5 text-[11px] sm:text-xs text-[#3D2B1A]">
             <Link href="/" className="hover:text-[#1F2C3E] transition flex items-center gap-1">
               <IoHomeOutline size={13} />
@@ -108,7 +119,6 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
             <span className="text-[#1F2C3E] font-semibold">{config?.label}</span>
           </nav>
 
-          {/* Hero Text - bottom */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -116,7 +126,8 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
             className="pb-16 sm:pb-20"
           >
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-[#1F2C3E] leading-tight mb-3">
-              iPhone 17<br />Pro Max
+              {nameEn}
+              {nameEnLine2 && <><br />{nameEnLine2}</>}
             </h1>
             <p className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#5C3A1E] mb-4">
               {tagline}
@@ -125,25 +136,23 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
               {description}
             </p>
 
-            {/* Feature Icons */}
             <div className="flex flex-wrap gap-3">
-              {[
-                { icon: IoBatteryFullOutline, label: "بطارية تدوم طول اليوم" },
-                { icon: IoCameraOutline, label: "نظام كاميرات احترافي" },
-                { icon: HiOutlineCpuChip, label: "معالج A19 Pro" },
-              ].map((feat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-sm"
-                  style={{ backgroundColor: "rgba(255,255,255,0.6)", border: "1px solid rgba(31,44,62,0.15)" }}
-                >
-                  <feat.icon size={18} color="#5C3A1E" />
-                  <span className="text-xs sm:text-sm font-semibold text-[#1F2C3E]">{feat.label}</span>
-                </motion.div>
-              ))}
+              {features.map((feat, i) => {
+                const Icon = iconMap[feat.icon];
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-sm"
+                    style={{ backgroundColor: "rgba(255,255,255,0.6)", border: "1px solid rgba(31,44,62,0.15)" }}
+                  >
+                    <Icon size={18} color="#5C3A1E" />
+                    <span className="text-xs sm:text-sm font-semibold text-[#1F2C3E]">{feat.label}</span>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </div>
@@ -169,10 +178,8 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
           )}
         </div>
 
-        {/* Filters */}
         {!loading && products.length > 0 && (
           <div className="flex flex-wrap items-center gap-3 mb-8 p-4 rounded-2xl" style={{ backgroundColor: "#FFF", border: "1px solid #EBE6E2" }}>
-            {/* Color Filter */}
             {availableColors.length > 1 && (
               <div className="flex items-center gap-2">
                 <IoColorPaletteOutline size={16} color="#A77D4B" />
@@ -194,12 +201,10 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
               </div>
             )}
 
-            {/* Divider */}
             {availableColors.length > 1 && availableStorages.length > 1 && (
               <div className="w-px h-6 mx-1" style={{ backgroundColor: "#EBE6E2" }} />
             )}
 
-            {/* Storage Filter */}
             {availableStorages.length > 1 && (
               <div className="flex items-center gap-2">
                 <IoServerOutline size={16} color="#A77D4B" />
@@ -221,12 +226,10 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, tagline, descri
               </div>
             )}
 
-            {/* Divider */}
             {(availableColors.length > 1 || availableStorages.length > 1) && (
               <div className="w-px h-6 mx-1" style={{ backgroundColor: "#EBE6E2" }} />
             )}
 
-            {/* Sort */}
             <div className="flex items-center gap-2">
               <IoSwapVerticalOutline size={16} color="#A77D4B" />
               <select

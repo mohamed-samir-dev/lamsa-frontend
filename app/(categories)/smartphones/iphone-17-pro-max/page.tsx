@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PhoneHeroPage from "./PhoneHeroPage";
+import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
 
 export const metadata: Metadata = {
   title: "iPhone 17 Pro Max | لمسه للاجهزه الذكيه",
@@ -12,9 +12,15 @@ export default function IPhone17ProMaxPage() {
     <PhoneHeroPage
       slug="iphone-17-pro-max"
       heroImage="/i17-pro.webp"
-      nameEn="iPhone 17 Pro Max"
+      nameEn="iPhone 17"
+      nameEnLine2="Pro Max"
       tagline="الأقوى والأسرع والأكثر احترافية"
       description="iPhone 17 Pro Max يجمع بين تصميم التيتانيوم الأنيق والأداء الخرافي مع كاميرات احترافية من الجيل الجديد"
+      features={[
+        { icon: "battery", label: "بطارية تدوم طول اليوم" },
+        { icon: "camera", label: "نظام كاميرات احترافي" },
+        { icon: "chip", label: "معالج A19 Pro" },
+      ]}
     />
   );
 }
