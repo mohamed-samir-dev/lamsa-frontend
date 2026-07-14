@@ -1,16 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { FaApple } from "react-icons/fa";
 
 const categories = [
-  { name: "iPhone", icon: <FaApple className="w-4 h-4" />, desc: "أكثر من مجرد هاتف", image: "/iphone.webp" },
-  { name: "Samsung", icon: null, desc: "تقنية بلا حدود", image: "/samsong.webp" },
-  { name: "MacBook Air", icon: <FaApple className="w-4 h-4" />, desc: "خفة وأداء استثنائي", image: "/mac.webp" },
-  { name: "Apple Watch", icon: <FaApple className="w-4 h-4" />, desc: "ساعتك الذكية", image: "/watch.webp" },
-  { name: "AirPods", icon: <FaApple className="w-4 h-4" />, desc: "صوت نقي بلا حدود", image: "/air-pod.webp" },
-  { name: "الاكسسوارات", icon: null, desc: "كل ما تحتاجه", image: "/acc.webp" },
-  { name: "الصوتيات", icon: null, desc: "تجربة صوت مذهلة", image: "/audio.webp" },
+  { name: "iPhone", icon: <FaApple className="w-4 h-4" />, desc: "أكثر من مجرد هاتف", image: "/iphone.webp", href: "/smartphones/apple-only" },
+  { name: "Samsung", icon: null, desc: "تقنية بلا حدود", image: "/samsong.webp", href: "/smartphones" },
+  { name: "MacBook Air", icon: <FaApple className="w-4 h-4" />, desc: "خفة وأداء استثنائي", image: "/mac.webp", href: "/laptops/macbook-air" },
+  { name: "Apple Watch", icon: <FaApple className="w-4 h-4" />, desc: "ساعتك الذكية", image: "/watch.webp", href: "/apple-watches/se" },
+  { name: "AirPods", icon: <FaApple className="w-4 h-4" />, desc: "صوت نقي بلا حدود", image: "/air-pod.webp", href: "/audio" },
+  { name: "الاكسسوارات", icon: null, desc: "كل ما تحتاجه", image: "/acc.webp", href: "/accessories" },
+  { name: "الصوتيات", icon: null, desc: "تجربة صوت مذهلة", image: "/audio.webp", href: "/audio" },
 ];
 
 export default function ShopByCategory() {
@@ -41,7 +42,8 @@ export default function ShopByCategory() {
       <div className="relative overflow-hidden px-2 sm:px-0">
         <div className="flex animate-marquee-rtl gap-3 sm:gap-4 w-max will-change-transform">
           {[...categories, ...categories, ...categories, ...categories].map((cat, i) => (
-            <div
+            <Link
+              href={cat.href}
               key={`${cat.name}-${i}`}
               className="group relative w-40 sm:w-52 md:w-60 flex-shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-white border border-[#BC9255]/10 hover:border-[#BC9255]/40 shadow-[0_4px_20px_rgba(188,146,85,0.08)] transition-shadow duration-300"
             >
@@ -71,7 +73,7 @@ export default function ShopByCategory() {
                   <ArrowLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#BC9255] group-hover:text-white transition-colors duration-300" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
