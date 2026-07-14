@@ -10,7 +10,7 @@ export default function IPhone16PlusPage() {
   return (
     <PhoneHeroPage
   slug="iphone-16-plus"
-  heroImage="/i-16plus.webp"
+  heroImage="/i17.webp"
   nameEn="iPhone 16"
   nameEnLine2="Plus"
   tagline="شاشة أكبر. بطارية تدوم أكثر."
