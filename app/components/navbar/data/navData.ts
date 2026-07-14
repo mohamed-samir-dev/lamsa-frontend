@@ -18,7 +18,7 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   {
     label: "الهواتف الذكية",
-    href: "/smartphones",
+    href: "/smartphones/iphone-17-pro-max",
     groups: [
       {
         groupLabel: "آيفون",

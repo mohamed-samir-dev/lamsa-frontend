@@ -97,46 +97,46 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
   return (
     <main className="min-h-screen" style={{ backgroundColor: "#FDFBF7" }} dir="rtl">
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative h-[70vh] min-h-[420px] max-h-[650px] overflow-hidden">
+      <section className="relative h-[55vh] sm:h-[65vh] md:h-[70vh] min-h-[320px] sm:min-h-[420px] max-h-[650px] overflow-hidden">
         <Image
           src={heroImage}
           alt={nameEn}
           fill
-          className="object-cover"
+          className="object-cover object-center"
           priority
           sizes="100vw"
         />
 
-        <div className="relative z-10 h-full max-w-6xl mx-auto px-5 sm:px-8 flex flex-col justify-between">
-          <nav className="pt-5 flex items-center gap-1.5 text-[11px] sm:text-xs text-[#3D2B1A]">
-            <Link href="/" className="hover:text-[#1F2C3E] transition flex items-center gap-1">
-              <IoHomeOutline size={13} />
+        <div className="relative z-10 h-full max-w-6xl mx-auto px-4 sm:px-8 flex flex-col justify-between">
+          <nav className="pt-4 sm:pt-5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-[#3D2B1A]">
+            <Link href="/" className="hover:text-[#1F2C3E] transition flex items-center gap-0.5 sm:gap-1">
+              <IoHomeOutline size={12} />
               الرئيسية
             </Link>
-            <IoChevronBack size={11} />
-            <Link href="/smartphones" className="hover:text-[#1F2C3E] transition">الهواتف الذكية</Link>
-            <IoChevronBack size={11} />
-            <span className="text-[#1F2C3E] font-semibold">{config?.label}</span>
+            <IoChevronBack size={10} />
+            <span className="text-[#3D2B1A]">الهواتف</span>
+            <IoChevronBack size={10} />
+            <span className="text-[#1F2C3E] font-semibold truncate max-w-[100px] sm:max-w-none">{config?.label}</span>
           </nav>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="pb-16 sm:pb-20"
+            className="pb-8 sm:pb-16 md:pb-20"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-[#1F2C3E] leading-tight mb-3">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-[#1F2C3E] leading-tight mb-2 sm:mb-3">
               {nameEn}
               {nameEnLine2 && <><br />{nameEnLine2}</>}
             </h1>
-            <p className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#5C3A1E] mb-4">
+            <p className="text-base sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-[#5C3A1E] mb-2 sm:mb-4">
               {tagline}
             </p>
-            <p className="text-sm sm:text-base text-[#3D2B1A]/80 max-w-lg leading-relaxed mb-6">
+            <p className="text-xs sm:text-sm md:text-base text-[#3D2B1A]/80 max-w-xs sm:max-w-lg leading-relaxed mb-4 sm:mb-6">
               {description}
             </p>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               {features.map((feat, i) => {
                 const Icon = iconMap[feat.icon];
                 return (
@@ -145,11 +145,11 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-sm"
+                    className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-full backdrop-blur-sm"
                     style={{ backgroundColor: "rgba(255,255,255,0.6)", border: "1px solid rgba(31,44,62,0.15)" }}
                   >
-                    <Icon size={18} color="#5C3A1E" />
-                    <span className="text-xs sm:text-sm font-semibold text-[#1F2C3E]">{feat.label}</span>
+                    <Icon className="w-3.5 h-3.5 sm:w-[18px] sm:h-[18px]" color="#5C3A1E" />
+                    <span className="text-[10px] sm:text-xs md:text-sm font-semibold text-[#1F2C3E]">{feat.label}</span>
                   </motion.div>
                 );
               })}

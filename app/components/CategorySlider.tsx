@@ -111,38 +111,37 @@ export default function CategorySlider({ categories }: { categories: Category[] 
 
   return (
     <div className="w-full flex flex-col items-center select-none" dir="rtl">
-      <div className="relative w-full">
-        {/* Left Arrow */}
-        {canScrollRight && (
-          <button
-            onClick={() => scroll(1)}
-            className="absolute right-0 sm:right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-            style={{
-              background: "rgba(255,255,255,0.12)",
-              border: "1px solid rgba(153,246,228,0.2)",
-              backdropFilter: "blur(8px)",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#99f6e4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-        )}
-        {/* Right Arrow */}
-        {canScrollLeft && (
-          <button
-            onClick={() => scroll(-1)}
-            className="absolute left-0 sm:left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-            style={{
-              background: "rgba(255,255,255,0.12)",
-              border: "1px solid rgba(153,246,228,0.2)",
-              backdropFilter: "blur(8px)",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#99f6e4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </button>
-        )}
+      {/* Arrows on top */}
+      <div className="flex gap-2 justify-start w-full px-4 sm:px-12 mb-3">
+        <button
+          onClick={() => scroll(1)}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+          style={{
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(153,246,228,0.2)",
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+            opacity: canScrollRight ? 1 : 0.3,
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#99f6e4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button
+          onClick={() => scroll(-1)}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+          style={{
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(153,246,228,0.2)",
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+            opacity: canScrollLeft ? 1 : 0.3,
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#99f6e4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+      </div>
 
+      <div className="relative w-full">
         {/* Scrollable container */}
         <div
           ref={scrollRef}
