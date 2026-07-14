@@ -54,7 +54,7 @@ export default async function Footer() {
   ];
 
   return (
-    <footer className="relative mt-16" dir="rtl">
+    <footer className="relative mt-16" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
       {/* Curved top separator */}
       <div className="absolute top-0 left-0 right-0 -translate-y-full overflow-hidden h-16">
         <svg viewBox="0 0 1440 64" fill="none" className="w-full h-full" preserveAspectRatio="none">

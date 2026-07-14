@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export default function HeroSection({ productCount, loading }: { productCount: number; loading: boolean }) {
   return (
-    <div className="relative overflow-hidden h-[380px] sm:h-[480px] md:h-[560px]" style={{ backgroundColor: "#0a0a0a" }}>
+    <div className="relative overflow-hidden h-[300px] sm:h-[480px] md:h-[560px]" style={{ backgroundColor: "#0a0a0a" }}>
       <Image src="/apple-hero.webp" alt="أجهزة أبل" fill className="object-cover opacity-30" style={{ objectPosition: "center" }} priority sizes="100vw" />
       
       {/* Animated gradient overlays */}
@@ -32,9 +32,9 @@ export default function HeroSection({ productCount, loading }: { productCount: n
         transition={{ duration: 4, repeat: Infinity, delay: 1 }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 h-full flex flex-col justify-between">
+      <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 h-full flex flex-col justify-between">
         {/* Breadcrumb */}
-        <motion.nav initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white/60 pt-6 sm:pt-8">
+        <motion.nav initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-white/60 pt-4 sm:pt-8">
           <Link href="/" className="hover:text-white transition flex items-center gap-1"><IoHomeOutline size={13} />الرئيسية</Link>
           <IoChevronBack size={11} className="opacity-50" />
           <Link href="/smartphones" className="hover:text-white transition">الهواتف الذكية</Link>
@@ -43,12 +43,12 @@ export default function HeroSection({ productCount, loading }: { productCount: n
         </motion.nav>
 
         {/* Main content */}
-        <div className="pb-16 sm:pb-20">
+        <div className="pb-10 sm:pb-20">
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }} 
             animate={{ opacity: 1, scale: 1 }} 
             transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-            className="inline-flex items-center gap-2.5 text-[11px] sm:text-[12px] font-bold px-5 py-2.5 rounded-full mb-5 border border-[#DFC4A4]/30 bg-[#DFC4A4]/10 text-[#DFC4A4] backdrop-blur-md"
+            className="inline-flex items-center gap-2 sm:gap-2.5 text-[10px] sm:text-[12px] font-bold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full mb-3 sm:mb-5 border border-[#DFC4A4]/30 bg-[#DFC4A4]/10 text-[#DFC4A4] backdrop-blur-md"
           >
             <motion.span animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 3, repeat: Infinity }}>
               <FaApple size={16} />
@@ -60,7 +60,7 @@ export default function HeroSection({ productCount, loading }: { productCount: n
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.3, duration: 0.7, type: "spring" }}
-            className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.2] mb-4"
+            className="text-2xl sm:text-5xl md:text-6xl font-black text-white leading-[1.2] mb-2 sm:mb-4"
           >
             عالم{" "}
             <span className="relative inline-block">
@@ -79,7 +79,7 @@ export default function HeroSection({ productCount, loading }: { productCount: n
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-sm sm:text-lg text-white/50 max-w-md leading-relaxed"
+            className="text-xs sm:text-lg text-white/50 max-w-md leading-relaxed"
           >
             أداء خارق • تصميم أيقوني • تجربة لا مثيل لها
           </motion.p>
@@ -89,9 +89,9 @@ export default function HeroSection({ productCount, loading }: { productCount: n
               initial={{ opacity: 0, y: 15 }} 
               animate={{ opacity: 1, y: 0 }} 
               transition={{ delay: 0.7 }}
-              className="flex items-center gap-3 mt-7"
+              className="flex items-center gap-3 mt-4 sm:mt-7"
             >
-              <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px] font-bold bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-[12px] font-bold bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 {productCount} منتج متوفر الآن
               </span>

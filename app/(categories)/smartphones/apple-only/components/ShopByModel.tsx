@@ -45,86 +45,76 @@ export default function ShopByModel({ filters, categoryImages, categoryCounts }:
   const scroll = (dir: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const amount = dir === "left" ? -200 : 200;
-    el.scrollBy({ left: amount, behavior: "smooth" });
+    el.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
   };
 
   if (visibleCategories.length === 0) return null;
 
   return (
-    <section className="mb-12">
-      <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg" style={{ backgroundColor: "#1F2C3E" }}>
-          <FaApple size={18} style={{ color: "#DFC4A4" }} />
+    <section className="mb-14">
+      <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg border border-[#DFC4A4]/20" style={{ background: "linear-gradient(135deg, #1F2C3E, #2a3d55)" }}>
+            <FaApple size={18} className="text-[#DFC4A4]" />
+          </div>
+          <div>
+            <h2 className="text-base sm:text-lg font-black" style={{ color: "#1F2C3E" }}>تسوّق حسب الطراز</h2>
+            <p className="text-[10px] sm:text-[11px] text-[#1F2C3E]/40">اضغط على الطراز للذهاب لصفحته</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-base sm:text-lg font-black" style={{ color: "#1F2C3E" }}>تسوّق حسب الطراز</h2>
-          <p className="text-[10px] sm:text-[11px] opacity-50" style={{ color: "#1F2C3E" }}>اضغط على الطراز للذهاب لصفحته</p>
+        <div className="flex gap-2">
+          <button onClick={() => scroll("right")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#1F2C3E]/10 hover:bg-[#1F2C3E] hover:text-[#DFC4A4] text-[#1F2C3E] transition-all duration-300">
+            <IoChevronForward size={14} />
+          </button>
+          <button onClick={() => scroll("left")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#1F2C3E]/10 hover:bg-[#1F2C3E] hover:text-[#DFC4A4] text-[#1F2C3E] transition-all duration-300">
+            <IoChevronBack size={14} />
+          </button>
         </div>
       </motion.div>
 
-      <div className="relative">
-        {/* Right arrow */}
-        <button onClick={() => scroll("right")} className="absolute top-1/2 -translate-y-1/2 right-0 z-20 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110" style={{ backgroundColor: "#1F2C3E" }}>
-          <IoChevronForward size={16} style={{ color: "#DFC4A4" }} />
-        </button>
-        {/* Left arrow */}
-        <button onClick={() => scroll("left")} className="absolute top-1/2 -translate-y-1/2 left-0 z-20 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110" style={{ backgroundColor: "#1F2C3E" }}>
-          <IoChevronBack size={16} style={{ color: "#DFC4A4" }} />
-        </button>
-
-        <div className="px-12">
-          <div ref={scrollRef} className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            {visibleCategories.map((cat, i) => {
-              const img = categoryImages[cat.slug];
-              return (
-                <motion.div
-                  key={cat.slug}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.07, type: "spring", stiffness: 80 }}
-                >
-                  <Link
-                    href={`/smartphones/${cat.slug}`}
-                    className="relative flex-shrink-0 w-[140px] sm:w-[170px] rounded-[20px] overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl border border-[#EBE6E2] hover:border-[#DFC4A4]/50 block group"
-                    style={{ backgroundColor: "#FFFFFF" }}
-                  >
-                    <div className="relative w-full h-[110px] sm:h-[130px] overflow-hidden" style={{ backgroundColor: "#FFFFFF" }}>
-                      {img ? (
-                        <Image src={img} alt={cat.label} fill className="object-contain p-3 sm:p-4 transition-transform duration-500 group-hover:scale-110" sizes="170px" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <FaApple size={32} style={{ color: "#1F2C3E", opacity: 0.2 }} />
-                        </div>
-                      )}
-                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold backdrop-blur-sm" style={{ backgroundColor: "rgba(31,44,62,0.9)", color: "#DFC4A4" }}>
-                        {categoryCounts[cat.slug]}
-                      </div>
+      <div ref={scrollRef} className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        {visibleCategories.map((cat, i) => {
+          const img = categoryImages[cat.slug];
+          return (
+            <motion.div
+              key={cat.slug}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+            >
+              <Link
+                href={`/smartphones/${cat.slug}`}
+                className="relative flex-shrink-0 w-[130px] sm:w-[175px] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-400 group block border border-transparent hover:border-[#DFC4A4]/40"
+                style={{ background: "linear-gradient(180deg, #FFFFFF 0%, #F8F5F1 100%)", boxShadow: "0 4px 20px rgba(31,44,62,0.06)" }}
+              >
+                <div className="relative w-full h-[95px] sm:h-[140px] overflow-hidden">
+                  {img ? (
+                    <Image src={img} alt={cat.label} fill className="object-contain p-3 sm:p-4 transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1" sizes="(max-width: 640px) 130px, 175px" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <FaApple size={28} className="text-[#1F2C3E]/15" />
                     </div>
-                    <div className="px-3 py-2.5 text-center">
-                      <p className="text-[11px] sm:text-[12px] font-bold truncate" style={{ color: "#1F2C3E" }}>{cat.label}</p>
-                      <p className="text-[9px] sm:text-[10px] mt-0.5 truncate" style={{ color: "rgba(31,44,62,0.5)" }}>{cat.desc}</p>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
+                  )}
+                  <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-bold" style={{ backgroundColor: "#1F2C3E", color: "#DFC4A4" }}>
+                    {categoryCounts[cat.slug]}
+                  </div>
+                </div>
+                <div className="px-2 py-2 sm:px-3 sm:py-3 text-center border-t border-[#EBE6E2]/60">
+                  <p className="text-[11px] sm:text-[13px] font-bold truncate" style={{ color: "#1F2C3E" }}>{cat.label}</p>
+                  <p className="text-[9px] sm:text-[11px] mt-0.5 sm:mt-1 text-[#1F2C3E]/50 truncate">{cat.desc}</p>
+                </div>
+                {/* Hover glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl" style={{ background: "radial-gradient(circle at 50% 30%, rgba(223,196,164,0.08), transparent 70%)" }} />
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
 
-      {/* Dots indicator */}
-      <div className="flex justify-center gap-1.5 mt-4">
+      {/* Dots */}
+      <div className="flex justify-center gap-1.5 mt-5">
         {Array.from({ length: totalDots }).map((_, i) => (
-          <div
-            key={i}
-            className="rounded-full transition-all duration-300"
-            style={{
-              width: activeIndex === i ? 20 : 6,
-              height: 6,
-              backgroundColor: activeIndex === i ? "#DFC4A4" : "#E5E0DB",
-            }}
-          />
+          <div key={i} className="rounded-full transition-all duration-300" style={{ width: activeIndex === i ? 22 : 6, height: 6, backgroundColor: activeIndex === i ? "#DFC4A4" : "#E5E0DB" }} />
         ))}
       </div>
     </section>

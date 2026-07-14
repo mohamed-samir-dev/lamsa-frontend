@@ -53,7 +53,7 @@ export default function CustomerReviews() {
       : "from-[#1F2C3E] to-[#2d4a6f]";
 
   return (
-    <section className="w-full py-14 relative overflow-hidden" dir="rtl" style={{ background: 'linear-gradient(180deg, #f5f0e8 0%, #ffffff 100%)' }}>
+    <section className="w-full py-14 relative overflow-hidden" dir="rtl" style={{ background: 'linear-gradient(180deg, #f5f0e8 0%, #ffffff 100%)', fontFamily: "'Cairo', sans-serif" }}>
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full opacity-[0.03]" style={{ background: 'radial-gradient(circle, #A77D4B, transparent)' }} />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-[0.03]" style={{ background: 'radial-gradient(circle, #1F2C3E, transparent)' }} />

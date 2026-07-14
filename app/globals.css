@@ -14,7 +14,7 @@
 body {
   background: #ffffff !important;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Cairo', sans-serif;
 }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }

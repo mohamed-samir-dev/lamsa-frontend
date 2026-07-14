@@ -86,90 +86,77 @@ export default function LatestPhones({ products }: Props) {
   const scroll = (dir: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const amount = dir === "left" ? -220 : 220;
-    el.scrollBy({ left: amount, behavior: "smooth" });
+    el.scrollBy({ left: dir === "left" ? -230 : 230, behavior: "smooth" });
   };
 
   if (picks.length === 0) return null;
 
   return (
     <section className="mb-16">
-      {/* Centered title with decorative lines */}
-      <motion.div 
-        initial={{ opacity: 0, y: 15 }} 
-        whileInView={{ opacity: 1, y: 0 }} 
+      {/* Section header */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="flex items-center gap-4 mb-10"
+        className="flex items-center justify-between mb-8"
       >
-        <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-[#DFC4A4] to-[#DFC4A4]" />
-        <h2 className="text-lg sm:text-xl font-black whitespace-nowrap" style={{ color: "#DFC4A4" }}>
-          أحدث المنتجات
-        </h2>
-        <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-[#DFC4A4] to-[#DFC4A4]" />
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-8 rounded-full" style={{ backgroundColor: "#DFC4A4" }} />
+          <h2 className="text-lg sm:text-xl font-black" style={{ color: "#1F2C3E" }}>أحدث المنتجات</h2>
+        </div>
+        <div className="flex gap-2">
+          <button onClick={() => scroll("right")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#1F2C3E]/10 hover:bg-[#1F2C3E] hover:text-[#DFC4A4] text-[#1F2C3E] transition-all duration-300">
+            <IoChevronForward size={14} />
+          </button>
+          <button onClick={() => scroll("left")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#1F2C3E]/10 hover:bg-[#1F2C3E] hover:text-[#DFC4A4] text-[#1F2C3E] transition-all duration-300">
+            <IoChevronBack size={14} />
+          </button>
+        </div>
       </motion.div>
 
-      <div className="relative">
-        {/* Right arrow */}
-        <button onClick={() => scroll("right")} className="absolute top-1/2 -translate-y-1/2 right-0 z-20 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110" style={{ backgroundColor: "#1F2C3E" }}>
-          <IoChevronForward size={16} style={{ color: "#DFC4A4" }} />
-        </button>
-        {/* Left arrow */}
-        <button onClick={() => scroll("left")} className="absolute top-1/2 -translate-y-1/2 left-0 z-20 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110" style={{ backgroundColor: "#1F2C3E" }}>
-          <IoChevronBack size={16} style={{ color: "#DFC4A4" }} />
-        </button>
-
-        <div className="px-12">
-          <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            {picks.map((p, i) => {
-              const img = p.images?.[0] || p.image;
-              const price = p.salePrice && p.salePrice > 0 ? p.salePrice : p.originalPrice || p.price || 0;
-              return (
-                <motion.div
-                  key={p._id}
-                  initial={{ opacity: 0, x: 60 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, type: "spring", stiffness: 70, damping: 15 }}
-                  className="flex-shrink-0"
-                >
-                  <Link href={`/product/${p._id}`} className="group block w-[180px] sm:w-[210px] rounded-[22px] overflow-hidden border border-[#EBE6E2] hover:border-[#DFC4A4] transition-all duration-300 hover:shadow-xl bg-white">
-                    <div className="relative h-[180px] sm:h-[210px] overflow-hidden" style={{ backgroundColor: "#F9F6F2" }}>
-                      {img && (
-                        <Image src={resolveImg(img)} alt={p.name} fill className="object-contain p-5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2" sizes="210px" />
-                      )}
-                      <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[9px] font-bold" style={{ backgroundColor: "#1F2C3E", color: "#DFC4A4" }}>
-                        {p.modelLabel}
-                      </div>
+      <div ref={scrollRef} className="flex gap-3 sm:gap-5 overflow-x-auto pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        {picks.map((p, i) => {
+          const img = p.images?.[0] || p.image;
+          const price = p.salePrice && p.salePrice > 0 ? p.salePrice : p.originalPrice || p.price || 0;
+          return (
+            <motion.div
+              key={p._id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.07, type: "spring", stiffness: 80 }}
+              className="flex-shrink-0"
+            >
+              <Link href={`/product/${p._id}`} className="group block w-[155px] sm:w-[215px] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-400 hover:shadow-2xl border border-[#EBE6E2] hover:border-[#DFC4A4]/50" style={{ background: "linear-gradient(180deg, #FFFFFF 60%, #F9F6F2 100%)" }}>
+                <div className="relative h-[155px] sm:h-[215px] overflow-hidden">
+                  {img && (
+                    <Image src={resolveImg(img)} alt={p.name} fill className="object-contain p-4 sm:p-6 transition-all duration-500 group-hover:scale-105" sizes="(max-width: 640px) 155px, 215px" />
+                  )}
+                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[8px] sm:text-[9px] font-bold backdrop-blur-sm" style={{ background: "rgba(31,44,62,0.9)", color: "#DFC4A4" }}>
+                    {p.modelLabel}
+                  </div>
+                  {/* Subtle gradient overlay at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/80 to-transparent" />
+                </div>
+                <div className="p-3 sm:p-4">
+                  <h3 className="text-[10px] sm:text-[12px] font-bold line-clamp-2 leading-relaxed mb-2 sm:mb-3" style={{ color: "#1F2C3E" }}>{p.name}</h3>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[12px] sm:text-[14px] font-black" style={{ color: "#1F2C3E" }}>{fmt(price)} <span className="text-[9px] sm:text-[10px] font-medium text-[#1F2C3E]/50">ر.س</span></p>
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-md" style={{ backgroundColor: "#DFC4A4" }}>
+                      <IoArrowBack size={12} style={{ color: "#1F2C3E" }} />
                     </div>
-                    <div className="p-3.5">
-                      <h3 className="text-[11px] sm:text-[12px] font-bold line-clamp-2 leading-relaxed" style={{ color: "#1F2C3E" }}>{p.name}</h3>
-                      <div className="flex items-center justify-between mt-2.5">
-                        <p className="text-[12px] sm:text-[13px] font-black" style={{ color: "#1F2C3E" }}>{fmt(price)} ر.س</p>
-                        <div className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-hover:-translate-x-1" style={{ backgroundColor: "#DFC4A4" }}>
-                          <IoArrowBack size={12} style={{ color: "#1F2C3E" }} />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
 
-      {/* Dots indicator */}
-      <div className="flex justify-center gap-1.5 mt-4">
+      {/* Dots */}
+      <div className="flex justify-center gap-1.5 mt-5">
         {Array.from({ length: totalDots }).map((_, i) => (
-          <div
-            key={i}
-            className="rounded-full transition-all duration-300"
-            style={{
-              width: activeIndex === i ? 20 : 6,
-              height: 6,
-              backgroundColor: activeIndex === i ? "#DFC4A4" : "#E5E0DB",
-            }}
-          />
+          <div key={i} className="rounded-full transition-all duration-300" style={{ width: activeIndex === i ? 22 : 6, height: 6, backgroundColor: activeIndex === i ? "#DFC4A4" : "#E5E0DB" }} />
         ))}
       </div>
     </section>

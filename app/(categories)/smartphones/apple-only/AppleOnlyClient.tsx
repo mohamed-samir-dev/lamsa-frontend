@@ -9,6 +9,7 @@ import HeroSection from "./components/HeroSection";
 import ShopByModel from "./components/ShopByModel";
 import LatestPhones from "./components/LatestPhones";
 import WhyLamsa from "./components/WhyLamsa";
+import MoreAppleProducts from "./components/MoreAppleProducts";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -92,11 +93,9 @@ export default function AppleOnlyClient() {
 
   return (
     <main className="min-h-screen bg-[#FDFBF8]" dir="rtl">
-      {/* ═══════════ HERO ═══════════ */}
       <HeroSection productCount={allProducts.length} loading={loading} />
 
-      <div className="max-w-6xl mx-auto px-3 sm:px-6 py-8 sm:py-12">
-        {/* ═══════════ SHOP BY MODEL (with auto-scroll animation) ═══════════ */}
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 py-6 sm:py-14">
         {!loading && (
           <ShopByModel
             filters={appleFilters}
@@ -108,13 +107,13 @@ export default function AppleOnlyClient() {
           />
         )}
 
-        {/* ═══════════ LATEST PHONES (one from each type) ═══════════ */}
         {!loading && allProducts.length > 0 && (
           <LatestPhones products={allProducts} />
         )}
 
-        {/* ═══════════ WHY LAMSA ═══════════ */}
         <WhyLamsa />
+
+        <MoreAppleProducts />
       </div>
 
       <style jsx global>{`
