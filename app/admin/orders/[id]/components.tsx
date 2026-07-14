@@ -16,11 +16,11 @@ export function Section({ icon, iconBg, title, children }: {
   );
 }
 
-export function InfoRow({ label, value, dir }: { label: string; value?: string; dir?: string }) {
+export function InfoRow({ label, value, dir, suffix }: { label: string; value?: string; dir?: string; suffix?: React.ReactNode }) {
   return (
     <div className="bg-gray-50 rounded-lg px-4 py-3">
       <p className="text-sm font-semibold text-gray-500 mb-1">{label}</p>
-      <p className="text-base font-semibold text-gray-800 overflow-x-auto whitespace-nowrap" dir={dir}>{value || "—"}</p>
+      <p className="text-base font-semibold text-gray-800 overflow-x-auto whitespace-nowrap" dir={dir}>{value || "—"}{suffix && <> {suffix}</>}</p>
     </div>
   );
 }
