@@ -188,7 +188,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
               {/* Monthly highlight */}
               <div className="rounded-xl p-4 text-center" style={{ backgroundColor: "rgba(188,146,85,0.08)", border: "1.5px solid rgba(188,146,85,0.2)" }}>
                 <p className="text-[10px] mb-1" style={{ color: "#A77D4B" }}>القسط الشهري</p>
-                <p className="text-2xl font-black" style={{ color: "#0A1825" }}>{fmt(monthlyPayment)} <span className="text-xs font-normal" style={{ color: "#A77D4B" }}>ر.س</span></p>
+                <p className="text-2xl font-black flex items-center justify-center gap-1" style={{ color: "#0A1825" }}>{fmt(monthlyPayment)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5" /></p>
               </div>
 
               {/* Schedule */}
@@ -207,7 +207,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
                       >
                         <span className="font-bold w-6" style={{ color: "#A77D4B" }}>{row.index}</span>
                         <span style={{ color: "#0A1825" }}>{row.date}</span>
-                        <span className="font-bold" style={{ color: "#0A1825" }}>{fmt(row.amount)} ر.س</span>
+                        <span className="font-bold flex items-center gap-0.5" style={{ color: "#0A1825" }}>{fmt(row.amount)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-4 h-4" /></span>
                       </div>
                     ))}
                   </div>

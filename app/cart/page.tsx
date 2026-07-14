@@ -133,7 +133,7 @@ export default function CartPage() {
                 <div className="p-4" style={{ backgroundColor: "#faf7f2", borderTop: "1px solid rgba(188,146,85,0.1)" }}>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs" style={{ color: "#A77D4B" }}>المجموع</span>
-                    <span className="text-sm font-bold" style={{ color: "#0A1825" }}>{fmt(total)} ر.س</span>
+                    <span className="text-sm font-bold flex items-center gap-0.5" style={{ color: "#0A1825" }}>{fmt(total)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-4 h-4" /></span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-xs" style={{ color: "#A77D4B" }}>الشحن</span>
@@ -151,7 +151,7 @@ export default function CartPage() {
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <p className="text-[10px]" style={{ color: "#A77D4B" }}>الإجمالي</p>
-            <p className="text-xl font-black" style={{ color: "#0A1825" }}>{fmt(total)} <span className="text-xs font-medium" style={{ color: "#A77D4B" }}>ر.س</span></p>
+            <p className="text-xl font-black flex items-center gap-1" style={{ color: "#0A1825" }}>{fmt(total)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5" /></p>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] px-2 py-1 rounded-full font-bold" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>{count} منتج</span>

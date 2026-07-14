@@ -132,14 +132,14 @@ export default function OrderDetailPage() {
             <div key={i} className="bg-gray-50 rounded-lg p-3 flex justify-between items-start gap-2">
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-gray-800 text-sm">{item.name}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{item.price.toFixed(2)} ر.س × {item.quantity}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{item.price.toFixed(2)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-3.5 h-3.5 align-middle" /> × {item.quantity}</p>
               </div>
-              <span className="font-bold text-gray-900 text-sm shrink-0">{(item.price * item.quantity).toFixed(2)} ر.س</span>
+              <span className="font-bold text-gray-900 text-sm shrink-0 flex items-center gap-0.5">{(item.price * item.quantity).toFixed(2)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-3.5 h-3.5" /></span>
             </div>
           ))}
           <div className="flex justify-between items-center pt-2 border-t border-gray-200 px-1">
             <span className="text-sm font-semibold text-gray-600">الإجمالي الكلي</span>
-            <span className="font-bold text-purple-700">{order.total.toFixed(2)} ر.س</span>
+            <span className="font-bold text-purple-700 flex items-center gap-0.5">{order.total.toFixed(2)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-4 h-4" /></span>
           </div>
         </div>
         {/* ديسكتوب */}
@@ -157,18 +157,18 @@ export default function OrderDetailPage() {
               {order.items.map((item, i) => (
                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 font-medium text-gray-800">{item.name}</td>
-                  <td className="px-4 py-3 text-gray-500">{item.price.toFixed(2)} ر.س</td>
+                  <td className="px-4 py-3 text-gray-500 flex items-center gap-0.5">{item.price.toFixed(2)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-3.5 h-3.5" /></td>
                   <td className="px-4 py-3">
                     <span className="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-0.5 rounded-full">{item.quantity}</span>
                   </td>
-                  <td className="px-4 py-3 font-bold text-gray-900">{(item.price * item.quantity).toFixed(2)} ر.س</td>
+                  <td className="px-4 py-3 font-bold text-gray-900 flex items-center gap-0.5">{(item.price * item.quantity).toFixed(2)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-3.5 h-3.5" /></td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
               <tr className="border-t-2 border-gray-200 bg-gray-50">
                 <td colSpan={3} className="px-4 py-3 text-sm font-semibold text-gray-600">الإجمالي الكلي</td>
-                <td className="px-4 py-3 font-bold text-purple-700 text-base">{order.total.toFixed(2)} ر.س</td>
+                <td className="px-4 py-3 font-bold text-purple-700 text-base flex items-center gap-0.5">{order.total.toFixed(2)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-4 h-4" /></td>
               </tr>
             </tfoot>
           </table>
@@ -179,7 +179,7 @@ export default function OrderDetailPage() {
       <Section icon={<IconReceipt />} iconBg="bg-purple-500" title="ملخص الطلب">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <InfoRow label="نظام الدفع" value={order.installmentType === "installment" ? `تقسيط ${fin.months} شهر` : "دفع كامل"} />
-          <InfoRow label="الإجمالي"   value={`${fin.total.toFixed(2)} ر.س`} />
+          <InfoRow label="الإجمالي"   value={`${fin.total.toFixed(2)}`} suffix={<img src="/money-icon.webp" alt="ر.س" className="inline-block w-4 h-4" />} />
           {order.installmentType === "installment" && (
             <>
               <InfoRow label="الدفعة الأولى"  value={`${fin.downPayment} ر.س`} />

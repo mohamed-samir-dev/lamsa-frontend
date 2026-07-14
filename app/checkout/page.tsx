@@ -105,8 +105,8 @@ export default function CheckoutPage() {
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <p className="text-[10px]" style={{ color: "#A77D4B" }}>المطلوب الآن</p>
-            <p className="text-xl font-black" style={{ color: "#0A1825" }}>
-              {(downPayment > 0 ? downPayment : total).toLocaleString("en-US")} <span className="text-xs font-medium" style={{ color: "#A77D4B" }}>ر.س</span>
+            <p className="text-xl font-black flex items-center gap-1" style={{ color: "#0A1825" }}>
+              {(downPayment > 0 ? downPayment : total).toLocaleString("en-US")} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5" />
             </p>
           </div>
           <span className="text-[10px] font-bold" style={{ color: "#BC9255" }}>🔒 دفع آمن</span>
