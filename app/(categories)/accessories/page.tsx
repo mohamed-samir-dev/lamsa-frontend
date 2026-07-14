@@ -1,11 +1,25 @@
 import type { Metadata } from "next";
-import AccessoriesClient from "./AccessoriesClient";
+import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
 
 export const metadata: Metadata = {
-  title: "الاكسسوارات | لمسه للاجهزه الذكيه",
-  description: "تسوق اكسسوارات الهواتف والأجهزة الذكية بأفضل الأسعار مع شحن سريع وضمان معتمد",
+  title: "اكسسوارات | لمسه للاجهزه الذكيه",
+  description:
+    "تسوق أفضل الاكسسوارات من بطاريات متنقلة وكيابل وسماعات بأفضل الأسعار مع ضمان معتمد",
 };
 
 export default function AccessoriesPage() {
-  return <AccessoriesClient />;
+  return (
+    <PhoneHeroPage
+      slug="anker-batteries"
+      heroImage="/ac.webp"
+      nameEn="Accessories"
+      tagline="بطاريات متنقلة وكيابل واكسسوارات"
+      description="تسوق أفضل الاكسسوارات من بطاريات متنقلة أنكر وكيابل شحن وملحقات بأسعار منافسة وضمان معتمد"
+      features={[
+        { icon: "battery", label: "بطاريات متنقلة" },
+        { icon: "chip", label: "شحن سريع" },
+        { icon: "design", label: "جودة عالية" },
+      ]}
+    />
+  );
 }

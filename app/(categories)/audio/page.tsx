@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AudioClient from "./AudioClient";
+import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://www.pasmthatfee.com";
@@ -24,5 +24,19 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function AudioPage() {
-  return <AudioClient />;
+  return (
+    <PhoneHeroPage
+      slug="airpods-pro"
+      heroImage="/audio.webp"
+      nameEn="Audio"
+      nameEnLine2="& Speakers"
+      tagline="أجهزة صوت و سماعات"
+      description="تسوق أفضل سماعات أبل وسبيكرات وسماعات متنوعة بصوت استثنائي وجودة عالية بأسعار منافسة"
+      features={[
+        { icon: "design", label: "تصميم مريح" },
+        { icon: "chip", label: "صوت نقي" },
+        { icon: "battery", label: "بطارية طويلة" },
+      ]}
+    />
+  );
 }

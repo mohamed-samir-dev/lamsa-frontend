@@ -11,7 +11,7 @@ export default function IPadPage() {
   return (
     <PhoneHeroPage
       slug="ipad"
-      heroImage="/ipad.webp"
+      heroImage="/ta.webp"
       nameEn="iPad"
       tagline="شاشتك لكل شيء"
       description="iPad بشاشة رائعة وأداء قوي يناسب العمل والترفيه والإبداع مع تجربة استخدام لا مثيل لها"

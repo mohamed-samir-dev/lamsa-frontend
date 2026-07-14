@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function MacBookAirPage() {
   return (
     <PhoneHeroPage
-      slug="macbook-air"
+      slug="ma-air"
       heroImage="/mac.webp"
       nameEn="MacBook"
       nameEnLine2="Air"
