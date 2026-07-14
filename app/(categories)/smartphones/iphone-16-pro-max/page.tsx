@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function IPhone16ProMaxPage() {
   return (
-    <PhoneHeroPage
-      slug="iphone-16-pro-max"
-      heroImage="https://res.cloudinary.com/dv6fig2ci/image/upload/v1779497795/iPhone_16_Pro_Desert_Titanium_PDP_Image_Position_5__en-ME-scaled_h1zf9u_mvmggs.avif"
-      nameEn="iPhone 16"
-      nameEnLine2="Pro Max"
-      tagline="القوة القصوى"
-      description="iPhone 16 Pro Max يقدم أكبر شاشة آيفون مع معالج A18 Pro وكاميرا بدقة 48 ميجابكسل وبطارية تدوم أطول"
-      features={[
-        { icon: "chip", label: "معالج A18 Pro" },
-        { icon: "camera", label: "كاميرا 48 ميجابكسل" },
-        { icon: "battery", label: "أطول عمر بطارية" },
-      ]}
-    />
+  <PhoneHeroPage
+  slug="iphone-16-pro-max"
+  heroImage="/i16-pro.webp"
+  nameEn="iPhone 16"
+  nameEnLine2="Pro Max"
+  tagline="أكبر شاشة. أقصى أداء. احتراف بلا حدود."
+  description="iPhone 16 Pro Max يأتي بتصميم فاخر من التيتانيوم، وشاشة Super Retina XDR مقاس 6.9 بوصة، ومعالج A18 Pro القوي، ونظام كاميرات احترافي يمنحك أفضل تجربة تصوير وأداء من Apple."
+  features={[
+    { icon: "display", label: "شاشة 6.9 بوصة ProMotion 120Hz" },
+    { icon: "camera", label: "كاميرا احترافية 48MP مع تقريب 5x" },
+    { icon: "chip", label: "معالج A18 Pro" },
+  ]}
+/>
   );
 }

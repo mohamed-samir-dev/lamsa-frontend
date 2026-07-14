@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function IPhone16ProPage() {
   return (
-    <PhoneHeroPage
-      slug="iphone-16-pro"
-      heroImage="https://res.cloudinary.com/dv6fig2ci/image/upload/v1779497795/iPhone_16_Pro_Desert_Titanium_PDP_Image_Position_5__en-ME-scaled_h1zf9u_mvmggs.avif"
-      nameEn="iPhone 16"
-      nameEnLine2="Pro"
-      tagline="احترافية في كل تفصيلة"
-      description="iPhone 16 Pro بتصميم تيتانيوم أنيق وشاشة Super Retina XDR ومعالج A18 Pro لتجربة لا مثيل لها"
-      features={[
-        { icon: "chip", label: "معالج A18 Pro" },
-        { icon: "camera", label: "نظام كاميرات Pro" },
-        { icon: "battery", label: "بطارية تدوم طول اليوم" },
-      ]}
-    />
+   <PhoneHeroPage
+  slug="iphone-16-pro"
+  heroImage="/i16-pro.webp"
+  nameEn="iPhone 16"
+  nameEnLine2="Pro"
+  tagline="احترافية بلا تنازلات"
+  description="iPhone 16 Pro يجمع بين تصميم التيتانيوم الأنيق، وشاشة Super Retina XDR بتقنية ProMotion، وأداء معالج A18 Pro، مع نظام كاميرات احترافي يمنحك صورًا وفيديوهات بجودة استثنائية."
+  features={[
+    { icon: "display", label: "شاشة ProMotion 120Hz" },
+    { icon: "camera", label: "كاميرا احترافية 48MP مع تقريب 5x" },
+    { icon: "chip", label: "معالج A18 Pro" },
+  ]}
+/>
   );
 }

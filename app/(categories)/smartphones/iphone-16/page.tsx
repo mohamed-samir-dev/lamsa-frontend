@@ -8,17 +8,18 @@ export const metadata: Metadata = {
 
 export default function IPhone16Page() {
   return (
-    <PhoneHeroPage
-      slug="iphone-16"
-      heroImage="https://res.cloudinary.com/dv6fig2ci/image/upload/v1779497909/iPhone_16_Black_PDP_Image_Position_5__en-ME-scaled_o6hv98_wlr9iv.avif"
-      nameEn="iPhone 16"
-      tagline="ذكاء جديد، تصميم جديد"
-      description="iPhone 16 بتصميم عصري وألوان جريئة مع شريحة A18 القوية وكاميرا مطورة لتجربة يومية مثالية"
-      features={[
-        { icon: "chip", label: "شريحة A18" },
-        { icon: "camera", label: "كاميرا 48 ميجابكسل" },
-        { icon: "battery", label: "بطارية ذكية" },
-      ]}
-    />
+ <PhoneHeroPage
+  slug="iphone-16"
+  heroImage="/i-16plus.webp"
+  nameEn="iPhone 16"
+  nameEnLine2=""
+  tagline="الأداء الذي تحتاجه. الذكاء الذي تحبه."
+  description="iPhone 16 يجمع بين التصميم الأنيق، وشاشة Super Retina XDR المذهلة، وأداء معالج A18 السريع، مع كاميرا 48MP المتطورة لتمنحك صورًا وفيديوهات بجودة استثنائية كل يوم."
+  features={[
+    { icon: "display", label: "شاشة Super Retina XDR مقاس 6.1 بوصة" },
+    { icon: "camera", label: "كاميرا مزدوجة 48MP" },
+    { icon: "chip", label: "معالج A18" },
+  ]}
+/>
   );
 }

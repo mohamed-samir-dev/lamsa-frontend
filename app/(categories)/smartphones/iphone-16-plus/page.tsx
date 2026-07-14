@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 export default function IPhone16PlusPage() {
   return (
     <PhoneHeroPage
-      slug="iphone-16-plus"
-      heroImage="https://res.cloudinary.com/dv6fig2ci/image/upload/v1779497909/iPhone_16_Black_PDP_Image_Position_5__en-ME-scaled_o6hv98_wlr9iv.avif"
-      nameEn="iPhone 16"
-      nameEnLine2="Plus"
-      tagline="أكبر شاشة، أطول بطارية"
-      description="iPhone 16 Plus يمنحك شاشة أكبر لتجربة مشاهدة رائعة مع بطارية تدوم طوال اليوم وكاميرا مزدوجة متطورة"
-      features={[
-        { icon: "battery", label: "بطارية عملاقة" },
-        { icon: "camera", label: "كاميرا مزدوجة 48MP" },
-        { icon: "chip", label: "شريحة A18" },
-      ]}
-    />
+  slug="iphone-16-plus"
+  heroImage="/i-16plus.webp"
+  nameEn="iPhone 16"
+  nameEnLine2="Plus"
+  tagline="شاشة أكبر. بطارية تدوم أكثر."
+  description="iPhone 16 Plus يقدم شاشة Super Retina XDR كبيرة، وأداء قوي بمعالج A18، ونظام كاميرات متطور بدقة 48MP، مع بطارية تدوم طوال اليوم لتجربة استخدام استثنائية."
+  features={[
+    { icon: "display", label: "شاشة Super Retina XDR مقاس 6.7 بوصة" },
+    { icon: "camera", label: "كاميرا مزدوجة 48MP" },
+    { icon: "chip", label: "معالج A18" },
+  ]}
+/>
   );
 }

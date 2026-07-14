@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function IPhone15PlusPage() {
   return (
-    <PhoneHeroPage
-      slug="iphone-15-plus"
-      heroImage="https://res.cloudinary.com/dv6fig2ci/image/upload/v1779497908/iphone_15_plus_hero_cf2xnf_d8zqmt.avif"
-      nameEn="iPhone 15"
-      nameEnLine2="Plus"
-      tagline="شاشة أكبر، تجربة أفضل"
-      description="iPhone 15 Plus بشاشة 6.7 بوصة Super Retina XDR وبطارية تدوم طوال اليوم مع كاميرا 48 ميجابكسل"
-      features={[
-        { icon: "battery", label: "بطارية 26 ساعة تشغيل" },
-        { icon: "camera", label: "كاميرا 48 ميجابكسل" },
-        { icon: "chip", label: "شريحة A16 Bionic" },
-      ]}
-    />
+  <PhoneHeroPage
+  slug="iphone-15-plus"
+  heroImage="/i-16plus.webp"
+  nameEn="iPhone 15"
+  nameEnLine2="Plus"
+  tagline="شاشة أكبر. بطارية تدوم أكثر."
+  description="iPhone 15 Plus يجمع بين الشاشة الكبيرة، والأداء السريع بمعالج A16 Bionic، وكاميرا 48MP المتطورة، مع بطارية تدوم طوال اليوم لتمنحك تجربة استخدام استثنائية."
+  features={[
+    { icon: "display", label: "شاشة Super Retina XDR مقاس 6.7 بوصة" },
+    { icon: "camera", label: "كاميرا مزدوجة 48MP" },
+    { icon: "chip", label: "معالج A16 Bionic" },
+  ]}
+/>
   );
 }

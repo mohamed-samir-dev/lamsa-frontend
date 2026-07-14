@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 export default function IPhone15ProMaxPage() {
   return (
     <PhoneHeroPage
-      slug="iphone-15-pro-max"
-      heroImage="https://res.cloudinary.com/dv6fig2ci/image/upload/v1779497806/iphone-15-pro-max_ecyzxn.png"
-      nameEn="iPhone 15"
-      nameEnLine2="Pro Max"
-      tagline="تيتانيوم. قوة. احتراف."
-      description="iPhone 15 Pro Max أول آيفون بتصميم تيتانيوم مع معالج A17 Pro وكاميرا بتقريب بصري 5x لتصوير سينمائي"
-      features={[
-        { icon: "chip", label: "معالج A17 Pro" },
-        { icon: "camera", label: "تقريب بصري 5x" },
-        { icon: "battery", label: "بطارية تدوم طول اليوم" },
-      ]}
-    />
+  slug="iphone-15-pro-max"
+  heroImage="/i-16plus.webp"
+  nameEn="iPhone 15"
+  nameEnLine2="Pro Max"
+  tagline="قمة الأداء. أقصى احترافية."
+  description="iPhone 15 Pro Max يجمع بين تصميم التيتانيوم الخفيف، وشاشة Super Retina XDR الكبيرة، وأداء معالج A17 Pro، مع نظام كاميرات احترافي وعدسة Telephoto بتقريب بصري 5x لالتقاط أدق التفاصيل."
+  features={[
+    { icon: "display", label: "شاشة 6.7 بوصة ProMotion 120Hz" },
+    { icon: "camera", label: "كاميرا 48MP مع تقريب بصري 5x" },
+    { icon: "chip", label: "معالج A17 Pro" },
+  ]}
+/>
   );
 }

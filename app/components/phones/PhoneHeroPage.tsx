@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoHomeOutline, IoChevronBack, IoArrowForward, IoArrowBack, IoBatteryFullOutline, IoCameraOutline, IoColorPaletteOutline, IoServerOutline, IoSwapVerticalOutline, IoCloseCircle } from "react-icons/io5";
+import { IoHomeOutline, IoChevronBack, IoArrowForward, IoArrowBack, IoBatteryFullOutline, IoCameraOutline, IoColorPaletteOutline, IoServerOutline, IoSwapVerticalOutline, IoCloseCircle, IoPhonePortraitOutline } from "react-icons/io5";
 import { HiOutlineCpuChip } from "react-icons/hi2";
 import ProductCard from "../products/ProductCard";
 import type { Product } from "../products/types";
@@ -38,16 +38,17 @@ export interface PhoneHeroPageProps {
   nameEnLine2?: string;
   tagline: string;
   description: string;
-  features?: { icon: "battery" | "camera" | "chip"; label: string }[];
+  features?: { icon: "battery" | "camera" | "chip" | "display"; label: string }[];
 }
 
 const iconMap = {
   battery: IoBatteryFullOutline,
   camera: IoCameraOutline,
   chip: HiOutlineCpuChip,
+  display: IoPhonePortraitOutline,
 };
 
-const defaultFeatures: { icon: "battery" | "camera" | "chip"; label: string }[] = [
+const defaultFeatures: { icon: "battery" | "camera" | "chip" | "display"; label: string }[] = [
   { icon: "battery", label: "بطارية تدوم طول اليوم" },
   { icon: "camera", label: "نظام كاميرات احترافي" },
   { icon: "chip", label: "معالج فائق السرعة" },

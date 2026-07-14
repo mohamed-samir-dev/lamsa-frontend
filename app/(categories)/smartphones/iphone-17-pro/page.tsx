@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function IPhone17ProPage() {
   return (
-    <PhoneHeroPage
-      slug="iphone-17-pro"
-      heroImage="/iPhone_17_Pro_Max_Cosmic_Orange_PDP_Image_Position_7__en-ME-scaled (1).avif"
-      nameEn="iPhone 17"
-      nameEnLine2="Pro"
-      tagline="احترافية بلا حدود"
-      description="iPhone 17 Pro يقدم تجربة تصوير استثنائية مع تصميم تيتانيوم خفيف ومعالج A19 Pro لأداء غير مسبوق"
-      features={[
-        { icon: "camera", label: "كاميرا 48 ميجابكسل" },
-        { icon: "chip", label: "معالج A19 Pro" },
-        { icon: "battery", label: "بطارية تدوم طول اليوم" },
-      ]}
-    />
+  <PhoneHeroPage
+  slug="iphone-17-pro"
+  heroImage="/i17-pro.webp"
+  nameEn="iPhone 17"
+  nameEnLine2="Pro"
+  tagline="قوة احترافية في حجم مثالي"
+  description="iPhone 17 Pro يجمع بين تصميم التيتانيوم الفاخر وأداء معالج A19 Pro ونظام كاميرات احترافي يمنحك تجربة تصوير استثنائية في جهاز أكثر سهولة في الاستخدام."
+  features={[
+    { icon: "camera", label: "نظام كاميرات احترافي 48MP" },
+    { icon: "chip", label: "معالج A19 Pro" },
+    { icon: "display", label: "شاشة ProMotion بتردد 120Hz" },
+  ]}
+/>
   );
 }

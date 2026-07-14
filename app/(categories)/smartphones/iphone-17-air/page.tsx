@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 export default function IPhone17AirPage() {
   return (
     <PhoneHeroPage
-      slug="iphone-17-air"
-      heroImage="/iPhone_Air_Cloud_White_PDP_Image_Position_7__en-ME-scaled(1).avif"
-      nameEn="iPhone 17"
-      nameEnLine2="Air"
-      tagline="خفة لا تُصدق"
-      description="iPhone 17 Air أنحف آيفون على الإطلاق بتصميم أنيق وشاشة رائعة وأداء يومي سلس بلا تنازلات"
-      features={[
-        { icon: "chip", label: "تصميم فائق النحافة" },
-        { icon: "camera", label: "كاميرا متقدمة" },
-        { icon: "battery", label: "بطارية ذكية" },
-      ]}
-    />
+  slug="iphone-17-air"
+  heroImage="/i17-air.webp"
+  nameEn="iPhone 17"
+  nameEnLine2="Air"
+  tagline="أنحف آيفون على الإطلاق"
+  description="iPhone 17 Air يقدم تصميمًا فائق النحافة وخفيف الوزن مع شاشة Super Retina XDR مذهلة، وأداء قوي بمعالج A19 Pro، ليمنحك تجربة احترافية في تصميم أنيق للغاية."
+  features={[
+    { icon: "design", label: "تصميم فائق النحافة" },
+    { icon: "display", label: "شاشة Super Retina XDR 120Hz" },
+    { icon: "chip", label: "معالج A19 Pro" },
+  ]}
+/>
   );
 }
