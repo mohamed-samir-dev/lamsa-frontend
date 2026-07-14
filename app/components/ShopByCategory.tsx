@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { FaApple } from "react-icons/fa";
+import { IoChevronForward, IoChevronBack } from "react-icons/io5";
 
 const categories = [
   { name: "iPhone", icon: <FaApple className="w-4 h-4" />, desc: "أكثر من مجرد هاتف", image: "/iphone.webp", href: "/smartphones/apple-only" },
@@ -16,124 +17,69 @@ const categories = [
 ];
 
 export default function ShopByCategory() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [translateX, setTranslateX] = useState(0);
-  const [dragOffset, setDragOffset] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.clientX);
-    setTranslateX(dragOffset);
-  }, [dragOffset]);
-
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const diff = e.clientX - startX;
-    setDragOffset(translateX + diff);
-  }, [isDragging, startX, translateX]);
-
-  const onMouseUp = useCallback(() => setIsDragging(false), []);
-
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
-    setIsDragging(true);
-    setStartX(e.touches[0].clientX);
-    setTranslateX(dragOffset);
-  }, [dragOffset]);
-
-  const onTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isDragging) return;
-    const diff = e.touches[0].clientX - startX;
-    setDragOffset(translateX + diff);
-  }, [isDragging, startX, translateX]);
-
-  const onTouchEnd = useCallback(() => setIsDragging(false), []);
+  const scroll = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === "left" ? -300 : 300, behavior: "smooth" });
+  };
 
   return (
     <section className="w-full py-10 sm:py-16 overflow-hidden" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
       {/* Header */}
-      <div className="text-center mb-8 sm:mb-12 px-4" style={{ fontFamily: "'Cairo', sans-serif" }}>
-        <span
-          className="inline-block font-bold text-[10px] sm:text-xs md:text-sm tracking-widest uppercase mb-3 sm:mb-4 border-b-2 pb-1"
-          style={{ color: "#BC9255", borderColor: "#BC9255" }}
-        >
-          تسوّق حسب الأقسام
-        </span>
-        <h2 className="text-xl sm:text-3xl lg:text-5xl font-extrabold mb-3 sm:mb-4 leading-tight" style={{ color: "#0A1825" }}>
-          اختر قسمك المفضّل
-          <br />
-          <span style={{ color: "#BC9255" }}>وابدأ التسوّق</span>
-        </h2>
-        <p className="text-xs sm:text-sm md:text-base font-semibold sm:font-normal text-[#0A1825]/60 max-w-xs sm:max-w-md mx-auto leading-relaxed">
-          أفضل الأجهزة الأصلية بأسعار لا تُقاوم وضمان موثوق
-        </p>
-      </div>
-
-      {/* Marquee + Drag */}
-      <div
-        ref={containerRef}
-        className={`relative overflow-hidden px-2 sm:px-0 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseUp}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
-        <div
-          className={`flex gap-3 sm:gap-4 w-max will-change-transform ${!isDragging ? "animate-marquee-rtl" : ""}`}
-          style={{ transform: `translate3d(${dragOffset}px, 0, 0)` }}
-        >
-          {[...categories, ...categories, ...categories, ...categories].map((cat, i) => (
-            <Link
-              href={cat.href}
-              key={`${cat.name}-${i}`}
-              draggable={false}
-              onClick={(e) => { if (Math.abs(dragOffset - translateX) > 5) e.preventDefault(); }}
-              className="group relative w-40 sm:w-52 md:w-60 flex-shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-white border border-[#BC9255]/10 hover:border-[#BC9255]/40 shadow-[0_4px_20px_rgba(188,146,85,0.08)] transition-shadow duration-300"
-            >
-              {/* Image */}
-              <div className="relative w-full h-28 sm:h-36 md:h-44 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#f9f6f1] to-[#efe8dc]" />
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="relative w-full h-full object-cover"
-                  loading="lazy"
-                  draggable={false}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-              </div>
-
-              {/* Content */}
-              <div className="relative px-3 sm:px-4 pb-3 sm:pb-4 -mt-3">
-                <div className="flex items-center gap-1 sm:gap-1.5 mb-0.5 sm:mb-1">
-                  {cat.icon && <span style={{ color: "#BC9255" }}>{cat.icon}</span>}
-                  <h3 className="text-[13px] sm:text-[15px] font-bold text-[#0A1825]">{cat.name}</h3>
-                </div>
-                <p className="text-[10px] sm:text-[11px] text-[#0A1825]/50 mb-2 sm:mb-3 leading-relaxed">{cat.desc}</p>
-                <div className="flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border-2 border-[#BC9255]/40 group-hover:border-[#BC9255] group-hover:bg-[#BC9255] transition-colors duration-300">
-                  <span className="text-[10px] sm:text-xs font-extrabold text-[#BC9255] group-hover:text-white transition-colors duration-300">تسوّق الآن</span>
-                  <ArrowLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#BC9255] group-hover:text-white transition-colors duration-300" />
-                </div>
-              </div>
-            </Link>
-          ))}
+      <div className="flex items-center justify-between mb-8 sm:mb-12 px-4 sm:px-8" style={{ fontFamily: "'Cairo', sans-serif" }}>
+        <div className="text-right">
+          <span
+            className="inline-block font-bold text-[10px] sm:text-xs md:text-sm tracking-widest uppercase mb-3 sm:mb-4 border-b-2 pb-1"
+            style={{ color: "#BC9255", borderColor: "#BC9255" }}
+          >
+            تسوّق حسب الأقسام
+          </span>
+          <h2 className="text-xl sm:text-3xl lg:text-5xl font-extrabold mb-2 leading-tight" style={{ color: "#0A1825" }}>
+            اختر قسمك المفضّل <span style={{ color: "#BC9255" }}>وابدأ التسوّق</span>
+          </h2>
+          <p className="text-xs sm:text-sm md:text-base font-semibold sm:font-normal text-[#0A1825]/60">
+            أفضل الأجهزة الأصلية بأسعار لا تُقاوم وضمان موثوق
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button onClick={() => scroll("right")} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-[#BC9255]/30 hover:bg-[#BC9255] hover:text-white text-[#BC9255] transition-all duration-300">
+            <IoChevronForward size={16} />
+          </button>
+          <button onClick={() => scroll("left")} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-[#BC9255]/30 hover:bg-[#BC9255] hover:text-white text-[#BC9255] transition-all duration-300">
+            <IoChevronBack size={16} />
+          </button>
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes marquee-rtl {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(50%, 0, 0); }
-        }
-        .animate-marquee-rtl {
-          animation: marquee-rtl 80s linear infinite;
-        }
-      `}</style>
+      {/* Scrollable cards */}
+      <div ref={scrollRef} className="flex gap-3 sm:gap-4 overflow-x-auto px-4 sm:px-8 pb-4 scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        {categories.map((cat) => (
+          <Link
+            href={cat.href}
+            key={cat.name}
+            className="group relative w-40 sm:w-52 md:w-60 flex-shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden bg-white border border-[#BC9255]/10 hover:border-[#BC9255]/40 shadow-[0_4px_20px_rgba(188,146,85,0.08)] transition-shadow duration-300"
+          >
+            <div className="relative w-full h-28 sm:h-36 md:h-44 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#f9f6f1] to-[#efe8dc]" />
+              <img src={cat.image} alt={cat.name} className="relative w-full h-full object-cover" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+            </div>
+            <div className="relative px-3 sm:px-4 pb-3 sm:pb-4 -mt-3">
+              <div className="flex items-center gap-1 sm:gap-1.5 mb-0.5 sm:mb-1">
+                {cat.icon && <span style={{ color: "#BC9255" }}>{cat.icon}</span>}
+                <h3 className="text-[13px] sm:text-[15px] font-bold text-[#0A1825]">{cat.name}</h3>
+              </div>
+              <p className="text-[10px] sm:text-[11px] text-[#0A1825]/50 mb-2 sm:mb-3 leading-relaxed">{cat.desc}</p>
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border-2 border-[#BC9255]/40 group-hover:border-[#BC9255] group-hover:bg-[#BC9255] transition-colors duration-300">
+                <span className="text-[10px] sm:text-xs font-extrabold text-[#BC9255] group-hover:text-white transition-colors duration-300">تسوّق الآن</span>
+                <ArrowLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#BC9255] group-hover:text-white transition-colors duration-300" />
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }
