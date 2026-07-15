@@ -10,7 +10,7 @@ const staticRoutes = [
   "/apple-watches",
   "/audio",
   "/playstation",
-  "/laptops",
+
   "/tablets",
   "/accessories",
   "/games",
