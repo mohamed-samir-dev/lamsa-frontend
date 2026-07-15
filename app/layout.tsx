@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const siteName = c.nameAr || "لمسه للاجهزه الذكيه";
   const description = c.details || "متجر لمسه للاجهزه الذكيه - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
-  const ogImage = `${SITE_URL}/og-image.png`;
+  const ogImage = `${SITE_URL}/og-image.png?v=2`;
 
   return {
     metadataBase: new URL(SITE_URL),
