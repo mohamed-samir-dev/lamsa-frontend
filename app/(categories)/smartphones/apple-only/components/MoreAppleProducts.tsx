@@ -12,7 +12,7 @@ const appleProducts = [
     title: "MacBook Air",
     desc: "خفيف. قوي. جاهز لكل شيء.",
     image: "/mac.webp",
-    href: "/tablets/ipad",
+    href: "/laptops/macbook-air",
   },
   {
     id: "airpods",
