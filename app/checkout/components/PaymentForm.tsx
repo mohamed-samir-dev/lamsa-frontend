@@ -256,7 +256,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       {/* ── Actions ── */}
       <div className="flex gap-3 mt-5">
         <button
-          onClick={() => router.push("/cart")}
+          onClick={() => router.push("/payment-method")}
           className="flex-1 py-3.5 rounded-xl text-sm font-bold transition hover:opacity-80"
           style={{ backgroundColor: "rgba(188,146,85,0.08)", color: "#A77D4B", border: "1px solid rgba(188,146,85,0.2)" }}
         >

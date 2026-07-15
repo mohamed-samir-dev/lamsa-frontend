@@ -61,9 +61,9 @@ export default function CheckoutPage() {
       {/* ── Top Bar ── */}
       <div className="sticky top-0 z-20 backdrop-blur-md" style={{ backgroundColor: "rgba(255,255,255,0.9)", borderBottom: "1px solid rgba(188,146,85,0.15)" }}>
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/cart" className="flex items-center gap-1 text-sm font-bold transition hover:opacity-70" style={{ color: "#A77D4B" }}>
+          <Link href="/payment-method" className="flex items-center gap-1 text-sm font-bold transition hover:opacity-70" style={{ color: "#A77D4B" }}>
             <IoChevronBack size={18} />
-            السلة
+            طريقة السداد
           </Link>
           <h1 className="text-sm font-black flex items-center gap-1.5" style={{ color: "#0A1825" }}>
             <IoLockClosedOutline size={14} style={{ color: "#BC9255" }} />

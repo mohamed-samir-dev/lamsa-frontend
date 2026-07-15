@@ -46,38 +46,34 @@ export default function CartPage() {
     );
 
   return (
-    <main className="min-h-screen pb-24 lg:pb-8" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
+    <main className="min-h-screen pb-16 lg:pb-8" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
       {/* ── Top Bar ── */}
       <div className="sticky top-0 z-20 backdrop-blur-md" style={{ backgroundColor: "rgba(255,255,255,0.9)", borderBottom: "1px solid rgba(188,146,85,0.15)" }}>
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <button onClick={() => router.back()} className="flex items-center gap-1 text-sm font-bold transition hover:opacity-70" style={{ color: "#A77D4B" }}>
-            <IoChevronBack size={18} />
+        <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
+          <button onClick={() => router.back()} className="flex items-center gap-1 text-xs font-bold transition hover:opacity-70" style={{ color: "#A77D4B" }}>
+            <IoChevronBack size={16} />
             رجوع
           </button>
-          <h1 className="text-sm font-black tracking-wide" style={{ color: "#0A1825" }}>
-            سلة التسوق
-          </h1>
-          <Link href="/" className="text-xs font-bold px-3 py-1.5 rounded-lg transition hover:opacity-80" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>
+          <h1 className="text-xs font-black" style={{ color: "#0A1825" }}>سلة التسوق</h1>
+          <Link href="/" className="text-[10px] font-bold px-2.5 py-1 rounded-lg" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>
             الرئيسية
           </Link>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="max-w-6xl mx-auto px-3 py-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
           {/* ── Main Column: Items + Form ── */}
-          <div className="lg:col-span-8 space-y-6">
+          <div className="lg:col-span-8 space-y-3">
             {/* Cart Items */}
             <section>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "rgba(188,146,85,0.1)" }}>
-                  <IoCartOutline size={16} style={{ color: "#BC9255" }} />
-                </div>
-                <h2 className="text-base font-black" style={{ color: "#0A1825" }}>منتجاتك</h2>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>{count}</span>
+              <div className="flex items-center gap-2 mb-2">
+                <IoCartOutline size={16} style={{ color: "#BC9255" }} />
+                <h2 className="text-sm font-black" style={{ color: "#0A1825" }}>منتجاتك</h2>
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>{count}</span>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {items.map(({ product, qty }) => (
                   <CartItem key={product._id} product={product} qty={qty} onUpdateQty={updateQty} onRemove={removeItem} />
                 ))}
@@ -93,7 +89,7 @@ export default function CartPage() {
                 installmentMonths={installmentMonths}
                 onSubmit={(info: CustomerInfo) => {
                   setCustomer(info);
-                  router.push("/checkout");
+                  router.push("/payment-method");
                 }}
               />
             </section>
@@ -146,19 +142,6 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* ── Mobile Fixed Bottom Bar (total only) ── */}
-      <div className="fixed bottom-0 inset-x-0 z-30 lg:hidden" style={{ backgroundColor: "#fff", borderTop: "1px solid rgba(188,146,85,0.2)", boxShadow: "0 -4px 20px rgba(0,0,0,0.06)" }}>
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div>
-            <p className="text-[10px]" style={{ color: "#A77D4B" }}>الإجمالي</p>
-            <p className="text-xl font-black flex items-center gap-1" style={{ color: "#0A1825" }}>{fmt(total)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5" /></p>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] px-2 py-1 rounded-full font-bold" style={{ backgroundColor: "rgba(188,146,85,0.1)", color: "#A77D4B" }}>{count} منتج</span>
-            <span className="text-[10px] font-bold" style={{ color: "#BC9255" }}>شحن مجاني</span>
-          </div>
-        </div>
-      </div>
     </main>
   );
 }

@@ -1,14 +1,15 @@
 "use client";
 
-import { IoCartOutline, IoCardOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
+import { IoCartOutline, IoCardOutline, IoCheckmarkCircleOutline, IoWalletOutline } from "react-icons/io5";
 
 const steps = [
   { key: "cart", label: "السلة", icon: IoCartOutline },
+  { key: "method", label: "السداد", icon: IoWalletOutline },
   { key: "payment", label: "الدفع", icon: IoCardOutline },
   { key: "confirm", label: "التأكيد", icon: IoCheckmarkCircleOutline },
 ];
 
-export default function CheckoutStepper({ active }: { active: "cart" | "payment" | "confirm" }) {
+export default function CheckoutStepper({ active }: { active: "cart" | "method" | "payment" | "confirm" }) {
   const activeIdx = steps.findIndex(s => s.key === active);
 
   return (
