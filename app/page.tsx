@@ -1,8 +1,8 @@
 import { Banner } from "./components/banner";
 import { ProductGrid } from "./components/products";
 import dynamic from "next/dynamic";
-import ShopByCategory from "./components/ShopByCategory";
 
+const ShopByCategory = dynamic(() => import("./components/ShopByCategory"));
 const CustomerReviews = dynamic(() => import("./components/CustomerReviews"));
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";

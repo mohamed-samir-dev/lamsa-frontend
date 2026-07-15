@@ -91,6 +91,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           {/* Heart - top left */}
           <button
             onClick={handleLike}
+            aria-label={liked ? "إزالة من المفضلة" : "إضافة للمفضلة"}
             className="absolute z-10 top-2.5 left-2.5 sm:top-3 sm:left-3 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
             style={{ backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)' }}
           >
@@ -169,12 +170,12 @@ export default function ProductCard({ product, priority = false }: { product: Pr
                 <span className="text-[16px] sm:text-[22px] font-black tracking-tight leading-none" style={{ color: '#121E2E' }}>
                   {fmt(displayPrice)}
                 </span>
-                <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5 sm:w-5 sm:h-5" />
+                <Image src="/money-icon.webp" alt="ر.س" width={20} height={15} className="inline-block object-contain" />
               </div>
             </div>
             {hasDiscount && (
               <span className="text-[9px] sm:text-[11px] line-through opacity-50 flex items-center gap-0.5" style={{ color: '#1F2C3E' }}>
-                {fmt(originalPrice)} <img src="/money-icon.webp" alt="ر.س" className="inline-block w-5 h-5 sm:w-5 sm:h-5 align-middle" />
+                {fmt(originalPrice)} <Image src="/money-icon.webp" alt="ر.س" width={20} height={15} className="inline-block align-middle object-contain" />
               </span>
             )}
           </div>

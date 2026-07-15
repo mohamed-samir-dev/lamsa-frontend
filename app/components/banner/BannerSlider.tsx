@@ -45,7 +45,8 @@ export default function BannerSlider({ images }: { images: string[] }) {
                 fill
                 className="object-cover"
                 priority={i === 0}
-                unoptimized
+                sizes="(max-width: 768px) 100vw, 1152px"
+                quality={75}
               />
             </div>
           ))}

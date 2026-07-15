@@ -46,10 +46,10 @@ export default function ShopByCategory() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => scroll("right")} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-[#BC9255]/30 hover:bg-[#BC9255] hover:text-white text-[#BC9255] transition-all duration-300">
+          <button onClick={() => scroll("right")} aria-label="التالي" className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-[#BC9255]/30 hover:bg-[#BC9255] hover:text-white text-[#BC9255] transition-all duration-300">
             <IoChevronForward size={16} />
           </button>
-          <button onClick={() => scroll("left")} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-[#BC9255]/30 hover:bg-[#BC9255] hover:text-white text-[#BC9255] transition-all duration-300">
+          <button onClick={() => scroll("left")} aria-label="السابق" className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-[#BC9255]/30 hover:bg-[#BC9255] hover:text-white text-[#BC9255] transition-all duration-300">
             <IoChevronBack size={16} />
           </button>
         </div>
@@ -65,7 +65,7 @@ export default function ShopByCategory() {
           >
             <div className="relative w-full h-28 sm:h-36 md:h-44 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-[#f9f6f1] to-[#efe8dc]" />
-              <Image src={cat.image} alt={cat.name} fill className="relative object-cover" sizes="(max-width:640px) 160px,(max-width:768px) 208px,240px" loading="lazy" />
+              <Image src={cat.image} alt={cat.name} fill className="relative object-cover" sizes="(max-width:640px) 160px,(max-width:768px) 208px,240px" loading="lazy" quality={60} />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
             </div>
             <div className="relative px-3 sm:px-4 pb-3 sm:pb-4 -mt-3">
@@ -73,7 +73,7 @@ export default function ShopByCategory() {
                 {cat.icon && <span style={{ color: "#BC9255" }}>{cat.icon}</span>}
                 <h3 className="text-[13px] sm:text-[15px] font-bold text-[#0A1825]">{cat.name}</h3>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-[#0A1825]/50 mb-2 sm:mb-3 leading-relaxed">{cat.desc}</p>
+              <p className="text-[10px] sm:text-[11px] text-[#0A1825]/70 mb-2 sm:mb-3 leading-relaxed">{cat.desc}</p>
               <div className="flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border-2 border-[#BC9255]/40 group-hover:border-[#BC9255] group-hover:bg-[#BC9255] transition-colors duration-300">
                 <span className="text-[10px] sm:text-xs font-extrabold text-[#BC9255] group-hover:text-white transition-colors duration-300">تسوّق الآن</span>
                 <ArrowLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#BC9255] group-hover:text-white transition-colors duration-300" />

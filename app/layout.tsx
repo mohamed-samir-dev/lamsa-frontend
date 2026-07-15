@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "700", "800"],
   display: "swap",
 });
 
@@ -94,6 +94,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl" className={cairo.className}>
+      <head>
+        <link rel="preload" href="/hero1.webp" as="image" type="image/webp" fetchPriority="high" />
+      </head>
       <body className="antialiased" suppressHydrationWarning>
         <ClientLayout footer={<Footer />}>{children}</ClientLayout>
       </body>

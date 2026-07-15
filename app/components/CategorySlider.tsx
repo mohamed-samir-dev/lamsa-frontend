@@ -115,6 +115,7 @@ export default function CategorySlider({ categories }: { categories: Category[] 
       <div className="flex gap-2 justify-start w-full px-4 sm:px-12 mb-3">
         <button
           onClick={() => scroll(1)}
+          aria-label="التالي"
           className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
           style={{
             background: "rgba(255,255,255,0.12)",
@@ -128,6 +129,7 @@ export default function CategorySlider({ categories }: { categories: Category[] 
         </button>
         <button
           onClick={() => scroll(-1)}
+          aria-label="السابق"
           className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
           style={{
             background: "rgba(255,255,255,0.12)",
@@ -219,6 +221,7 @@ export default function CategorySlider({ categories }: { categories: Category[] 
           <button
             key={i}
             onClick={() => goTo(i)}
+            aria-label={`الانتقال للقسم ${i + 1}`}
             className="rounded-full transition-all duration-500"
             style={{
               width: activeIdx === i ? 20 : 7,

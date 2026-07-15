@@ -74,7 +74,7 @@ export default async function Footer() {
                 لمسه للأجهزة الذكية
               </h2>
             </div>
-            <p className="text-sm max-w-md opacity-80" style={{ color: '#f5f0e8' }}>
+            <p className="text-sm max-w-md" style={{ color: '#e8ddd0' }}>
               {c.details || "اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية"}
             </p>
             {/* Features badges */}
@@ -209,7 +209,7 @@ export default async function Footer() {
               <Image src="/cc975b.png" alt="cc" width={50} height={30} className="object-contain opacity-70 hover:opacity-100 transition-opacity" style={{ width: "auto" }} />
               <Image src="/mada975b.png" alt="mada" width={50} height={30} className="object-contain opacity-70 hover:opacity-100 transition-opacity" style={{ width: "auto" }} />
             </div>
-            <span className="text-[11px] font-medium" style={{ color: 'rgba(223,196,164,0.6)' }}>
+            <span className="text-[11px] font-medium" style={{ color: 'rgba(223,196,164,0.85)' }}>
               جميع الحقوق محفوظة © {new Date().getFullYear()} — لمسه للأجهزة الذكية
             </span>
           </div>
