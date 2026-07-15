@@ -4,7 +4,7 @@ import CustomerReviews from "./components/CustomerReviews";
 import ShopByCategory from "./components/ShopByCategory";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://lamsah-aldhaqiah.com";
 
 async function getCompany() {
   try {
@@ -65,7 +65,7 @@ export default async function Home() {
   const categories = [...new Set((products as { category?: string }[]).map((p) => p.category).filter(Boolean))] as string[];
   const bannerMap = await getCategoryBanners(categories);
 
-  const siteName = c.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = c.nameAr || "لمسه للاجهزه الذكيه";
   const logoUrl = c.logo
     ? (c.logo.startsWith("http") ? c.logo : `${BACKEND}${c.logo}`)
     : "";
@@ -74,7 +74,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteName,
-    alternateName: c.nameEn || "Pasmthatfee",
+    alternateName: c.nameEn || "Lamsah Smart Devices",
     url: SITE_URL,
     logo: logoUrl,
     contactPoint: [
