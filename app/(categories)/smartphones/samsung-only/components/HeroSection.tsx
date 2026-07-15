@@ -7,21 +7,26 @@ import { motion } from "framer-motion";
 
 export default function HeroSection({ productCount, loading }: { productCount: number; loading: boolean }) {
   return (
-    <div className="relative overflow-hidden h-[300px] sm:h-[480px] md:h-[560px]" style={{ backgroundColor: "#0a0a1a" }}>
+    <div className="relative overflow-hidden h-[300px] sm:h-[480px] md:h-[560px]" style={{ backgroundColor: "#0A1825" }}>
       <Image src="/samsong.webp" alt="أجهزة سامسونج" fill className="object-cover opacity-25" style={{ objectPosition: "center" }} priority sizes="100vw" />
 
       <motion.div
         className="absolute inset-0"
-        style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(30,80,220,0.1) 0%, transparent 60%)" }}
+        style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(188,146,85,0.08) 0%, transparent 60%)" }}
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1825]/95 via-[#0A1825]/50 to-[#0A1825]/20" />
 
       <motion.div
-        className="absolute top-20 left-[20%] w-2 h-2 rounded-full bg-blue-400/20"
+        className="absolute top-20 left-[20%] w-2 h-2 rounded-full bg-[#BC9255]/20"
         animate={{ y: [-20, 20, -20], opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 5, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute top-40 right-[30%] w-1.5 h-1.5 rounded-full bg-[#BC9255]/30"
+        animate={{ y: [15, -15, 15], opacity: [0.2, 0.6, 0.2] }}
+        transition={{ duration: 4, repeat: Infinity, delay: 1 }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 h-full flex flex-col justify-between">
@@ -30,7 +35,7 @@ export default function HeroSection({ productCount, loading }: { productCount: n
           <IoChevronBack size={11} className="opacity-50" />
           <Link href="/smartphones" className="hover:text-white transition">الهواتف الذكية</Link>
           <IoChevronBack size={11} className="opacity-50" />
-          <span className="text-blue-300 font-medium">منتجات سامسونج</span>
+          <span className="text-[#BC9255] font-medium">منتجات سامسونج</span>
         </motion.nav>
 
         <div className="pb-10 sm:pb-20">
@@ -38,7 +43,7 @@ export default function HeroSection({ productCount, loading }: { productCount: n
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-            className="inline-flex items-center gap-2 sm:gap-2.5 text-[10px] sm:text-[12px] font-bold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full mb-3 sm:mb-5 border border-blue-400/30 bg-blue-400/10 text-blue-300 backdrop-blur-md"
+            className="inline-flex items-center gap-2 sm:gap-2.5 text-[10px] sm:text-[12px] font-bold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full mb-3 sm:mb-5 border border-[#BC9255]/30 bg-[#BC9255]/10 text-[#BC9255] backdrop-blur-md"
           >
             Samsung Galaxy
           </motion.div>
@@ -51,9 +56,9 @@ export default function HeroSection({ productCount, loading }: { productCount: n
           >
             عالم{" "}
             <span className="relative inline-block">
-              <span className="bg-gradient-to-l from-blue-300 via-blue-100 to-blue-300 bg-clip-text text-transparent">Galaxy</span>
+              <span className="bg-gradient-to-l from-[#BC9255] via-[#f5e6d3] to-[#BC9255] bg-clip-text text-transparent">Galaxy</span>
               <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-transparent via-blue-400 to-transparent"
+                className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-transparent via-[#BC9255] to-transparent"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
@@ -89,7 +94,7 @@ export default function HeroSection({ productCount, loading }: { productCount: n
 
       <div className="absolute bottom-0 left-0 right-0">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-[40px] sm:h-[60px]">
-          <path d="M0,40 C480,80 960,0 1440,50 L1440,80 L0,80Z" fill="#F8F9FC" />
+          <path d="M0,40 C480,80 960,0 1440,50 L1440,80 L0,80Z" fill="#FDFBF8" />
         </svg>
       </div>
     </div>
