@@ -64,7 +64,6 @@ export const navItems: NavItem[] = [
     href: "/tablets/ipad",
     children: [
       { label: "ايباد", href: "/tablets/ipad" },
-      { label: "ايبادات ابل", href: "/tablets/ipad-air" },
     ],
   },
   {
