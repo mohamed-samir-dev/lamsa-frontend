@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
@@ -23,25 +23,24 @@ export default function ShopByCategory() {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const animationRef = useRef<number>(0);
-  const speedRef = useRef(0.5);
+  const speedRef = useRef(0.3);
 
-  // Auto-scroll animation
-  const animate = useCallback(() => {
-    const el = scrollRef.current;
-    if (el && !isPaused && !isDragging) {
-      el.scrollLeft += speedRef.current;
-      // Reset to start for infinite loop
-      if (el.scrollLeft >= el.scrollWidth / 2) {
-        el.scrollLeft = 0;
-      }
-    }
-    animationRef.current = requestAnimationFrame(animate);
-  }, [isPaused, isDragging]);
-
+  // Auto-scroll animation (RTL: scrollLeft goes negative)
   useEffect(() => {
+    const animate = () => {
+      const el = scrollRef.current;
+      if (el && !isPaused && !isDragging) {
+        el.scrollLeft -= speedRef.current;
+        // Reset for infinite loop: when scrolled halfway, jump back
+        if (Math.abs(el.scrollLeft) >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
+      }
+      animationRef.current = requestAnimationFrame(animate);
+    };
     animationRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationRef.current);
-  }, [animate]);
+  }, [isPaused, isDragging]);
 
   // Drag handlers
   const onPointerDown = (e: React.PointerEvent) => {

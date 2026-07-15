@@ -12,7 +12,7 @@ interface CustomerFormProps {
   onSubmit: (info: CustomerInfo) => void;
 }
 
-export default function CustomerForm({ total, itemCount, initialData, installmentMonths, onSubmit }: CustomerFormProps) {
+export default function CustomerForm({ initialData, onSubmit }: CustomerFormProps) {
   const [name, setName] = useState(initialData?.name ?? "");
   const [nationalId, setNationalId] = useState(initialData?.nationalId ?? "");
   const [whatsapp, setWhatsapp] = useState(initialData?.whatsapp ?? "");
