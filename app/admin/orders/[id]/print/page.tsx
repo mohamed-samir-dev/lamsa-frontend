@@ -25,10 +25,10 @@ export default function PrintOrderPage() {
 
   useEffect(() => {
     if (!order) return;
-    setTimeout(() => {
+    const doPrint = () => {
       if (contentRef.current) {
-        const A4_HEIGHT_PX = 1122; // 297mm at 96dpi
-        const A4_WIDTH_PX = 794;   // 210mm at 96dpi
+        const A4_HEIGHT_PX = 1122;
+        const A4_WIDTH_PX = 794;
         const h = contentRef.current.scrollHeight;
         const w = contentRef.current.scrollWidth;
         const scale = Math.min(A4_HEIGHT_PX / h, A4_WIDTH_PX / w, 1);
@@ -36,7 +36,17 @@ export default function PrintOrderPage() {
         contentRef.current.style.transformOrigin = "top center";
       }
       window.print();
-    }, 700);
+    };
+    setTimeout(() => {
+      const images = document.querySelectorAll("img");
+      if (images.length === 0) { doPrint(); return; }
+      let loaded = 0;
+      const tryPrint = () => { if (++loaded >= images.length) doPrint(); };
+      images.forEach((img) => {
+        if (img.complete) tryPrint();
+        else { img.onload = tryPrint; img.onerror = tryPrint; }
+      });
+    }, 100);
   }, [order]);
 
   if (!order) return <div style={{ textAlign: "center", padding: 40 }}>جاري التحميل...</div>;
