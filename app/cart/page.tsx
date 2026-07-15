@@ -46,7 +46,7 @@ export default function CartPage() {
     );
 
   return (
-    <main className="min-h-screen pb-16 lg:pb-8" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
+    <main className="min-h-screen pb-4 lg:pb-8" dir="rtl" style={{ background: "linear-gradient(to bottom, #ffffff, #f5f0e8)" }}>
       {/* ── Top Bar ── */}
       <div className="sticky top-0 z-20 backdrop-blur-md" style={{ backgroundColor: "rgba(255,255,255,0.9)", borderBottom: "1px solid rgba(188,146,85,0.15)" }}>
         <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
