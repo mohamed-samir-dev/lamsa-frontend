@@ -55,10 +55,6 @@ export const navItems: NavItem[] = [
     href: "/apple-watches/se",
   },
   {
-    label: "أجهزة صوت و سماعات",
-    href: "/audio",
-  },
-  {
     label: "أجهزة بلاي ستيشن وملحقاتها",
     href: "/playstation",
   },
@@ -76,12 +72,11 @@ export const navItems: NavItem[] = [
     href: "/accessories",
     children: [
       { label: "بطاريات متنقلة", href: "/accessories/anker-batteries" },
-      { label: "سماعات AirPods", href: "/accessories/airpods" },
     ],
   },
   {
-    label: " اكسسورارات",
-    href: "/games",
-   
+    label: "سماعات AirPods",
+    href: "/accessories/airpods",
   },
+
 ];
