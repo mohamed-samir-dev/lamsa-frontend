@@ -95,6 +95,8 @@ export default function ShopByCategory() {
         onPointerLeave={onPointerUp}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
       >
         {items.map((cat, i) => (
           <Link

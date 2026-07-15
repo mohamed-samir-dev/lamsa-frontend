@@ -11,8 +11,8 @@ const slides = [
     titleHighlight: "بتقنية لا تُلمس",
     description: "اكتشف أحدث الإصدارات من الهواتف الذكية بأفضل الأسعار وضمان موثوق",
     buttons: [
-      { text: "تسوّق الآن", filled: true },
-      { text: "اكتشف الأجهزة", filled: false },
+      { text: "تسوّق الآن", filled: true, href: "#products" },
+      { text: "اكتشف الأجهزة", filled: false, href: "#products" },
     ],
   },
   {
@@ -21,7 +21,7 @@ const slides = [
     title: "كل ما تحتاجه",
     titleHighlight: "من عالم Apple",
     description: "اكتشف مجموعة واسعة من أجهزة آيفون، الملحقات الأصلية، الساعات والسماعات بأفضل الأسعار",
-    buttons: [{ text: "اكتشف المنتجات", filled: true }],
+    buttons: [{ text: "اكتشف المنتجات", filled: true, href: "/smartphones/apple-only" }],
   },
 ];
 
@@ -87,7 +87,7 @@ export default function Banner() {
             {slide.buttons.map((btn) => (
               <a
                 key={btn.text}
-                href="#products"
+                href={btn.href || "#products"}
                 className={`px-5 sm:px-8 py-2.5 sm:py-3 rounded-full text-sm sm:text-lg font-bold transition-transform duration-200 hover:scale-105 active:scale-95 ${
                   btn.filled ? "" : "border-2"
                 }`}
