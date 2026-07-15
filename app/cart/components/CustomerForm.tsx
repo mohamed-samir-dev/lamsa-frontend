@@ -93,25 +93,14 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
         </div>
       </div>
 
-      {/* Desktop submit */}
+      {/* Submit */}
       <button
         onClick={handleSubmit}
-        className="hidden lg:block w-full mt-3 py-3.5 rounded-xl font-black text-sm transition hover:scale-[1.01] active:scale-[0.98] shadow-lg"
+        className="w-full mt-3 py-3.5 rounded-xl font-black text-sm transition hover:scale-[1.01] active:scale-[0.98] shadow-lg"
         style={{ backgroundColor: "#BC9255", color: "#0A1825" }}
       >
         التالي ←
       </button>
-
-      {/* Mobile fixed submit */}
-      <div className="fixed bottom-0 inset-x-0 z-30 lg:hidden p-3" style={{ backgroundColor: "#fff", borderTop: "1px solid rgba(188,146,85,0.2)", boxShadow: "0 -4px 20px rgba(0,0,0,0.06)" }}>
-        <button
-          onClick={handleSubmit}
-          className="w-full py-3.5 rounded-xl font-black text-sm transition active:scale-[0.98] shadow-lg"
-          style={{ backgroundColor: "#BC9255", color: "#0A1825" }}
-        >
-          التالي ←
-        </button>
-      </div>
     </div>
   );
 }
