@@ -10,7 +10,7 @@ export default function SamsungS23UltraPage() {
   return (
     <PhoneHeroPage
       slug="samsung-s23-ultra"
-      heroImage="/samsong.webp"
+      heroImage="/s25.webp"
       nameEn="Galaxy S23"
       nameEnLine2="Ultra"
       tagline="الكاميرا الأقوى في تاريخ Galaxy"

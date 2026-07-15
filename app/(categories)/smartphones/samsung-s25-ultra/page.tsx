@@ -10,7 +10,7 @@ export default function SamsungS25UltraPage() {
   return (
     <PhoneHeroPage
       slug="samsung-s25-ultra"
-      heroImage="/samsong.webp"
+      heroImage="/s25.webp"
       nameEn="Galaxy S25"
       nameEnLine2="Ultra"
       tagline="ذكاء Galaxy AI بلا حدود"

@@ -10,7 +10,7 @@ export default function SamsungS22UltraPage() {
   return (
     <PhoneHeroPage
       slug="samsung-s22-ultra"
-      heroImage="/samsong.webp"
+      heroImage="/s25.webp"
       nameEn="Galaxy S22"
       nameEnLine2="Ultra"
       tagline="قوة الأداء مع قلم S Pen"
