@@ -36,7 +36,7 @@ export default function ReceiptPrintPage() {
   useEffect(() => {
     Promise.all([
       fetch(`/api/admin/orders/${id}/invoice`).then((r) => r.json()),
-    ]).then(([d]) => setData(d));
+    ]).then(([d]) => { if (d && d.order && d.order.items) setData(d); });
   }, [id]);
 
   useEffect(() => {

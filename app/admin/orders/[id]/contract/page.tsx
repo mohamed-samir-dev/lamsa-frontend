@@ -36,7 +36,7 @@ export default function ContractPage() {
   const [data, setData] = useState<{ order: Order; company: Company } | null>(null);
 
   useEffect(() => {
-    fetch(`/api/admin/orders/${id}/invoice`).then((r) => r.json()).then(setData);
+    fetch(`/api/admin/orders/${id}/invoice`).then((r) => r.json()).then((d) => { if (d && d.order && d.order.items) setData(d); });
   }, [id]);
 
   useEffect(() => {
