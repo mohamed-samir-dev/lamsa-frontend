@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Users, Building2, FolderOpen, Image, Landmark,
-  MessageSquare, Grid2X2, Layers, ListTree, Package, ShoppingCart, X, CreditCard,
+  MessageSquare, Grid2X2, Layers, ListTree, Package, ShoppingCart, X,
 } from "lucide-react";
 
 const navItems = [
