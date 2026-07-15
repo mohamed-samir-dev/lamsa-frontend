@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { FaApple } from "react-icons/fa";
 import { IoChevronForward, IoChevronBack } from "react-icons/io5";
@@ -64,7 +65,7 @@ export default function ShopByCategory() {
           >
             <div className="relative w-full h-28 sm:h-36 md:h-44 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-[#f9f6f1] to-[#efe8dc]" />
-              <img src={cat.image} alt={cat.name} className="relative w-full h-full object-cover" loading="lazy" />
+              <Image src={cat.image} alt={cat.name} fill className="relative object-cover" sizes="(max-width:640px) 160px,(max-width:768px) 208px,240px" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
             </div>
             <div className="relative px-3 sm:px-4 pb-3 sm:pb-4 -mt-3">

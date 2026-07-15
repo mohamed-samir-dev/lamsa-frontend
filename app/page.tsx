@@ -1,7 +1,9 @@
 import { Banner } from "./components/banner";
 import { ProductGrid } from "./components/products";
-import CustomerReviews from "./components/CustomerReviews";
+import dynamic from "next/dynamic";
 import ShopByCategory from "./components/ShopByCategory";
+
+const CustomerReviews = dynamic(() => import("./components/CustomerReviews"));
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://lamsah-aldhaqiah.com";

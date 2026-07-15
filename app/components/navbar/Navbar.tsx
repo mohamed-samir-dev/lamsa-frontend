@@ -91,14 +91,12 @@ export default function Navbar() {
               {logo && (
                 <Image
                   src={logo}
-                  unoptimized
                   alt="Logo"
                   width={0}
                   height={0}
-                  sizes="100vw"
+                  sizes="80px"
                   className="h-16 sm:h-16 lg:h-20 w-auto"
                   priority
-                  loading="eager"
                 />
               )}
             </Link>

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const slides = [
   {
-    image: "/hero1.png",
+    image: "/hero1.webp",
     tag: "أحدث الأجهزة",
     title: "أداء يفوق التوقعات",
     titleHighlight: "بتقنية لا تُلمس",
@@ -61,6 +61,7 @@ export default function Banner() {
             className="object-cover object-center"
             priority={current === 0}
             sizes="100vw"
+            quality={75}
           />
         </motion.div>
       </AnimatePresence>
