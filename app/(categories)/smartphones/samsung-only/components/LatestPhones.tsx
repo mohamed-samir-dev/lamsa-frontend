@@ -90,14 +90,14 @@ export default function LatestPhones({ products }: { products: Product[] }) {
         className="flex items-center justify-between mb-8"
       >
         <div className="flex items-center gap-3">
-          <div className="w-1 h-8 rounded-full bg-blue-500" />
-          <h2 className="text-lg sm:text-xl font-black" style={{ color: "#1a237e" }}>أحدث المنتجات</h2>
+          <div className="w-1 h-8 rounded-full" style={{ backgroundColor: "#BC9255" }} />
+          <h2 className="text-lg sm:text-xl font-black" style={{ color: "#0A1825" }}>أحدث المنتجات</h2>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => scroll("right")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#1a237e]/10 hover:bg-[#1a237e] hover:text-blue-200 text-[#1a237e] transition-all duration-300">
+          <button onClick={() => scroll("right")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#0A1825]/10 hover:bg-[#0A1825] hover:text-[#BC9255] text-[#0A1825] transition-all duration-300">
             <IoChevronForward size={14} />
           </button>
-          <button onClick={() => scroll("left")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#1a237e]/10 hover:bg-[#1a237e] hover:text-blue-200 text-[#1a237e] transition-all duration-300">
+          <button onClick={() => scroll("left")} className="w-8 h-8 rounded-full flex items-center justify-center border border-[#0A1825]/10 hover:bg-[#0A1825] hover:text-[#BC9255] text-[#0A1825] transition-all duration-300">
             <IoChevronBack size={14} />
           </button>
         </div>
@@ -116,22 +116,22 @@ export default function LatestPhones({ products }: { products: Product[] }) {
               transition={{ delay: i * 0.07, type: "spring", stiffness: 80 }}
               className="flex-shrink-0"
             >
-              <Link href={`/product/${p._id}`} className="group block w-[155px] sm:w-[215px] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-400 hover:shadow-2xl border border-blue-100 hover:border-blue-400/50" style={{ background: "linear-gradient(180deg, #FFFFFF 60%, #F0F4FF 100%)" }}>
+              <Link href={`/product/${p._id}`} className="group block w-[155px] sm:w-[215px] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-400 hover:shadow-2xl border border-[#EBE6E2] hover:border-[#BC9255]/50" style={{ background: "linear-gradient(180deg, #FFFFFF 60%, #F9F6F2 100%)" }}>
                 <div className="relative h-[155px] sm:h-[215px] overflow-hidden">
                   {img && (
                     <Image src={resolveImg(img)} alt={p.name} fill className="object-contain p-4 sm:p-6 transition-all duration-500 group-hover:scale-105" sizes="(max-width: 640px) 155px, 215px" />
                   )}
-                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[8px] sm:text-[9px] font-bold backdrop-blur-sm" style={{ background: "rgba(26,35,126,0.9)", color: "#93c5fd" }}>
+                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[8px] sm:text-[9px] font-bold backdrop-blur-sm" style={{ background: "rgba(10,24,37,0.9)", color: "#BC9255" }}>
                     {p.modelLabel}
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/80 to-transparent" />
                 </div>
                 <div className="p-3 sm:p-4">
-                  <h3 className="text-[10px] sm:text-[12px] font-bold line-clamp-2 leading-relaxed mb-2 sm:mb-3" style={{ color: "#1a237e" }}>{p.name}</h3>
+                  <h3 className="text-[10px] sm:text-[12px] font-bold line-clamp-2 leading-relaxed mb-2 sm:mb-3" style={{ color: "#0A1825" }}>{p.name}</h3>
                   <div className="flex items-center justify-between">
-                    <p className="text-[12px] sm:text-[14px] font-black" style={{ color: "#1a237e" }}>{fmt(price)} <span className="text-[9px] sm:text-[10px] font-medium text-[#1a237e]/50">ر.س</span></p>
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-md bg-blue-500">
-                      <IoArrowBack size={12} className="text-white" />
+                    <p className="text-[12px] sm:text-[14px] font-black" style={{ color: "#0A1825" }}>{fmt(price)} <span className="text-[9px] sm:text-[10px] font-medium text-[#0A1825]/50">ر.س</span></p>
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-md" style={{ backgroundColor: "#BC9255" }}>
+                      <IoArrowBack size={12} style={{ color: "#0A1825" }} />
                     </div>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export default function LatestPhones({ products }: { products: Product[] }) {
 
       <div className="flex justify-center gap-1.5 mt-5">
         {Array.from({ length: totalDots }).map((_, i) => (
-          <div key={i} className="rounded-full transition-all duration-300" style={{ width: activeIndex === i ? 22 : 6, height: 6, backgroundColor: activeIndex === i ? "#3b82f6" : "#dbeafe" }} />
+          <div key={i} className="rounded-full transition-all duration-300" style={{ width: activeIndex === i ? 22 : 6, height: 6, backgroundColor: activeIndex === i ? "#BC9255" : "#E5E0DB" }} />
         ))}
       </div>
     </section>

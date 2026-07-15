@@ -78,7 +78,7 @@ export default function SamsungOnlyClient() {
   }, [allProducts]);
 
   return (
-    <main className="min-h-screen bg-[#F8F9FC]" dir="rtl">
+    <main className="min-h-screen bg-[#FDFBF8]" dir="rtl">
       <HeroSection productCount={allProducts.length} loading={loading} />
 
       <div className="max-w-6xl mx-auto px-3 sm:px-6 py-6 sm:py-14">
