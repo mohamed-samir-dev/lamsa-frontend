@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://lamsah-aldhaqiah.com";
 
 async function getCompany() {
   try {
@@ -15,7 +15,7 @@ async function getCompany() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
-  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = company.nameAr || "لمسه للاجهزه الذكيه";
   return {
     title: `أجهزة صوت و سماعات | ${siteName}`,
     description: `تسوق سماعات أبل وأجهزة الصوت بأفضل الأسعار في ${siteName}. شحن سريع وضمان معتمد.`,

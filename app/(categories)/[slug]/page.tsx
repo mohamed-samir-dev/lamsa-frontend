@@ -3,7 +3,7 @@ import { slugConfigs } from "../../lib/categoryConfig";
 import CategoryPageClient from "./CategoryPageClient";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://lamsah-aldhaqiah.com";
 
 async function getCompany() {
   try {
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const config = slugConfigs[slug];
   const company = await getCompany();
 
-  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = company.nameAr || "لمسه للاجهزه الذكيه";
   const label = config?.label ?? slug;
   const parentLabel = config?.parentLabel ?? "";
 

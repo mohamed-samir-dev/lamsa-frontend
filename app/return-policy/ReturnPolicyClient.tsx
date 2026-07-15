@@ -134,7 +134,7 @@ export default function ReturnPolicyClient() {
           </h1>
 
           <p {...anim(350)} className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة بصمة هاتفي المعتمد
+            الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل لمسه للاجهزه الذكيه
           </p>
         </div>
 
