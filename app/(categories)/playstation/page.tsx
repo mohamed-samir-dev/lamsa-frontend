@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PlaystationClient from "./PlaystationClient";
+import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://www.pasmthatfee.com";
@@ -24,5 +24,19 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function PlaystationPage() {
-  return <PlaystationClient />;
+  return (
+    <PhoneHeroPage
+      slug="ps5"
+      heroImage="/produ.webp"
+      nameEn="PlayStation"
+      nameEnLine2="& Xbox"
+      tagline="أجهزة بلاي ستيشن وإكس بوكس"
+      description="تسوق أحدث أجهزة بلاي ستيشن 5 وإكس بوكس ويد تحكم وملحقات الألعاب بأفضل الأسعار وضمان معتمد"
+      features={[
+        { icon: "chip", label: "أداء خرافي" },
+        { icon: "design", label: "تصميم عصري" },
+        { icon: "battery", label: "ترفيه بلا حدود" },
+      ]}
+    />
+  );
 }

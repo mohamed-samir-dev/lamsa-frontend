@@ -11,7 +11,7 @@ export default function AirPodsPage() {
   return (
     <PhoneHeroPage
       slug="airpods"
-      heroImage="/air-pod.webp"
+      heroImage="/ar.webp"
       nameEn="AirPods"
       tagline="صوت يغمرك من كل اتجاه"
       description="سماعات AirPods من أبل بصوت استثنائي وإلغاء ضوضاء متقدم وتصميم مريح يدوم طوال اليوم"

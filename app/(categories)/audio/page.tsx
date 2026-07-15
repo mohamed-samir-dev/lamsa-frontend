@@ -27,7 +27,7 @@ export default function AudioPage() {
   return (
     <PhoneHeroPage
       slug="airpods-pro"
-      heroImage="/audio.webp"
+      heroImage="/hed.webp"
       nameEn="Audio"
       nameEnLine2="& Speakers"
       tagline="أجهزة صوت و سماعات"
