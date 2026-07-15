@@ -58,6 +58,7 @@ export default function CancellationPage() {
       fetch(`/api/admin/orders/${id}`).then((r) => r.json()),
       fetch("/api/admin/company").then((r) => r.json()).catch(() => ({})),
     ]).then(async ([o, c]) => {
+      if (!o || !o.items) { setCompany(c); return; }
       const itemsWithImages = await Promise.all(
         o.items.map(async (item: OrderItem) => {
           if (!item.productId) return item;
