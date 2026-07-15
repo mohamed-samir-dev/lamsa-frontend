@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default function HeroSection({ productCount, loading }: { productCount: number; loading: boolean }) {
   return (
     <div className="relative overflow-hidden h-[300px] sm:h-[480px] md:h-[560px]" style={{ background: "linear-gradient(135deg, #f5f0e8 0%, #efe8dc 50%, #f9f6f1 100%)" }}>
-      <Image src="/samsong.webp" alt="أجهزة سامسونج" fill className="object-cover opacity-20" style={{ objectPosition: "center" }} priority sizes="100vw" />
+      <Image src="/s26.webp" alt="أجهزة سامسونج" fill className="object-cover opacity-20" style={{ objectPosition: "center" }} priority sizes="100vw" />
 
       <motion.div
         className="absolute inset-0"

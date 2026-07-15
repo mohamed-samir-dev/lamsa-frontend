@@ -10,7 +10,7 @@ export default function SamsungS26UltraPage() {
   return (
     <PhoneHeroPage
       slug="samsung-s26-ultra"
-      heroImage="/samsong.webp"
+      heroImage="/s26.webp"
       nameEn="Galaxy S26"
       nameEnLine2="Ultra"
       tagline="القوة والذكاء في تصميم واحد"
