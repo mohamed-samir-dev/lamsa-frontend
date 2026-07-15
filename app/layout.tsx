@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const siteName = c.nameAr || "لمسه للاجهزه الذكيه";
   const description = c.details || "متجر لمسه للاجهزه الذكيه - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
-  const ogImage = `${SITE_URL}/og-image.png?v=${Date.now()}`;
+  const ogImage = `${SITE_URL}/og-preview.png`;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
         { url: "/favicon.svg", type: "image/svg+xml" },
         { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
         { url: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" },
-        { url: "/og-image.png", sizes: "512x512", type: "image/png" },
+        { url: "/web-app-manifest-512x512.png", sizes: "512x512", type: "image/png" },
       ],
       shortcut: "/favicon.ico",
       apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
