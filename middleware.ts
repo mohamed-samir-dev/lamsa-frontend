@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Force HTTPS redirection
-  if (req.headers.get("x-forwarded-proto") === "http") {
+  // Force HTTPS redirection (skip in development)
+  const host = req.headers.get("host") || "";
+  if (req.headers.get("x-forwarded-proto") === "http" && !host.includes("localhost")) {
     return NextResponse.redirect(
-      new URL(`https://${req.headers.get("host")}${pathname}${req.nextUrl.search}`),
+      new URL(`https://${host}${pathname}${req.nextUrl.search}`),
       301
     );
   }
@@ -41,7 +42,9 @@ export function middleware(req: NextRequest) {
 
   const response = NextResponse.next();
   response.headers.set("Content-Security-Policy", csp);
-  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  if (!host.includes("localhost")) {
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  }
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "SAMEORIGIN");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
