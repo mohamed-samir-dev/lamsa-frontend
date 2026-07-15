@@ -12,6 +12,7 @@ const categories = [
 
   { name: "Apple Watch", icon: <FaApple className="w-4 h-4" />, desc: "ساعتك الذكية", image: "/watch.webp", href: "/apple-watches/se" },
   { name: "AirPods", icon: <FaApple className="w-4 h-4" />, desc: "صوت نقي بلا حدود", image: "/air-pod.webp", href: "/audio" },
+  { name: "MacBook Air", icon: <FaApple className="w-4 h-4" />, desc: "خفيف. قوي. جاهز لكل شيء.", image: "/mac.webp", href: "/laptops/macbook-air" },
   { name: "الاكسسوارات", icon: null, desc: "كل ما تحتاجه", image: "/acc.webp", href: "/accessories" },
   { name: "الصوتيات", icon: null, desc: "تجربة صوت مذهلة", image: "/audio.webp", href: "/audio" },
 ];
