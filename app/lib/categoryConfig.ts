@@ -120,6 +120,12 @@ export const slugConfigs: Record<string, SlugConfig> = {
     parentHref: "/smartphones",
     filters: { brand: "Apple" },
   },
+  "samsung-only": {
+    label: "فقط سامسونج",
+    parentLabel: "الهواتف الذكية",
+    parentHref: "/smartphones",
+    filters: { brand: "Samsung" },
+  },
   "samsung-s22-ultra": {
     label: "سامسونج جالكسي اس 22 الترا",
     parentLabel: "الهواتف الذكية",
@@ -172,25 +178,13 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "أجهزة صوت و سماعات",
     parentLabel: "أجهزة صوت و سماعات",
     parentHref: "/audio",
-    filters: { category: "سماعات ابل,speaker,earbuds" },
+    filters: { category: "سماعات" },
   },
   "airpods-pro": {
     label: "سماعات أبل",
     parentLabel: "أجهزة صوت و سماعات",
     parentHref: "/audio",
-    filters: { category: "سماعات ابل" },
-  },
-  "airpods-max": {
-    label: "سماعات سبيكر",
-    parentLabel: "أجهزة صوت و سماعات",
-    parentHref: "/audio",
-    filters: { category: "speaker" },
-  },
-  "samsung-buds": {
-    label: "سماعات متنوعة",
-    parentLabel: "أجهزة صوت و سماعات",
-    parentHref: "/audio",
-    filters: { category: "earbuds" },
+    filters: { category: "سماعات", brand: "Apple" },
   },
 
   // ─── PlayStation ───────────────────────────────────────────

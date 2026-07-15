@@ -1,0 +1,25 @@
+import type { Metadata } from "next";
+import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+
+export const metadata: Metadata = {
+  title: "Samsung Galaxy S23 Ultra | لمسه للاجهزه الذكيه",
+  description: "سامسونج جالكسي S23 الترا بأفضل سعر مع ضمان معتمد وتقسيط مريح",
+};
+
+export default function SamsungS23UltraPage() {
+  return (
+    <PhoneHeroPage
+      slug="samsung-s23-ultra"
+      heroImage="/samsong.webp"
+      nameEn="Galaxy S23"
+      nameEnLine2="Ultra"
+      tagline="الكاميرا الأقوى في تاريخ Galaxy"
+      description="سامسونج جالكسي S23 الترا مع كاميرا 200MP ومعالج Snapdragon 8 Gen 2 وقلم S Pen مدمج وبطارية تدوم طول اليوم."
+      features={[
+        { icon: "camera", label: "كاميرا 200MP احترافية" },
+        { icon: "chip", label: "معالج Snapdragon 8 Gen 2" },
+        { icon: "battery", label: "بطارية 5000mAh" },
+      ]}
+    />
+  );
+}

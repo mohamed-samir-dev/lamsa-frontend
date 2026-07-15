@@ -1,0 +1,26 @@
+import type { Metadata } from "next";
+import SamsungOnlyClient from "./SamsungOnlyClient";
+
+const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
+
+async function getCompany() {
+  try {
+    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600 } });
+    return r.ok ? r.json() : {};
+  } catch {
+    return {};
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const company = await getCompany();
+  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  return {
+    title: `منتجات سامسونج | ${siteName}`,
+    description: `تسوق جميع منتجات سامسونج - جالكسي بجميع الإصدارات بأفضل الأسعار وبالأقساط في ${siteName}`,
+  };
+}
+
+export default function SamsungOnlyPage() {
+  return <SamsungOnlyClient />;
+}
