@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // Force HTTPS redirection
+  if (req.headers.get("x-forwarded-proto") === "http") {
+    return NextResponse.redirect(
+      new URL(`https://${req.headers.get("host")}${pathname}${req.nextUrl.search}`),
+      301
+    );
+  }
+
   const token = req.cookies.get("admin_token")?.value;
 
   // If logged-in admin visits login page, redirect to dashboard
@@ -37,6 +46,7 @@ export function middleware(req: NextRequest) {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", csp);
+  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "SAMEORIGIN");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
