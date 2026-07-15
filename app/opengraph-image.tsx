@@ -34,21 +34,19 @@ export default function Image() {
               fontWeight: 800,
               color: "#BC9255",
               textAlign: "center",
-              direction: "rtl",
             }}
           >
-            لمسه للأجهزة الذكية
+            Lamsah
           </div>
           <div
             style={{
               fontSize: "32px",
               color: "rgba(245,240,232,0.8)",
               textAlign: "center",
-              direction: "rtl",
               maxWidth: "800px",
             }}
           >
-            أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية
+            Smart Devices - Installment Plans in Saudi Arabia
           </div>
           <div
             style={{
