@@ -20,7 +20,7 @@ export default function PrintOrderPage() {
     Promise.all([
       fetch(`/api/admin/orders/${id}`).then((r) => r.json()),
       fetch("/api/admin/company").then((r) => r.json()).catch(() => ({})),
-    ]).then(([o, c]) => { setOrder(o); setCompany(c); });
+    ]).then(([o, c]) => { if (o && o.items) setOrder(o); setCompany(c); });
   }, [id]);
 
   useEffect(() => {

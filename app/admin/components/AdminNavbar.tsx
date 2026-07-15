@@ -21,7 +21,8 @@ export default function AdminNavbar({ onMenuClick }: { onMenuClick: () => void }
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST", credentials: "include" });
-    window.location.href = "/admin/login";
+    // Replace current history entry so back button won't return to admin pages
+    window.location.replace("/admin/login");
   };
 
   return (

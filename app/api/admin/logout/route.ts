@@ -14,5 +14,7 @@ export async function POST(req: NextRequest) {
     secure: isProd,
     sameSite: isProd ? "none" : "lax",
   });
+  // Prevent caching of logout response
+  response.headers.set("Cache-Control", "no-store");
   return response;
 }
