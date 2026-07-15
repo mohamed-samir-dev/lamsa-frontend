@@ -26,11 +26,9 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-
   const csp = [
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval'`,
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob: https://ibb.co https://i.ibb.co https://res.cloudinary.com https://cloudinary.com https://*.railway.app https://*.render.com https://*.onrender.com`,
     `font-src 'self' data:`,
@@ -41,10 +39,7 @@ export function middleware(req: NextRequest) {
     `object-src 'none'`,
   ].join("; ");
 
-  const requestHeaders = new Headers(req.headers);
-  requestHeaders.set("x-nonce", nonce);
-
-  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  const response = NextResponse.next();
   response.headers.set("Content-Security-Policy", csp);
   response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   response.headers.set("X-Content-Type-Options", "nosniff");
