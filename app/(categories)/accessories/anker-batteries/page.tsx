@@ -11,7 +11,7 @@ export default function AnkerBatteriesPage() {
   return (
     <PhoneHeroPage
       slug="anker-batteries"
-      heroImage="/ac.webp"
+      heroImage="/as.webp"
       nameEn="Power Banks"
       nameEnLine2="& Cables"
       tagline="بطاريات متنقلة وكيابل شحن"

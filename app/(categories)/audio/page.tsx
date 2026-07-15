@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function AudioPage() {
   return (
     <PhoneHeroPage
-      slug="airpods-pro"
+      slug="audio"
       heroImage="/hed.webp"
       nameEn="Audio"
       nameEnLine2="& Speakers"

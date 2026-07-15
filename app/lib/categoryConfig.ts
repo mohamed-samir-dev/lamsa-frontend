@@ -168,6 +168,12 @@ export const slugConfigs: Record<string, SlugConfig> = {
   },
 
   // ─── Audio ─────────────────────────────────────────────────
+  audio: {
+    label: "أجهزة صوت و سماعات",
+    parentLabel: "أجهزة صوت و سماعات",
+    parentHref: "/audio",
+    filters: { category: "سماعات ابل,speaker,earbuds" },
+  },
   "airpods-pro": {
     label: "سماعات أبل",
     parentLabel: "أجهزة صوت و سماعات",

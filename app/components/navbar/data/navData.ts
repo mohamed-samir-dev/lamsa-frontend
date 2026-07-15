@@ -62,13 +62,7 @@ export const navItems: NavItem[] = [
     label: "أجهزة بلاي ستيشن وملحقاتها",
     href: "/playstation",
   },
-  {
-    label: "لابتوبات ",
-    href: "/laptops",
-    children: [
-      { label: "ماك بوك اير", href: "/laptops/macbook-air" },
-    ],
-  },
+
   {
     label: "الاجهزة اللوحية ايبادات",
     href: "/tablets/ipad",

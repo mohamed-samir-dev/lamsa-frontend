@@ -9,7 +9,7 @@ import { IoChevronForward, IoChevronBack } from "react-icons/io5";
 const categories = [
   { name: "iPhone", icon: <FaApple className="w-4 h-4" />, desc: "أكثر من مجرد هاتف", image: "/iphone.webp", href: "/smartphones/apple-only" },
   { name: "Samsung", icon: null, desc: "تقنية بلا حدود", image: "/samsong.webp", href: "/smartphones" },
-  { name: "MacBook Air", icon: <FaApple className="w-4 h-4" />, desc: "خفة وأداء استثنائي", image: "/mac.webp", href: "/laptops/macbook-air" },
+
   { name: "Apple Watch", icon: <FaApple className="w-4 h-4" />, desc: "ساعتك الذكية", image: "/watch.webp", href: "/apple-watches/se" },
   { name: "AirPods", icon: <FaApple className="w-4 h-4" />, desc: "صوت نقي بلا حدود", image: "/air-pod.webp", href: "/audio" },
   { name: "الاكسسوارات", icon: null, desc: "كل ما تحتاجه", image: "/acc.webp", href: "/accessories" },

@@ -27,7 +27,7 @@ export default function PlaystationPage() {
   return (
     <PhoneHeroPage
       slug="ps5"
-      heroImage="/produ.webp"
+      heroImage="/pl.webp"
       nameEn="PlayStation"
       nameEnLine2="& Xbox"
       tagline="أجهزة بلاي ستيشن وإكس بوكس"

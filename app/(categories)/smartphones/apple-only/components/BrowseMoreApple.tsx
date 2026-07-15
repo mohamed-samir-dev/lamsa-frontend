@@ -8,7 +8,7 @@ import { IoArrowBack } from "react-icons/io5";
 const appleAccessories = [
   { title: "شاحن أبل", desc: "شحن سريع وآمن", emoji: "🔌", href: "/accessories?brand=apple&type=charger" },
   { title: "AirPods", desc: "صوت نقي بلا حدود", emoji: "🎧", href: "/accessories?brand=apple&type=airpods" },
-  { title: "MacBook", desc: "قوة الأداء المحمولة", emoji: "💻", href: "/laptops?brand=apple" },
+  { title: "MacBook", desc: "قوة الأداء المحمولة", emoji: "💻", href: "/tablets?brand=apple" },
   { title: "iPad", desc: "إبداع بلا حدود", emoji: "📱", href: "/tablets?brand=apple" },
   { title: "Apple Watch", desc: "ذكاء على معصمك", emoji: "⌚", href: "/smartwatches?brand=apple" },
 ];
