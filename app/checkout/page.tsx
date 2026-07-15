@@ -11,7 +11,7 @@ import PaymentForm from "./components/PaymentForm";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, customer, totalPrice } = useCartStore();
+  const { items, customer, totalPrice, clear } = useCartStore();
   const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   const total = mounted ? totalPrice() : 0;
@@ -45,9 +45,14 @@ export default function CheckoutPage() {
       }),
     });
     const data = res.ok ? await res.json().catch(() => ({})) : {};
+    if (!res.ok || !data.ok) {
+      alert("حدث خطأ، حاول مرة أخرى");
+      return;
+    }
     if (data.orderId) {
       localStorage.setItem("orderId", data.orderId);
       localStorage.setItem("customerName", customer?.name ?? "—");
+      clear();
     }
   };
 

