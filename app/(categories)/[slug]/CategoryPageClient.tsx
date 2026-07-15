@@ -24,13 +24,24 @@ import { sortProducts } from "../../lib/sortProducts";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
+function normalizeArabic(str: string): string {
+  return str
+    .replace(/[أإآا]/g, "ا")
+    .replace(/[ىي]/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي");
+}
+
 function filterProducts(products: Product[], slug: string): Product[] {
   const config = slugConfigs[slug];
   if (!config) return products;
   const { brand, category, nameIncludes, nameExcludes } = config.filters;
   return products.filter((p) => {
     const matchBrand = brand ? p.brand?.toLowerCase() === brand.toLowerCase() : true;
-    const matchCategory = category ? p.category === category : true;
+    const matchCategory = category
+      ? normalizeArabic(p.category || "").includes(normalizeArabic(category))
+      : true;
     const matchName = nameIncludes?.length
       ? nameIncludes.some((kw) => p.name?.toLowerCase().includes(kw.toLowerCase()))
       : true;
