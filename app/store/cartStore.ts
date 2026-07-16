@@ -12,7 +12,6 @@ export interface CustomerInfo {
   nationalId: string;
   whatsapp: string;
   address: string;
-  country: string;
   installmentType: "full" | "installment";
   months: number;
   downPayment: number;

