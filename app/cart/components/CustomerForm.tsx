@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoPersonOutline } from "react-icons/io5";
 import type { CustomerInfo } from "../../store/cartStore";
 
@@ -17,6 +17,16 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
   const [nationalId, setNationalId] = useState(initialData?.nationalId ?? "");
   const [whatsapp, setWhatsapp] = useState(initialData?.whatsapp ?? "");
   const [address, setAddress] = useState(initialData?.address ?? "");
+  const [country, setCountry] = useState(initialData?.country ?? "");
+
+  useEffect(() => {
+    if (!initialData?.country) {
+      fetch("https://ipapi.co/json/")
+        .then((r) => r.json())
+        .then((d) => { if (d.country_name) setCountry(d.country_name); })
+        .catch(() => {});
+    }
+  }, []);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = () => {
@@ -29,7 +39,7 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
     if (!address.trim()) newErrors.address = "مطلوب";
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
-    onSubmit({ name, nationalId, whatsapp, address, installmentType: "installment", months: 24, downPayment: 0 });
+    onSubmit({ name, nationalId, whatsapp, address, country, installmentType: "installment", months: 24, downPayment: 0 });
   };
 
   const inputBase = "w-full h-10 rounded-lg px-3 text-sm focus:outline-none transition";
@@ -88,6 +98,16 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
               placeholder="المدينة - الحي"
               className={inputBase}
               style={getInputStyle("address")}
+            />
+          </div>
+          <div id="field-country">
+            <Label text="الدولة" />
+            <input
+              value={country}
+              readOnly
+              placeholder="جاري التحديد..."
+              className={inputBase}
+              style={{ backgroundColor: "#f0ede8", border: "1.5px solid rgba(188,146,85,0.2)", color: "#0A1825" }}
             />
           </div>
         </div>

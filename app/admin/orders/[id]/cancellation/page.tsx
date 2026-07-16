@@ -10,7 +10,7 @@ interface Order {
   items: OrderItem[]; status: string; cardNumber: string;
 }
 interface Company {
-  header?: string; footer?: string; stamp?: string; nameAr?: string; nameEn?: string;
+  header?: string; footer?: string; stamp?: string; cancelStamp?: string; nameAr?: string; nameEn?: string;
   addressAr?: string; email?: string; taxNumber?: string; shippingCompany?: string;
   paymentMethod?: string; currencyAr?: string;
 }
@@ -79,8 +79,8 @@ export default function CancellationPage() {
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: 24, maxWidth: 900, margin: "0 auto", direction: "rtl", position: "relative", backgroundColor: "#fff", minHeight: "100vh" }}>
-      {company.stamp && (
-        <img src={company.stamp} alt="stamp" style={{ position: "absolute", top: "50%", left: "40%", transform: "translate(-50%, -50%)", width: 280, opacity: 0.65, pointerEvents: "none", zIndex: 9999 }} />
+      {(company.cancelStamp || company.stamp) && (
+        <img src={company.cancelStamp || company.stamp} alt="stamp" style={{ position: "absolute", top: "50%", left: "40%", transform: "translate(-50%, -50%)", width: 280, opacity: 0.65, pointerEvents: "none", zIndex: 9999 }} />
       )}
       <style>{`
         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
