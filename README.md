@@ -1,36 +1,174 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# لمسه للأجهزة الذكية — Frontend
 
-## Getting Started
+متجر إلكتروني متكامل لبيع الأجهزة الذكية بالأقساط، مبني بـ **Next.js 15** مع دعم كامل للغة العربية واتجاه RTL.
 
-Fiيييrst, run the development server:
+---
+
+## 🛠 التقنيات المستخدمة
+
+| التقنية | الإصدار | الغرض |
+|---|---|---|
+| Next.js | 15.x | إطار العمل الرئيسي (App Router) |
+| React | 19.0 | مكتبة واجهة المستخدم |
+| TypeScript | 5.x | الكتابة الصارمة للأنواع |
+| Tailwind CSS | 4.x | التنسيق |
+| Zustand | 5.x | إدارة الحالة (Cart + Company) |
+| Framer Motion | 12.x | الأنيميشن |
+| Swiper | 12.x | السلايدر |
+| Lucide React | 1.x | الأيقونات |
+| React Icons | 5.x | أيقونات إضافية |
+| React Hot Toast | 2.x | الإشعارات |
+| Sharp | 0.35 | تحسين الصور |
+
+---
+
+## 🚀 تشغيل المشروع
 
 ```bash
+# تثبيت الحزم
+npm install
+
+# تشغيل بيئة التطوير
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# بناء للإنتاج
+npm run build
+
+# تشغيل الإنتاج
+npm start
+
+# فحص الكود
+npm run lint
+```
+---
+
+## 🔐 نظام المصادقة
+
+المصادقة تعتمد على **JWT Cookie** (`admin_token`) يُرسل من الباك ايند.
+
+- الـ `middleware.ts` يحمي جميع مسارات `/admin/*` تلقائياً
+- إذا لم يكن هناك توكن → يُعاد التوجيه إلى `/admin/login`
+- إذا كان المستخدم مسجلاً ودخل `/admin/login` → يُعاد التوجيه إلى `/admin/dashboard`
+- جميع طلبات الأدمن تمر عبر Route Handlers في `/api/admin/` كـ proxy
+
+---
+
+## 🛒 إدارة السلة
+
+السلة مبنية بـ **Zustand** مع `persist` (تُحفظ في `localStorage`):
+
+```ts
+import { useCartStore } from "@/app/store/cartStore";
+
+const { addItem, removeItem, totalItems, totalPrice } = useCartStore();
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| الدالة | الوصف |
+|---|---|
+| `addItem(product)` | إضافة منتج (أو زيادة الكمية) |
+| `removeItem(id)` | حذف منتج |
+| `updateQty(id, qty)` | تحديث الكمية |
+| `setCustomer(info)` | حفظ بيانات العميل |
+| `clear()` | تفريغ السلة |
+| `totalItems()` | إجمالي عدد العناصر |
+| `totalPrice()` | إجمالي السعر |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🗂 التصنيفات والـ Slugs
 
-## Learn More
+التصنيفات الديناميكية تعتمد على `categoryConfig.ts` الذي يحتوي على خريطة كاملة من الـ slug إلى فلاتر المنتجات:
 
-To learn more about Next.js, take a look at the following resources:
+```ts
+// مثال
+"iphone-17-pro-max": {
+  label: "ابل ايفون 17 برو ماكس",
+  parentLabel: "الهواتف الذكية",
+  parentHref: "/smartphones",
+  filters: { category: "ابل ايفون 17 برو ماكس" },
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+التصنيفات الرئيسية المدعومة:
+- 📱 الهواتف الذكية (`/smartphones`)
+- 💻 اللابتوبات والشاشات (`/laptops`)
+- 📟 الأجهزة اللوحية (`/tablets`)
+- 🎧 الصوتيات والسماعات (`/audio`)
+- 🎮 بلاي ستيشن (`/playstation`)
+- 🎮 الألعاب (`/games`)
+- ⌚ ساعات آبل (`/apple-watches`)
+- 🔌 الإكسسوارات (`/accessories`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔒 الأمان (Security Headers)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+الـ `middleware.ts` يضيف تلقائياً على كل الصفحات:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| الهيدر | القيمة |
+|---|---|
+| `Content-Security-Policy` | سياسة محكمة لمنع XSS |
+| `Strict-Transport-Security` | HSTS في الإنتاج |
+| `X-Content-Type-Options` | `nosniff` |
+| `X-Frame-Options` | `SAMEORIGIN` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Cache-Control` | `no-store` لمسارات الأدمن |
+
+---
+
+## 🌐 SEO والـ Metadata
+
+- **Metadata ديناميكية** تُجلب من بيانات الشركة في الباك ايند
+- **Open Graph** و **Twitter Cards** مُعدّة بالكامل
+- **Sitemap ديناميكي** في `/sitemap.ts` يشمل جميع المنتجات والتصنيفات
+- **robots.ts** يتحكم في فهرسة محركات البحث
+- **JSON-LD** (Schema.org) للمنظمة وموقع البحث في الصفحة الرئيسية
+- **Cairo Font** من Google Fonts مع دعم العربية واللاتينية
+
+---
+
+## 📡 API Proxy
+
+جميع طلبات الفرونت ايند تمر عبر Route Handlers في `/app/api/` بدلاً من الاتصال المباشر بالباك ايند، مما يحمي عنوان الباك ايند ويضيف طبقة أمان إضافية.
+
+```
+المتصفح → /api/admin/products → Route Handler → Backend API
+```
+
+دالة `apiFetch` في `lib/api.ts` تتحقق من المسارات المسموح بها قبل أي طلب:
+
+```ts
+import { apiFetch } from "@/app/lib/api";
+
+const res = await apiFetch("/api/products", { method: "GET" });
+```
+
+---
+
+## 🖨 طباعة الوثائق
+
+لوحة الأدمن تدعم طباعة:
+- **الفاتورة** (`/admin/orders/[id]/invoice`)
+- **العقد** (`/admin/orders/[id]/contract`)
+- **إيصال الاستلام** (`/admin/orders/[id]/receipt`)
+- **إشعار الإلغاء** (`/admin/orders/[id]/cancellation`)
+- **صفحة الطباعة الكاملة** (`/admin/orders/[id]/print`)
+
+---
+
+## 📲 إشعارات Telegram
+
+عند إتمام أي طلب جديد، يُرسل إشعار تلقائي عبر Telegram Bot إلى الأدمن عبر مسار `/api/notify`.
+
+---
+
+## 🏗 الإنتاج (Deployment)
+
+المشروع مُنشر على **Railway** ويتصل بالباك ايند عبر:
+
+```
+NEXT_PUBLIC_API_URL=https://lamsa-backend-production.up.railway.app
+BACKEND_URL=https://lamsa-backend-production.up.railway.app
+```
+
+الصور مُحسّنة بـ `sharp` وتدعم صيغ `avif` و `webp` مع Remote Patterns لـ Cloudinary وRailway.
