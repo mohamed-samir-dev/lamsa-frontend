@@ -75,9 +75,12 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
   const ITEMS_PER_PAGE = 12;
 
   useEffect(() => {
-    fetch(`${API}/api/products`)
+    fetch(`${API}/api/products?page=1&limit=100`)
       .then((r) => r.json())
-      .then((data: Product[]) => setProducts(sortProducts(data.filter(filterFn))))
+      .then((data) => {
+        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
+        setProducts(sortProducts(list.filter(filterFn)));
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [filterFn]);

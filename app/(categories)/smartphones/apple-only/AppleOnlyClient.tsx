@@ -53,10 +53,11 @@ export default function AppleOnlyClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API}/api/products`)
+    fetch(`${API}/api/products?page=1&limit=100`)
       .then((r) => r.json())
-      .then((data: Product[]) => {
-        const applePhones = data.filter(
+      .then((data) => {
+        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
+        const applePhones = list.filter(
           (p) =>
             p.brand?.toLowerCase() === "apple" &&
             (p.name?.toLowerCase().includes("iphone") ||

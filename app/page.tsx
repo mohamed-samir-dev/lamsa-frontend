@@ -20,10 +20,12 @@ async function getCompany() {
 async function getProducts() {
   try {
     const r = await fetch(
-      `${BACKEND}/api/products?fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment`,
+      `${BACKEND}/api/products?page=1&limit=100&fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment`,
       { next: { revalidate: 60 } }
     );
-    return r.ok ? r.json() : [];
+    if (!r.ok) return [];
+    const data = await r.json();
+    return Array.isArray(data) ? data : (data.products ?? []);
   } catch {
     return [];
   }

@@ -45,10 +45,11 @@ export default function SamsungOnlyClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API}/api/products`)
+    fetch(`${API}/api/products?page=1&limit=100`)
       .then((r) => r.json())
-      .then((data: Product[]) => {
-        const samsungPhones = data.filter(
+      .then((data) => {
+        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
+        const samsungPhones = list.filter(
           (p) => p.brand?.toLowerCase() === "samsung"
         );
         setAllProducts(sortProducts(samsungPhones));

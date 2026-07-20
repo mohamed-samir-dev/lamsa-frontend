@@ -129,10 +129,13 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   useEffect(() => {
     if (!slug) return;
     const brand = config?.filters.brand ?? "";
-    const query = brand ? `?brand=${encodeURIComponent(brand)}` : "";
-    fetch(`${API}/api/products${query}`)
+    const query = brand ? `&brand=${encodeURIComponent(brand)}` : "";
+    fetch(`${API}/api/products?page=1&limit=100${query}`)
       .then((r) => r.json())
-      .then((data: Product[]) => setProducts(sortProducts(filterProducts(data, slug))))
+      .then((data) => {
+        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
+        setProducts(sortProducts(filterProducts(list, slug)));
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [slug, config?.filters.brand]);
