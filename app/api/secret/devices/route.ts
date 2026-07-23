@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const r = await fetch(`${BACKEND}${endpoint}`, {
-      headers: { Cookie: `admin_token=${process.env.ADMIN_INTERNAL_TOKEN || ""}` },
+      headers: { "x-internal-token": process.env.ADMIN_INTERNAL_TOKEN || "" },
       cache: "no-store",
     });
     const data = await r.json();
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
       method,
       headers: {
         "Content-Type": "application/json",
-        Cookie: `admin_token=${process.env.ADMIN_INTERNAL_TOKEN || ""}`,
+        "x-internal-token": process.env.ADMIN_INTERNAL_TOKEN || "",
       },
       body: method !== "DELETE" ? JSON.stringify(body) : undefined,
       cache: "no-store",
