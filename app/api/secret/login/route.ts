@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     res.cookies.set("sp_token", secret, {
       httpOnly: true,
       secure: isProd,
-      sameSite: isProd ? "strict" : "lax",
+      sameSite: "lax",
       maxAge: 60 * 60 * 8, // 8 hours
       path: "/",
     });
