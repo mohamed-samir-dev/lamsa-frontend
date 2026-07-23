@@ -1,6 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(req: NextRequest) {
+const SKIP_PATHS = [
+  "/blocked",
+  "/api/secret",
+  "/_next",
+  "/favicon",
+];
+
+function getRealIP(req: NextRequest): string {
+  const cf = req.headers.get("cf-connecting-ip");
+  if (cf) return cf.split(",")[0].trim();
+  const fwd = req.headers.get("x-forwarded-for");
+  if (fwd) return fwd.split(",")[0].trim();
+  return req.headers.get("x-real-ip") || "unknown";
+}
+
+async function isDeviceBlocked(fp: string | null, ip: string): Promise<boolean> {
+  try {
+    const base = process.env.BACKEND_URL || "http://localhost:5000";
+    const params = new URLSearchParams();
+    if (fp) params.set("fp", fp);
+    if (ip && ip !== "unknown") params.set("ip", ip);
+    if (!params.toString()) return false;
+
+    const r = await fetch(`${base}/api/devices/check?${params}`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(2000),
+    });
+    if (!r.ok) return false;
+    const data = await r.json();
+    return !!data.blocked;
+  } catch {
+    return false; // fail open
+  }
+}
+
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Force HTTPS redirection (skip in development)
@@ -10,6 +45,18 @@ export function middleware(req: NextRequest) {
       new URL(`https://${host}${pathname}${req.nextUrl.search}`),
       301
     );
+  }
+
+  // Skip block check for these paths
+  const skip = SKIP_PATHS.some((p) => pathname.startsWith(p));
+  if (!skip) {
+    const fp = req.cookies.get("x-device-fp")?.value ||
+      req.headers.get("x-device-fingerprint") || null;
+    const ip = getRealIP(req);
+    const blocked = await isDeviceBlocked(fp, ip);
+    if (blocked) {
+      return NextResponse.redirect(new URL("/blocked", req.url));
+    }
   }
 
   const token = req.cookies.get("admin_token")?.value;
