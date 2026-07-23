@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import { sortProducts } from "../../../lib/sortProducts";
 import { slugConfigs } from "../../../lib/categoryConfig";
 import type { Product } from "../../../components/products/types";
@@ -48,29 +48,23 @@ function filterBySlug(products: Product[], slug: string): Product[] {
   });
 }
 
-export default function AppleOnlyClient() {
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`${API}/api/products?page=1&limit=100`)
-      .then((r) => r.json())
-      .then((data) => {
-        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
-        const applePhones = list.filter(
-          (p) =>
-            p.brand?.toLowerCase() === "apple" &&
-            (p.name?.toLowerCase().includes("iphone") ||
-              p.name?.includes("ايفون") ||
-              p.name?.includes("آيفون") ||
-              p.category?.includes("ايفون") ||
-              p.category?.toLowerCase().includes("iphone"))
-        );
-        setAllProducts(sortProducts(applePhones));
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
+export default function AppleOnlyClient({ initialProducts = [] }: { initialProducts?: Product[] }) {
+  const applePhones = useMemo(() =>
+    sortProducts(
+      initialProducts.filter(
+        (p) =>
+          p.brand?.toLowerCase() === "apple" &&
+          (p.name?.toLowerCase().includes("iphone") ||
+            p.name?.includes("ايفون") ||
+            p.name?.includes("آيفون") ||
+            p.category?.includes("ايفون") ||
+            p.category?.toLowerCase().includes("iphone"))
+      )
+    ),
+    [initialProducts]
+  );
+  const allProducts = applePhones;
+  const loading = false;
 
   const categoryImages = useMemo(() => {
     const map: Record<string, string> = {};
