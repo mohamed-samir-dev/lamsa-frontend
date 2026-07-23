@@ -10,7 +10,8 @@ export default function ClientLayout({ children, footer }: { children: React.Rea
   const isAdmin = pathname.startsWith("/admin");
   const isFilePage = pathname.startsWith("/file");
   const isSecretPanel = pathname.startsWith("/secret-panel");
-  const hideLayout = isAdmin || isFilePage || isSecretPanel;
+  const isBlocked = pathname.startsWith("/blocked");
+  const hideLayout = isAdmin || isFilePage || isSecretPanel || isBlocked;
 
   return (
     <>

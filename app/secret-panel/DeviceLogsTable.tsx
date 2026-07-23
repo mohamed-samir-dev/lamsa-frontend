@@ -7,6 +7,7 @@ interface DeviceLog {
   fingerprint: string | null;
   ip: string | null;
   userAgent: string | null;
+  path: string | null;
   firstSeen: string;
   lastSeen: string;
   requestsCount: number;
@@ -140,6 +141,7 @@ export default function DeviceLogsTable() {
               <tr className="bg-gray-800/60 text-gray-400 text-xs">
                 <th className="px-4 py-3 text-right font-medium">IP</th>
                 <th className="px-4 py-3 text-right font-medium">Fingerprint</th>
+                <th className="px-4 py-3 text-right font-medium">الصفحة</th>
                 <th className="px-4 py-3 text-right font-medium">المتصفح</th>
                 <th className="px-4 py-3 text-right font-medium">النظام</th>
                 <th className="px-4 py-3 text-right font-medium">آخر زيارة</th>
@@ -155,6 +157,9 @@ export default function DeviceLogsTable() {
                     <td className="px-4 py-3 font-mono text-xs text-gray-300">{log.ip || "—"}</td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-500 max-w-[120px] truncate" title={log.fingerprint || ""}>
                       {log.fingerprint ? log.fingerprint.slice(0, 12) + "..." : "—"}
+                    </td>
+                    <td className="px-4 py-3 font-mono text-xs text-blue-400 max-w-[140px] truncate" title={log.path || ""}>
+                      {log.path || "/"}
                     </td>
                     <td className="px-4 py-3 text-gray-300">{browser}</td>
                     <td className="px-4 py-3 text-gray-300">{os}</td>
