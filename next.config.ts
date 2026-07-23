@@ -15,7 +15,12 @@ const nextConfig: NextConfig = {
         { source: "/robots.txt", destination: "/robots.txt" },
       ],
       afterFiles: [],
-      fallback: [],
+      fallback: [
+        {
+          source: "/api/:path*",
+          destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+        },
+      ],
     };
   },
   images: {

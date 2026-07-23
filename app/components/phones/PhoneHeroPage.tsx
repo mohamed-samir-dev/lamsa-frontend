@@ -24,6 +24,7 @@ function normalizeArabic(str: string): string {
 }
 
 function filterProducts(products: Product[], slug: string): Product[] {
+  if (!Array.isArray(products)) return [];
   const config = slugConfigs[slug];
   if (!config) return products;
   const { brand, category, nameIncludes, nameExcludes } = config.filters;
@@ -78,14 +79,20 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
 
   useEffect(() => {
-    const brand = config?.filters.brand ?? "";
-    const query = brand ? `?brand=${encodeURIComponent(brand)}` : "";
-    fetch(`${API}/api/products${query}`)
+    const { brand, category } = config?.filters ?? {};
+    const params = new URLSearchParams();
+    if (brand) params.set("brand", brand);
+    if (category) params.set("category", category);
+    params.set("limit", "200");
+    fetch(`${API}/api/products?${params}`)
       .then((r) => r.json())
-      .then((data: Product[]) => setProducts(sortProducts(filterProducts(data, slug))))
+      .then((data) => {
+        const list: Product[] = Array.isArray(data) ? data : Array.isArray(data?.products) ? data.products : [];
+        setProducts(sortProducts(filterProducts(list, slug)));
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [slug, config?.filters.brand]);
+  }, [slug, config?.filters.brand, config?.filters.category]);
 
   const availableColors = useMemo(() => [...new Set(products.map((p) => p.color).filter(Boolean))], [products]);
   const availableStorages = useMemo(() => [...new Set(products.map((p) => p.storage).filter(Boolean))], [products]);
