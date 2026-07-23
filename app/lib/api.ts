@@ -1,3 +1,5 @@
+import { getFingerprint } from "./useFingerprint";
+
 const ALLOWED_HOSTS = ["localhost", "lamsah-aldhaqiah.com", "backend-for-bsmastore-public-production-5e58.up.railway.app"];
 const ALLOWED_PREFIXES = [
   "/api/admin",
@@ -27,5 +29,10 @@ export function apiFetch(path: string, init?: RequestInit): Promise<Response> {
   }
   const base = getApiBase();
   const url = base ? `${base}${path}` : path;
-  return fetch(url, init);
+
+  const fp = getFingerprint();
+  const headers = new Headers(init?.headers);
+  if (fp) headers.set("x-device-fingerprint", fp);
+
+  return fetch(url, { ...init, headers });
 }

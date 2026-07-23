@@ -27,6 +27,17 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
+  // Secret panel — cookie-only auth, no redirect (just 404-like blank)
+  if (pathname.startsWith("/secret-panel")) {
+    const spToken = req.cookies.get("sp_token")?.value;
+    const spSecret = process.env.SECRET_PANEL_PASSWORD;
+    if (!spToken || !spSecret || spToken !== spSecret) {
+      // Return the page anyway — LoginForm handles the UI
+      // We only block API routes here
+      return NextResponse.next();
+    }
+  }
+
   const csp = [
     `default-src 'self'`,
     `script-src 'self' 'unsafe-inline' 'unsafe-eval'`,

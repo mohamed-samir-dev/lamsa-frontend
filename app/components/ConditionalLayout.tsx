@@ -6,9 +6,10 @@ export default async function ConditionalLayout({ children }: { children: React.
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || headersList.get("x-invoke-path") || "";
   const isAdmin = pathname.startsWith("/admin");
+  const isSecretPanel = pathname.startsWith("/secret-panel");
 
   return (
-    <ClientLayout footer={!isAdmin ? <Footer /> : null}>
+    <ClientLayout footer={!isAdmin && !isSecretPanel ? <Footer /> : null} hideNav={isSecretPanel}>
       {children}
     </ClientLayout>
   );

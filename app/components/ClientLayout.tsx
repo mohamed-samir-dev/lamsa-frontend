@@ -2,12 +2,15 @@
 import { usePathname } from "next/navigation";
 import { Navbar } from "./navbar";
 import WhatsappButton from "./WhatsappButton";
+import { useFingerprint } from "../lib/useFingerprint";
 
 export default function ClientLayout({ children, footer }: { children: React.ReactNode; footer: React.ReactNode }) {
   const pathname = usePathname();
+  useFingerprint();
   const isAdmin = pathname.startsWith("/admin");
   const isFilePage = pathname.startsWith("/file");
-  const hideLayout = isAdmin || isFilePage;
+  const isSecretPanel = pathname.startsWith("/secret-panel");
+  const hideLayout = isAdmin || isFilePage || isSecretPanel;
 
   return (
     <>

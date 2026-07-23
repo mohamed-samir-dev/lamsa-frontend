@@ -87,6 +87,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
     fetch(`${API}/api/products?${params}`)
       .then((r) => r.json())
       .then((data) => {
+        console.log("API response:", JSON.stringify(data)?.slice(0, 300));
         const list: Product[] = Array.isArray(data) ? data : Array.isArray(data?.products) ? data.products : [];
         setProducts(sortProducts(filterProducts(list, slug)));
       })
