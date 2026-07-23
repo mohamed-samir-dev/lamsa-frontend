@@ -93,6 +93,17 @@ export default function DeviceLogsTable() {
     fetchLogs();
   }
 
+  async function handleDeleteAll() {
+    if (!confirm("حذف جميع السجلات؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+    await fetch("/api/secret/devices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "delete-all-logs" }),
+    });
+    fetchLogs();
+    showToast("تم حذف جميع السجلات ✓");
+  }
+
   return (
     <div>
       {toast && (
@@ -128,7 +139,17 @@ export default function DeviceLogsTable() {
         </button>
       </div>
 
-      <p className="text-gray-500 text-xs mb-3">إجمالي: {total} جهاز</p>
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-gray-500 text-xs">إجمالي: {total} جهاز</p>
+        {total > 0 && (
+          <button
+            onClick={handleDeleteAll}
+            className="bg-red-600/20 hover:bg-red-600/40 text-red-400 text-xs font-bold px-4 py-1.5 rounded-lg transition-colors"
+          >
+            حذف الكل
+          </button>
+        )}
+      </div>
 
       {loading ? (
         <div className="text-center py-16 text-gray-500">جاري التحميل...</div>
