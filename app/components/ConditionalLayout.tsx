@@ -9,7 +9,7 @@ export default async function ConditionalLayout({ children }: { children: React.
   const isSecretPanel = pathname.startsWith("/secret-panel");
 
   return (
-    <ClientLayout footer={!isAdmin && !isSecretPanel ? <Footer /> : null} hideNav={isSecretPanel}>
+    <ClientLayout footer={!isAdmin && !isSecretPanel ? <Footer /> : null}>
       {children}
     </ClientLayout>
   );
