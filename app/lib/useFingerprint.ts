@@ -6,6 +6,11 @@ const SESSION_KEY = "x-device-fp-s";
 
 let cachedVisitorId: string | null = null;
 
+function setFingerprintCookie(fp: string) {
+  const maxAge = 60 * 60 * 24 * 365; // 1 year
+  document.cookie = `x-device-fp=${fp};path=/;max-age=${maxAge};SameSite=Lax`;
+}
+
 export function useFingerprint() {
   const initialized = useRef(false);
 
@@ -20,6 +25,7 @@ export function useFingerprint() {
     const session = sessionStorage.getItem(SESSION_KEY);
     if (session) {
       cachedVisitorId = session;
+      setFingerprintCookie(session);
       return;
     }
 
@@ -28,6 +34,7 @@ export function useFingerprint() {
     if (stored) {
       cachedVisitorId = stored;
       sessionStorage.setItem(SESSION_KEY, stored);
+      setFingerprintCookie(stored);
       return;
     }
 
@@ -42,6 +49,7 @@ export function useFingerprint() {
           } catch {
             // storage blocked — still use in-memory
           }
+          setFingerprintCookie(result.visitorId);
         });
       });
     });
