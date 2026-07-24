@@ -126,7 +126,7 @@ export default function ProductGrid({ initialProducts, initialHomeConfig, initia
   const grouped = useMemo(() => {
     const map: Record<string, Product[]> = {};
     products.forEach((p) => {
-      const cat = p.category || "أخرى";
+      const cat = p.subCategory || p.category || "أخرى";
       (map[cat] ??= []).push(p);
     });
     Object.keys(map).forEach((cat) => { map[cat] = sortProducts(map[cat]); });
