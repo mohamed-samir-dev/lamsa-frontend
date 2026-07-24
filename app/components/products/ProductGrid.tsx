@@ -142,7 +142,7 @@ export default function ProductGrid({ initialProducts, initialHomeConfig, initia
     const orderedCats = visibleSettings
       .sort((a, b) => a.order - b.order)
       .slice(0, max)
-      .map((s) => s.category)
+      .map((s) => allCats.find((c) => c === s.category || c === s.subCategory) ?? s.category)
       .filter((c, idx, arr) => arr.indexOf(c) === idx)
       .filter((c) => allCats.includes(c));
     return orderedCats.length > 0 ? orderedCats : allCats;

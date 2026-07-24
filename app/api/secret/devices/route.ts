@@ -57,6 +57,11 @@ export async function POST(req: NextRequest) {
     } else if (action === "delete-all-logs") {
       endpoint = "/api/admin/devices/logs/all";
       method = "DELETE";
+    } else if (action === "unblock-all") {
+      endpoint = "/api/admin/devices/unblock-all";
+    } else if (action === "delete-all-blocked") {
+      endpoint = "/api/admin/devices/blocked/all";
+      method = "DELETE";
     } else if (action === "delete-blocked") {
       endpoint = `/api/admin/devices/blocked/${body.id}`;
       method = "DELETE";

@@ -20,7 +20,7 @@ async function getCompany() {
 async function getProducts() {
   try {
     const r = await fetch(
-      `${BACKEND}/api/products?page=1&limit=100&fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment,discountPercent`,
+      `${BACKEND}/api/products?page=1&limit=500&fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment,discountPercent`,
       { next: { revalidate: 60 } }
     );
     if (!r.ok) return [];

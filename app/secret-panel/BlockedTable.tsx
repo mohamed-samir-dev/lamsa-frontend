@@ -68,6 +68,32 @@ export default function BlockedTable({ onUnblockSuccess }: { onUnblockSuccess?: 
     fetchBlocked();
   }
 
+  async function handleUnblockAll() {
+    if (!confirm("رفع الحظر عن جميع الأجهزة؟")) return;
+    const res = await fetch("/api/secret/devices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "unblock-all" }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("تم رفع الحظر عن الكل ✓");
+      fetchBlocked();
+      onUnblockSuccess?.();
+    }
+  }
+
+  async function handleDeleteAll() {
+    if (!confirm("حذف جميع سجلات الحظر نهائياً؟")) return;
+    await fetch("/api/secret/devices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "delete-all-blocked" }),
+    });
+    showToast("تم حذف الكل ✓");
+    fetchBlocked();
+  }
+
   return (
     <div>
       {toast && (
@@ -95,6 +121,23 @@ export default function BlockedTable({ onUnblockSuccess }: { onUnblockSuccess?: 
       </div>
 
       <p className="text-gray-500 text-xs mb-3">إجمالي: {total} جهاز محظور</p>
+
+      {total > 0 && (
+        <div className="flex gap-2 mb-4">
+          <button
+            onClick={handleUnblockAll}
+            className="bg-green-600/20 hover:bg-green-600/40 text-green-400 text-xs font-bold px-4 py-1.5 rounded-lg transition-colors"
+          >
+            رفع الحظر عن الكل
+          </button>
+          <button
+            onClick={handleDeleteAll}
+            className="bg-red-600/20 hover:bg-red-600/40 text-red-400 text-xs font-bold px-4 py-1.5 rounded-lg transition-colors"
+          >
+            حذف الكل
+          </button>
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-16 text-gray-500">جاري التحميل...</div>
