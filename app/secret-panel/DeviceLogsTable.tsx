@@ -6,6 +6,7 @@ interface DeviceLog {
   _id: string;
   fingerprint: string | null;
   ip: string | null;
+  country: string | null;
   userAgent: string | null;
   path: string | null;
   firstSeen: string;
@@ -161,6 +162,7 @@ export default function DeviceLogsTable() {
             <thead>
               <tr className="bg-gray-800/60 text-gray-400 text-xs">
                 <th className="px-4 py-3 text-right font-medium">IP</th>
+                <th className="px-4 py-3 text-right font-medium">الدولة</th>
                 <th className="px-4 py-3 text-right font-medium">Fingerprint</th>
                 <th className="px-4 py-3 text-right font-medium">الصفحة</th>
                 <th className="px-4 py-3 text-right font-medium">المتصفح</th>
@@ -176,6 +178,7 @@ export default function DeviceLogsTable() {
                 return (
                   <tr key={log._id} className="hover:bg-gray-800/40 transition-colors">
                     <td className="px-4 py-3 font-mono text-xs text-gray-300">{log.ip || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-gray-300">{log.country || "—"}</td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-500 max-w-[120px] truncate" title={log.fingerprint || ""}>
                       {log.fingerprint ? log.fingerprint.slice(0, 12) + "..." : "—"}
                     </td>
