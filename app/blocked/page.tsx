@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function BlockedPage() {
   return (
     <div
@@ -26,11 +24,11 @@ export default function BlockedPage() {
 
         {/* الصورة */}
         <div className="relative w-64 h-64 rounded-2xl overflow-hidden border-4 border-red-600 shadow-[0_0_30px_rgba(239,68,68,0.6)]">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/aa.jpeg"
             alt="blocked"
-            fill
-            className="object-cover"
+            className="w-full h-full object-cover"
           />
           {/* طبقة حمرا فوق الصورة */}
           <div className="absolute inset-0 bg-red-900/30" />
