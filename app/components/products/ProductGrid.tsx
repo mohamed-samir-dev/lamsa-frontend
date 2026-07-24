@@ -126,7 +126,7 @@ export default function ProductGrid({ initialProducts, initialHomeConfig, initia
   const grouped = useMemo(() => {
     const map: Record<string, Product[]> = {};
     products.forEach((p) => {
-      const cat = p.subCategory || p.category || "أخرى";
+      const cat = p.category || p.subCategory || "أخرى";
       (map[cat] ??= []).push(p);
     });
     Object.keys(map).forEach((cat) => { map[cat] = sortProducts(map[cat]); });
@@ -142,7 +142,7 @@ export default function ProductGrid({ initialProducts, initialHomeConfig, initia
     const orderedCats = visibleSettings
       .sort((a, b) => a.order - b.order)
       .slice(0, max)
-      .map((s) => s.subCategory)
+      .map((s) => s.category)
       .filter((c, idx, arr) => arr.indexOf(c) === idx)
       .filter((c) => allCats.includes(c));
     return orderedCats.length > 0 ? orderedCats : allCats;
