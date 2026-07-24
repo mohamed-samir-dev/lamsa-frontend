@@ -9,6 +9,7 @@ interface DeviceLog {
   country: string | null;
   userAgent: string | null;
   path: string | null;
+  buyerName: string | null;
   label: string | null;
   firstSeen: string;
   lastSeen: string;
@@ -98,7 +99,6 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
   }
 
   async function handleDeleteLog(id: string) {
-    if (!confirm("حذف هذا السجل؟")) return;
     await fetch("/api/secret/devices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -108,7 +108,6 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
   }
 
   async function handleDeleteAll() {
-    if (!confirm("حذف جميع السجلات؟ لا يمكن التراجع عن هذا الإجراء.")) return;
     await fetch("/api/secret/devices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -176,6 +175,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
               <tr className="bg-gray-800/60 text-gray-400 text-xs">
                 <th className="px-4 py-3 text-right font-medium">#</th>
                 <th className="px-4 py-3 text-right font-medium">التسمية</th>
+                <th className="px-4 py-3 text-right font-medium">اشترى</th>
                 <th className="px-4 py-3 text-right font-medium">IP</th>
                 <th className="px-4 py-3 text-right font-medium">الدولة</th>
                 <th className="px-4 py-3 text-right font-medium">Fingerprint</th>
@@ -221,6 +221,13 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
                             <span className="text-gray-600">+ تسمية</span>
                           )}
                         </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      {log.buyerName ? (
+                        <span className="bg-green-500/20 text-green-300 font-bold px-2 py-0.5 rounded">{log.buyerName}</span>
+                      ) : (
+                        <span className="text-gray-700">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-300">{log.ip || "—"}</td>
