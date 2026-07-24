@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import BlockModal from "./BlockModal";
 
 interface DeviceLog {
   _id: string;
@@ -41,7 +40,6 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [blockTarget, setBlockTarget] = useState<DeviceLog | null>(null);
   const [toast, setToast] = useState("");
   const [editingLabel, setEditingLabel] = useState<{ id: string; value: string } | null>(null);
 
@@ -65,24 +63,23 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
     setTimeout(() => setToast(""), 3000);
   }
 
-  async function handleBlock(reason: string) {
-    if (!blockTarget) return;
+  async function handleBlock(log: DeviceLog) {
     const res = await fetch("/api/secret/devices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "block",
-        fingerprint: blockTarget.fingerprint,
-        ip: blockTarget.ip,
-        userAgent: blockTarget.userAgent,
-        reason,
+        fingerprint: log.fingerprint,
+        ip: log.ip,
+        userAgent: log.userAgent,
+        reason: "",
       }),
     });
     const data = await res.json();
     if (data.success) {
       showToast("تم الحظر بنجاح ✓");
-      setBlockTarget(null);
       fetchLogs();
+      onBlockSuccess?.();
     } else {
       showToast("حدث خطأ أثناء الحظر");
     }
@@ -123,15 +120,6 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-green-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-xl">
           {toast}
         </div>
-      )}
-
-      {blockTarget && (
-        <BlockModal
-          fingerprint={blockTarget.fingerprint || undefined}
-          ip={blockTarget.ip || undefined}
-          onClose={() => setBlockTarget(null)}
-          onConfirm={handleBlock}
-        />
       )}
 
       {/* Search */}
@@ -251,7 +239,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
                     <td className="px-4 py-3">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setBlockTarget(log)}
+                          onClick={() => handleBlock(log)}
                           className="bg-red-600/20 hover:bg-red-600/40 text-red-400 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
                         >
                           حظر
