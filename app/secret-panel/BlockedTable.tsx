@@ -105,6 +105,7 @@ export default function BlockedTable({ onUnblockSuccess }: { onUnblockSuccess?: 
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-800/60 text-gray-400 text-xs">
+                <th className="px-4 py-3 text-right font-medium">#</th>
                 <th className="px-4 py-3 text-right font-medium">IP</th>
                 <th className="px-4 py-3 text-right font-medium">Fingerprint</th>
                 <th className="px-4 py-3 text-right font-medium">السبب</th>
@@ -116,6 +117,7 @@ export default function BlockedTable({ onUnblockSuccess }: { onUnblockSuccess?: 
             <tbody className="divide-y divide-gray-800">
               {devices.map((d) => (
                 <tr key={d._id} className="hover:bg-gray-800/40 transition-colors">
+                  <td className="px-4 py-3 text-gray-500 text-xs">{(page - 1) * 20 + devices.indexOf(d) + 1}</td>
                   <td className="px-4 py-3 font-mono text-xs text-gray-300">{d.ip || "—"}</td>
                   <td className="px-4 py-3 font-mono text-xs text-gray-500 max-w-[120px] truncate" title={d.fingerprint || ""}>
                     {d.fingerprint ? d.fingerprint.slice(0, 12) + "..." : "—"}

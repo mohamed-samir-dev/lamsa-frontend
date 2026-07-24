@@ -162,6 +162,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-800/60 text-gray-400 text-xs">
+                <th className="px-4 py-3 text-right font-medium">#</th>
                 <th className="px-4 py-3 text-right font-medium">IP</th>
                 <th className="px-4 py-3 text-right font-medium">الدولة</th>
                 <th className="px-4 py-3 text-right font-medium">Fingerprint</th>
@@ -178,6 +179,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
                 const { browser, os } = parseUA(log.userAgent);
                 return (
                   <tr key={log._id} className="hover:bg-gray-800/40 transition-colors">
+                    <td className="px-4 py-3 text-gray-500 text-xs">{(page - 1) * 20 + logs.indexOf(log) + 1}</td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-300">{log.ip || "—"}</td>
                     <td className="px-4 py-3 text-xs text-gray-300">{log.country || "—"}</td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-500 max-w-[120px] truncate" title={log.fingerprint || ""}>
