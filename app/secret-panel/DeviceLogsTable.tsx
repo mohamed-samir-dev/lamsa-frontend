@@ -9,6 +9,7 @@ interface DeviceLog {
   country: string | null;
   userAgent: string | null;
   path: string | null;
+  label: string | null;
   firstSeen: string;
   lastSeen: string;
   requestsCount: number;
@@ -41,6 +42,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
   const [loading, setLoading] = useState(false);
   const [blockTarget, setBlockTarget] = useState<DeviceLog | null>(null);
   const [toast, setToast] = useState("");
+  const [editingLabel, setEditingLabel] = useState<{ id: string; value: string } | null>(null);
 
   const fetchLogs = useCallback(async () => {
     setLoading(true);
@@ -83,6 +85,16 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
     } else {
       showToast("حدث خطأ أثناء الحظر");
     }
+  }
+
+  async function handleSetLabel(id: string, label: string) {
+    await fetch("/api/secret/devices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "set-label", id, label }),
+    });
+    setEditingLabel(null);
+    fetchLogs();
   }
 
   async function handleDeleteLog(id: string) {
@@ -163,6 +175,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
             <thead>
               <tr className="bg-gray-800/60 text-gray-400 text-xs">
                 <th className="px-4 py-3 text-right font-medium">#</th>
+                <th className="px-4 py-3 text-right font-medium">التسمية</th>
                 <th className="px-4 py-3 text-right font-medium">IP</th>
                 <th className="px-4 py-3 text-right font-medium">الدولة</th>
                 <th className="px-4 py-3 text-right font-medium">Fingerprint</th>
@@ -180,6 +193,36 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
                 return (
                   <tr key={log._id} className="hover:bg-gray-800/40 transition-colors">
                     <td className="px-4 py-3 text-gray-500 text-xs">{(page - 1) * 20 + logs.indexOf(log) + 1}</td>
+                    <td className="px-4 py-3 text-xs">
+                      {editingLabel?.id === log._id ? (
+                        <div className="flex gap-1">
+                          <input
+                            autoFocus
+                            value={editingLabel.value}
+                            onChange={(e) => setEditingLabel({ id: log._id, value: e.target.value })}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleSetLabel(log._id, editingLabel.value);
+                              if (e.key === "Escape") setEditingLabel(null);
+                            }}
+                            className="bg-gray-700 border border-gray-600 text-white rounded px-2 py-1 text-xs w-28 focus:outline-none focus:border-yellow-500"
+                          />
+                          <button onClick={() => handleSetLabel(log._id, editingLabel.value)} className="text-green-400 text-xs px-1">✓</button>
+                          <button onClick={() => setEditingLabel(null)} className="text-gray-500 text-xs px-1">✕</button>
+                        </div>
+                      ) : (
+                        <span
+                          onClick={() => setEditingLabel({ id: log._id, value: log.label || "" })}
+                          className="cursor-pointer px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                          title="اضغط للتعديل"
+                        >
+                          {log.label ? (
+                            <span className="bg-yellow-500/20 text-yellow-300 font-bold px-2 py-0.5 rounded">{log.label}</span>
+                          ) : (
+                            <span className="text-gray-600">+ تسمية</span>
+                          )}
+                        </span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-300">{log.ip || "—"}</td>
                     <td className="px-4 py-3 text-xs text-gray-300">{log.country || "—"}</td>
                     <td className="px-4 py-3 font-mono text-xs text-gray-500 max-w-[120px] truncate" title={log.fingerprint || ""}>
