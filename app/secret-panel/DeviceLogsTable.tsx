@@ -82,7 +82,7 @@ export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: (
     if (data.success) {
       showToast("تم الحظر بنجاح ✓");
       setBlockTarget(null);
-      onBlockSuccess?.();
+      fetchLogs();
     } else {
       showToast("حدث خطأ أثناء الحظر");
     }
