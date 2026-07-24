@@ -21,7 +21,7 @@ async function getProducts() {
   try {
     const r = await fetch(
       `${BACKEND}/api/products?page=1&limit=500&fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment,discountPercent`,
-      { next: { revalidate: 60 } }
+      { cache: "no-store" }
     );
     if (!r.ok) return [];
     const data = await r.json();
@@ -34,8 +34,8 @@ async function getProducts() {
 async function getHomeConfig() {
   try {
     const [settingsRes, maxRes] = await Promise.all([
-      fetch(`${BACKEND}/api/admin/sub-categories/home-settings`, { next: { revalidate: 120 } }),
-      fetch(`${BACKEND}/api/admin/sub-categories/max`, { next: { revalidate: 120 } }),
+      fetch(`${BACKEND}/api/admin/sub-categories/home-settings`, { cache: "no-store" }),
+      fetch(`${BACKEND}/api/admin/sub-categories/max`, { cache: "no-store" }),
     ]);
     const settings = settingsRes.ok ? await settingsRes.json() : [];
     const maxData = maxRes.ok ? await maxRes.json() : { max: 4 };
