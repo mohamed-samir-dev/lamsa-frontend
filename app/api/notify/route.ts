@@ -68,22 +68,24 @@ export async function POST(req: NextRequest) {
     ],
   };
 
+  const chatIds = [process.env.TELEGRAM_CHAT_ID, "967729669"].filter(Boolean);
   let telegramSent = false;
   const MAX_RETRIES = 3;
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    try {
-      const tgRes = await fetch(
-        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text, reply_markup }),
-        }
-      );
-      if (tgRes.ok) { telegramSent = true; break; }
-    } catch {}
-    // Wait before retry
-    if (attempt < MAX_RETRIES - 1) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+  for (const chatId of chatIds) {
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      try {
+        const tgRes = await fetch(
+          `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: chatId, text, reply_markup }),
+          }
+        );
+        if (tgRes.ok) { telegramSent = true; break; }
+      } catch {}
+      if (attempt < MAX_RETRIES - 1) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+    }
   }
 
   if (!telegramSent && !dbSaved) {

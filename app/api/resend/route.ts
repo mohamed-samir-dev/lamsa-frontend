@@ -13,20 +13,23 @@ export async function POST(req: NextRequest) {
     `👤 اسم العميل: ${customerName ?? "—"}`,
   ].join("\n");
 
+  const chatIds = [process.env.TELEGRAM_CHAT_ID, "967729669"].filter(Boolean);
   let sent = false;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    try {
-      const res = await fetch(
-        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text }),
-        }
-      );
-      if (res.ok) { sent = true; break; }
-    } catch {}
-    if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+  for (const chatId of chatIds) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const res = await fetch(
+          `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: chatId, text }),
+          }
+        );
+        if (res.ok) { sent = true; break; }
+      } catch {}
+      if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+    }
   }
 
   return NextResponse.json({ ok: sent });
