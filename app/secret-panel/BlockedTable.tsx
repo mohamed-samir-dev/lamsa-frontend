@@ -12,7 +12,7 @@ interface BlockedDevice {
   createdAt: string;
 }
 
-export default function BlockedTable() {
+export default function BlockedTable({ onUnblockSuccess }: { onUnblockSuccess?: () => void }) {
   const [devices, setDevices] = useState<BlockedDevice[]>([]);
   const [total, setTotal] = useState(0);
   const [pages, setPages] = useState(1);
@@ -53,6 +53,7 @@ export default function BlockedTable() {
     if (data.success) {
       showToast("تم رفع الحظر ✓");
       fetchBlocked();
+      onUnblockSuccess?.();
     }
   }
 

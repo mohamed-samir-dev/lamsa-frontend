@@ -31,7 +31,7 @@ function parseUA(ua: string | null) {
   return { browser, os };
 }
 
-export default function DeviceLogsTable() {
+export default function DeviceLogsTable({ onBlockSuccess }: { onBlockSuccess?: () => void }) {
   const [logs, setLogs] = useState<DeviceLog[]>([]);
   const [total, setTotal] = useState(0);
   const [pages, setPages] = useState(1);
@@ -79,6 +79,7 @@ export default function DeviceLogsTable() {
     if (data.success) {
       showToast("تم الحظر بنجاح ✓");
       setBlockTarget(null);
+      onBlockSuccess?.();
     } else {
       showToast("حدث خطأ أثناء الحظر");
     }

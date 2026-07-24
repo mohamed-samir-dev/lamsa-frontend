@@ -69,7 +69,11 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {tab === "logs" ? <DeviceLogsTable /> : <BlockedTable />}
+        {tab === "logs" ? (
+          <DeviceLogsTable onBlockSuccess={() => setTab("blocked")} />
+        ) : (
+          <BlockedTable onUnblockSuccess={() => setTab("logs")} />
+        )}
       </div>
     </div>
   );

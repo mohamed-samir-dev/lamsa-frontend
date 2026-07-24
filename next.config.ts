@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
     optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "swiper"],
-    optimizeCss: true,
   },
   async rewrites() {
     return {
