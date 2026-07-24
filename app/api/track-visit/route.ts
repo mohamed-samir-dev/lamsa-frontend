@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
         "user-agent": req.headers.get("user-agent") || "",
         "x-forwarded-for": req.headers.get("x-forwarded-for") || "",
         "cf-connecting-ip": req.headers.get("cf-connecting-ip") || "",
+        "cf-ipcountry": req.headers.get("cf-ipcountry") || "",
       },
       body: JSON.stringify(body),
     });

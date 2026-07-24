@@ -39,20 +39,22 @@ export function useFingerprint() {
     }
 
     // Generate new fingerprint
-    import("@fingerprintjs/fingerprintjs").then((FingerprintJS) => {
-      FingerprintJS.load().then((fp) => {
-        fp.get().then((result) => {
-          cachedVisitorId = result.visitorId;
-          try {
-            localStorage.setItem(STORAGE_KEY, result.visitorId);
-            sessionStorage.setItem(SESSION_KEY, result.visitorId);
-          } catch {
-            // storage blocked — still use in-memory
-          }
-          setFingerprintCookie(result.visitorId);
-        });
-      });
-    });
+    const save = (id: string) => {
+      cachedVisitorId = id;
+      try {
+        localStorage.setItem(STORAGE_KEY, id);
+        sessionStorage.setItem(SESSION_KEY, id);
+      } catch { /* storage blocked */ }
+      setFingerprintCookie(id);
+    };
+
+    const fallbackId = () => crypto.randomUUID?.() ?? Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+    import("@fingerprintjs/fingerprintjs")
+      .then((FingerprintJS) => FingerprintJS.load())
+      .then((fp) => fp.get())
+      .then((result) => save(result.visitorId))
+      .catch(() => save(fallbackId()));
   }, []);
 }
 
