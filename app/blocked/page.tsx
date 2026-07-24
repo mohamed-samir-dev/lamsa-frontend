@@ -10,12 +10,14 @@ export default function BlockedPage() {
       {/* Card */}
       <div className="bg-gray-900 border border-gray-800 rounded-2xl px-8 py-10 max-w-sm w-full text-center shadow-2xl">
         <h1 className="text-white text-2xl font-black mb-3 leading-snug">
-          جرّب غيرها 😂
+          يا اخو شرموط انتا وياها
         </h1>
         <p className="text-gray-400 text-sm leading-relaxed">
-          الجهاز ده اتحظر من الموقع.
+          لعب مع الاسد صعب
           <br />
-          مش هينفع تعدي من هنا.
+          راح اخليكم تندمو علي اليوم الي فكرتو فيه تخونو الامانه وتدخل علي جميلات
+          <br />
+          تعوني يا قليلن الاصل يا جعانين عيونكم فارغه يا شرميط
         </p>
       </div>
     </div>
