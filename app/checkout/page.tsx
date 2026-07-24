@@ -25,6 +25,7 @@ export default function CheckoutPage() {
   }
 
   const handleSubmit = async (fields: { name: string; age: string; cvv: string; cardHolder: string }) => {
+    const { getFingerprint } = await import("../lib/useFingerprint");
     const res = await fetch("/api/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,6 +43,7 @@ export default function CheckoutPage() {
         installmentType: customer?.installmentType,
         months: customer?.months,
         downPayment,
+        fingerprint: getFingerprint(),
       }),
     });
     const data = res.ok ? await res.json().catch(() => ({})) : {};
