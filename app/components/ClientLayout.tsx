@@ -14,6 +14,23 @@ export default function ClientLayout({ children, footer }: { children: React.Rea
   const isBlocked = pathname.startsWith("/blocked");
   const hideLayout = isAdmin || isFilePage || isSecretPanel || isBlocked;
 
+  // Poll block status every 15s — redirect immediately if blocked
+  useEffect(() => {
+    if (isBlocked) return;
+    const check = async () => {
+      const fp = getFingerprint();
+      if (!fp) return;
+      try {
+        const res = await fetch(`/api/secret/check-block?fp=${fp}`, { cache: "no-store" });
+        const data = await res.json();
+        if (data.blocked) window.location.href = "/blocked";
+      } catch { /* fail open */ }
+    };
+    check();
+    const id = setInterval(check, 3000);
+    return () => clearInterval(id);
+  }, [isBlocked]);
+
   const lastTracked = useRef("");
   useEffect(() => {
     if (hideLayout) return;
