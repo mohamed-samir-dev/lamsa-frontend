@@ -10,6 +10,8 @@ export default function Dashboard() {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("logs");
   const [loggingOut, setLoggingOut] = useState(false);
+  const [logsKey, setLogsKey] = useState(0);
+  const [blockedKey, setBlockedKey] = useState(0);
 
   async function handleLogout() {
     setLoggingOut(true);
@@ -70,9 +72,9 @@ export default function Dashboard() {
         </div>
 
         {tab === "logs" ? (
-          <DeviceLogsTable onBlockSuccess={() => setTab("blocked")} />
+          <DeviceLogsTable key={logsKey} onBlockSuccess={() => { setBlockedKey(k => k + 1); setTab("blocked"); }} />
         ) : (
-          <BlockedTable onUnblockSuccess={() => setTab("logs")} />
+          <BlockedTable key={blockedKey} onUnblockSuccess={() => { setLogsKey(k => k + 1); setTab("logs"); }} />
         )}
       </div>
     </div>
