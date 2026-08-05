@@ -96,6 +96,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={cairo.className}>
       <head>
         <link rel="preload" href="/hero1.webp" as="image" type="image/webp" fetchPriority="high" />
+        <script src="https://eauthenticate.saudibusiness.gov.sa/EAuthSealApi/seal.js" async />
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <ClientLayout footer={<Footer />}>{children}</ClientLayout>

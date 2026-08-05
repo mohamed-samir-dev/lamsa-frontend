@@ -215,6 +215,7 @@ export default async function Footer() {
           </div>
         </div>
       </div>
+      <div className="sbc-verify-seal" data-token="MStxS0d2Q1pNbVF0ZkhEVitKdkd6UT09" data-position="bottom-left" />
     </footer>
   );
 }
