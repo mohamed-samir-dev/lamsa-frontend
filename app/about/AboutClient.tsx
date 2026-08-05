@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import ContactSection from "../components/ContactSection";
 
 function useInView(threshold = 0.12) {
@@ -224,6 +225,8 @@ export default function AboutClient() {
       </section>
 
       <div className="h-16" />
+      <div className="sbc-verify-seal" data-token="MStxS0d2Q1pNbVF0ZkhEVitKdkd6UT09" data-position="bottom-left" />
+      <Script src="https://eauthenticate.saudibusiness.gov.sa/EAuthSealApi/seal.js" strategy="afterInteractive" />
     </main>
   );
 }
