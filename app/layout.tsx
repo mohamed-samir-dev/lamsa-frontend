@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import ClientLayout from "./components/ClientLayout";
 import Footer from "./components/Footer";
@@ -96,10 +97,11 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={cairo.className}>
       <head>
         <link rel="preload" href="/hero1.webp" as="image" type="image/webp" fetchPriority="high" />
-        <script src="https://eauthenticate.saudibusiness.gov.sa/EAuthSealApi/seal.js" async />
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <ClientLayout footer={<Footer />}>{children}</ClientLayout>
+        <div className="sbc-verify-seal" data-token="MStxS0d2Q1pNbVF0ZkhEVitKdkd6UT09" data-position="bottom-left" />
+        <Script src="https://eauthenticate.saudibusiness.gov.sa/EAuthSealApi/seal.js" strategy="afterInteractive" />
       </body>
     </html>
   );
