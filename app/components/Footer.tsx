@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { FaWhatsapp, FaMobileAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { IoStorefrontOutline, IoShieldCheckmarkOutline, IoCardOutline } from "react-icons/io5";
 
@@ -216,6 +217,7 @@ export default async function Footer() {
         </div>
       </div>
       <div className="sbc-verify-seal" data-token="MStxS0d2Q1pNbVF0ZkhEVitKdkd6UT09" data-position="bottom-left" />
+      <Script src="https://eauthenticate.saudibusiness.gov.sa/EAuthSealApi/seal.js" strategy="lazyOnload" />
     </footer>
   );
 }
