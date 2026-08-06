@@ -17,7 +17,9 @@ export default function VerifyPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const submitCooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [dbOrderId, setDbOrderId] = useState<string | null>(null);
+  const [dbOrderId, setDbOrderId] = useState<string | null>(
+    typeof window !== "undefined" ? localStorage.getItem("dbOrderId") : null
+  );
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -46,11 +48,6 @@ export default function VerifyPage() {
   const orderId = typeof window !== "undefined" ? localStorage.getItem("orderId") ?? "—" : "—";
   const savedName = typeof window !== "undefined" ? localStorage.getItem("customerName") ?? "—" : "—";
   const customerName = customer?.name || savedName;
-
-  useEffect(() => {
-    const stored = typeof window !== "undefined" ? localStorage.getItem("dbOrderId") : null;
-    if (stored) setDbOrderId(stored);
-  }, []);
 
   useEffect(() => {
     if (!dbOrderId) return;

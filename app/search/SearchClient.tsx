@@ -15,11 +15,17 @@ export default function SearchClient() {
   useEffect(() => {
     if (!q || q === lastQ.current) return;
     lastQ.current = q;
-    setLoading(true);
-    fetch(`/api/products?q=${encodeURIComponent(q)}`)
-      .then((r) => r.json())
-      .then((data) => setProducts(Array.isArray(data) ? data : []))
-      .finally(() => setLoading(false));
+    const controller = new AbortController();
+    (async () => {
+      setLoading(true);
+      try {
+        const r = await fetch(`/api/products?q=${encodeURIComponent(q)}`, { signal: controller.signal });
+        const data = await r.json();
+        setProducts(Array.isArray(data) ? data : []);
+      } catch {}
+      setLoading(false);
+    })();
+    return () => controller.abort();
   }, [q]);
 
   return (
