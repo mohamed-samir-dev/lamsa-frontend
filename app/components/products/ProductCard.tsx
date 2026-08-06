@@ -64,12 +64,12 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         </div>
       )}
 
-      <Link
-        href={`/product/${product._id}`}
+      <div
         className="product-card group relative flex flex-col h-full rounded-[20px] overflow-hidden border border-[#EBE6E2] hover:border-[#DFC4A4] transition-all duration-300 hover:shadow-[0_8px_30px_-8px_rgba(31,44,62,0.12)]"
         dir="rtl"
         style={{ backgroundColor: '#FFFFFF' }}
       >
+      <Link href={`/product/${product._id}`} className="flex flex-col flex-1">
         {/* ── Image Section ── */}
         <div className="relative w-full aspect-[4/3] sm:aspect-square overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
 
@@ -181,6 +181,8 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           </div>
         </div>
 
+      </Link>
+
         {/* ── Cart button ── */}
         <div className="px-3 sm:px-4 pb-3 sm:pb-4 pt-2">
           <button
@@ -225,7 +227,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             100% { left: 100%; }
           }
         `}</style>
-      </Link>
+      </div>
     </>
   );
 }
