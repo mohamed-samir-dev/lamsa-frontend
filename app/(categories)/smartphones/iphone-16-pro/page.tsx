@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPhone 16 Pro | لمسه للاجهزه الذكيه",
   description: "iPhone 16 Pro بتصميم تيتانيوم وكاميرا احترافية ومعالج A18 Pro",
 };
 
-export default function IPhone16ProPage() {
+export default async function IPhone16ProPage() {
+  const products = await getAllProducts();
   return (
    <PhoneHeroPage
   slug="iphone-16-pro"
@@ -20,6 +22,7 @@ export default function IPhone16ProPage() {
     { icon: "camera", label: "كاميرا احترافية 48MP مع تقريب 5x" },
     { icon: "chip", label: "معالج A18 Pro" },
   ]}
+  initialProducts={products}
 />
   );
 }

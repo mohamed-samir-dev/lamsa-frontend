@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPhone 16 Plus | لمسه للاجهزه الذكيه",
   description: "iPhone 16 Plus بشاشة أكبر وبطارية أقوى وأداء مميز",
 };
 
-export default function IPhone16PlusPage() {
+export default async function IPhone16PlusPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
   slug="iphone-16-plus"
@@ -20,6 +22,7 @@ export default function IPhone16PlusPage() {
     { icon: "camera", label: "كاميرا مزدوجة 48MP" },
     { icon: "chip", label: "معالج A18" },
   ]}
+  initialProducts={products}
 />
   );
 }

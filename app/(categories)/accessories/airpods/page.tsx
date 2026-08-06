@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "AirPods | لمسه للاجهزه الذكيه",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "سماعات AirPods من أبل بصوت استثنائي وإلغاء ضوضاء متقدم وتصميم مريح",
 };
 
-export default function AirPodsPage() {
+export default async function AirPodsPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="airpods"
@@ -20,6 +22,7 @@ export default function AirPodsPage() {
         { icon: "chip", label: "شريحة Apple H2" },
         { icon: "battery", label: "بطارية تدوم حتى 6 ساعات" },
       ]}
+      initialProducts={products}
     />
   );
 }

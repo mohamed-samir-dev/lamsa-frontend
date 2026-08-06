@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPhone 17 Pro | لمسه للاجهزه الذكيه",
   description: "iPhone 17 Pro بتصميم تيتانيوم متطور وكاميرا احترافية ومعالج A19 Pro",
 };
 
-export default function IPhone17ProPage() {
+export default async function IPhone17ProPage() {
+  const products = await getAllProducts();
   return (
   <PhoneHeroPage
   slug="iphone-17-pro"
@@ -20,6 +22,7 @@ export default function IPhone17ProPage() {
     { icon: "chip", label: "معالج A19 Pro" },
     { icon: "display", label: "شاشة ProMotion بتردد 120Hz" },
   ]}
+  initialProducts={products}
 />
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,8 +21,6 @@ import type { Product } from "../../components/products/types";
 import { slugConfigs } from "../../lib/categoryConfig";
 import { categoryBanners } from "../../lib/categoryBanners";
 import { sortProducts } from "../../lib/sortProducts";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 function normalizeArabic(str: string): string {
   return str
@@ -113,12 +111,10 @@ const features = [
   { icon: IoFlash, text: "تقسيط مريح" },
 ];
 
-export default function CategoryPageClient({ slug }: { slug: string }) {
+export default function CategoryPageClient({ slug, initialProducts = [] }: { slug: string; initialProducts?: Product[] }) {
   const config = slugConfigs[slug];
   if (!config) notFound();
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [imgError, setImgError] = useState(false);
   const ITEMS_PER_PAGE = 12;
@@ -126,19 +122,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   const bannerImage = categoryBanners[slug] || null;
   const hasBanner = bannerImage && !imgError;
 
-  useEffect(() => {
-    if (!slug) return;
-    const brand = config?.filters.brand ?? "";
-    const query = brand ? `&brand=${encodeURIComponent(brand)}` : "";
-    fetch(`${API}/api/products?page=1&limit=100${query}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
-        setProducts(sortProducts(filterProducts(list, slug)));
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [slug, config?.filters.brand]);
+  const products = useMemo(() => sortProducts(filterProducts(initialProducts, slug)), [initialProducts, slug]);
 
   const label = config?.label ?? slug;
   const parentLabel = config?.parentLabel ?? "";
@@ -254,7 +238,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
                   </motion.div>
                 ))}
 
-                {!loading && products.length > 0 && (
+                {products.length > 0 && (
                   <motion.span
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -279,20 +263,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
         {/* ═══════════ PRODUCTS GRID ═══════════ */}
         <div className="max-w-6xl mx-auto px-3 sm:px-6 py-6 sm:py-10">
-          {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                  <div className="w-full aspect-square bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse" />
-                  <div className="p-3 sm:p-4 space-y-2.5">
-                    <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-3/4" />
-                    <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-1/2" />
-                  </div>
-                  <div className="h-11 bg-gray-50 animate-pulse mx-3 mb-3 rounded-xl" />
-                </div>
-              ))}
-            </div>
-          ) : !products.length ? (
+          {!products.length ? (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

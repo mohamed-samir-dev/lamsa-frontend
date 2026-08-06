@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +11,6 @@ import type { Product } from "../products/types";
 import { slugConfigs } from "../../lib/categoryConfig";
 import { sortProducts } from "../../lib/sortProducts";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const ITEMS_PER_PAGE = 12;
 
 function normalizeArabic(str: string): string {
@@ -53,6 +52,7 @@ export interface PhoneHeroPageProps {
   tagline: string;
   description: string;
   features?: { icon: "battery" | "camera" | "chip" | "display" | "design"; label: string }[];
+  initialProducts?: Product[];
 }
 
 const iconMap = {
@@ -69,31 +69,14 @@ const defaultFeatures: { icon: "battery" | "camera" | "chip" | "display" | "desi
   { icon: "chip", label: "معالج فائق السرعة" },
 ];
 
-export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, tagline, description, features = defaultFeatures }: PhoneHeroPageProps) {
+export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, tagline, description, features = defaultFeatures, initialProducts = [] }: PhoneHeroPageProps) {
   const config = slugConfigs[slug];
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedStorage, setSelectedStorage] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
 
-  useEffect(() => {
-    const { brand, category } = config?.filters ?? {};
-    const params = new URLSearchParams();
-    if (brand) params.set("brand", brand);
-    if (category) params.set("category", category);
-    params.set("limit", "200");
-    fetch(`${API}/api/products?${params}`)
-      .then((r) => r.json())
-      .then((data) => {
-        console.log("API response:", JSON.stringify(data)?.slice(0, 300));
-        const list: Product[] = Array.isArray(data) ? data : Array.isArray(data?.products) ? data.products : [];
-        setProducts(sortProducts(filterProducts(list, slug)));
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [slug, config?.filters.brand, config?.filters.category]);
+  const products = useMemo(() => sortProducts(filterProducts(initialProducts, slug)), [initialProducts, slug]);
 
   const availableColors = useMemo(() => [...new Set(products.map((p) => p.color).filter(Boolean))], [products]);
   const availableStorages = useMemo(() => [...new Set(products.map((p) => p.storage).filter(Boolean))], [products]);
@@ -187,11 +170,9 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
           <div className="flex items-center gap-3">
             <div className="w-1 h-8 rounded-full" style={{ backgroundColor: "#BC9255" }} />
             <h2 className="text-lg sm:text-xl font-bold text-[#1F2C3E]">المنتجات المتوفرة</h2>
-            {!loading && (
-              <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ backgroundColor: "#F5EBE0", color: "#A77D4B" }}>
+            <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ backgroundColor: "#F5EBE0", color: "#A77D4B" }}>
                 {filteredProducts.length} منتج
               </span>
-            )}
           </div>
           {hasFilters && (
             <button onClick={clearFilters} className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full transition hover:opacity-80" style={{ backgroundColor: "#FEE2E2", color: "#DC2626" }}>
@@ -201,7 +182,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
           )}
         </div>
 
-        {!loading && products.length > 0 && (
+        {products.length > 0 && (
           <div className="flex flex-wrap items-center gap-3 mb-8 p-4 rounded-2xl" style={{ backgroundColor: "#FFF", border: "1px solid #EBE6E2" }}>
             {availableColors.length > 1 && (
               <div className="flex items-center gap-2">
@@ -269,19 +250,7 @@ export default function PhoneHeroPage({ slug, heroImage, nameEn, nameEnLine2, ta
           </div>
         )}
 
-        {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-[#EBE6E2]">
-                <div className="w-full aspect-square bg-[#F5EBE0]/50 animate-pulse" />
-                <div className="p-4 space-y-2">
-                  <div className="h-3 bg-[#F5EBE0] animate-pulse rounded-full w-3/4" />
-                  <div className="h-3 bg-[#F5EBE0] animate-pulse rounded-full w-1/2" />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : !products.length ? (
+        {!products.length ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
             <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl" style={{ backgroundColor: "#F5EBE0" }}>
               📱

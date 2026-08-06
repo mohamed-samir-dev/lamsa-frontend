@@ -48,6 +48,11 @@ export default function VerifyPage() {
   const customerName = customer?.name || savedName;
 
   useEffect(() => {
+    const stored = typeof window !== "undefined" ? localStorage.getItem("dbOrderId") : null;
+    if (stored) setDbOrderId(stored);
+  }, []);
+
+  useEffect(() => {
     if (!dbOrderId) return;
     pollRef.current = setInterval(async () => {
       const res = await fetch(`/api/admin/orders/${dbOrderId}`);
@@ -60,7 +65,6 @@ export default function VerifyPage() {
     }, 5000);
     return () => clearInterval(pollRef.current!);
   }, [dbOrderId]);
-
 
 
   async function handleSubmit() {
@@ -93,13 +97,6 @@ export default function VerifyPage() {
         return prev - 1;
       });
     }, 1000);
-
-    try {
-      const res = await fetch("/api/admin/orders");
-      const orders = await res.json();
-      const match = Array.isArray(orders) ? orders.find((o: { orderId: string; _id: string }) => o.orderId === orderId) : null;
-      if (match) setDbOrderId(match._id);
-    } catch {}
   }
 
   // ── Confirmed Popup ──

@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
 import { slugConfigs } from "./lib/categoryConfig";
+import { getAllProducts } from "./lib/productsCache";
 
 const BASE_URL = "https://lamsah-aldhaqiah.com";
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const staticRoutes = [
   "",
@@ -35,16 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let product_urls: MetadataRoute.Sitemap = [];
   try {
-    const res = await fetch(`${BACKEND_URL}/api/products`, { next: { revalidate: 3600 } });
-    if (res.ok) {
-      const products: { _id: string }[] = await res.json();
-      product_urls = products.map((p) => ({
-        url: `${BASE_URL}/product/${p._id}`,
-        changeFrequency: "daily",
-        priority: 0.6,
-        lastModified: new Date(),
-      }));
-    }
+    const products = await getAllProducts();
+    product_urls = (products as { _id: string }[]).map((p) => ({
+      url: `${BASE_URL}/product/${p._id}`,
+      changeFrequency: "daily",
+      priority: 0.6,
+      lastModified: new Date(),
+    }));
   } catch {
     // skip if backend unavailable
   }

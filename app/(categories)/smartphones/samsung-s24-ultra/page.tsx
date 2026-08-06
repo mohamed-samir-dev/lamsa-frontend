@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "Samsung Galaxy S24 Ultra | لمسه للاجهزه الذكيه",
   description: "سامسونج جالكسي S24 الترا بأفضل سعر مع ضمان معتمد وتقسيط مريح",
 };
 
-export default function SamsungS24UltraPage() {
+export default async function SamsungS24UltraPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="samsung-s24-ultra"
@@ -20,6 +22,7 @@ export default function SamsungS24UltraPage() {
         { icon: "chip", label: "معالج Snapdragon 8 Gen 3" },
         { icon: "display", label: "شاشة 6.8 بوصة Dynamic AMOLED" },
       ]}
+      initialProducts={products}
     />
   );
 }

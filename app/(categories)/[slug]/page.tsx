@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { slugConfigs } from "../../lib/categoryConfig";
 import CategoryPageClient from "./CategoryPageClient";
+import { getAllProducts } from "../../lib/productsCache";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://lamsah-aldhaqiah.com";
@@ -57,5 +58,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CategorySlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return <CategoryPageClient slug={slug} />;
+  const products = await getAllProducts();
+  return <CategoryPageClient slug={slug} initialProducts={products} />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "../components/products/ProductCard";
 import type { Product } from "../components/products/types";
@@ -10,10 +10,11 @@ export default function SearchClient() {
   const q = searchParams.get("q") || "";
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const lastQ = useRef("");
 
   useEffect(() => {
-    if (!q) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!q || q === lastQ.current) return;
+    lastQ.current = q;
     setLoading(true);
     fetch(`/api/products?q=${encodeURIComponent(q)}`)
       .then((r) => r.json())

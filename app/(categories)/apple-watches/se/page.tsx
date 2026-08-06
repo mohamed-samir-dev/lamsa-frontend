@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "Apple Watch SE | لمسه للاجهزه الذكيه",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "ساعة Apple Watch SE بتصميم أنيق وأداء ذكي مع تتبع اللياقة والصحة بأفضل سعر",
 };
 
-export default function AppleWatchSEPage() {
+export default async function AppleWatchSEPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="se"
@@ -21,6 +23,7 @@ export default function AppleWatchSEPage() {
         { icon: "battery", label: "بطارية تدوم طول اليوم" },
         { icon: "chip", label: "معالج S8 SiP" },
       ]}
+      initialProducts={products}
     />
   );
 }

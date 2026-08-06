@@ -11,13 +11,14 @@ const subCategories: SubCategoryCard[] = [
 const filterFn = (p: Product) =>
   p.category === "سماعات" || false;
 
-export default function AudioClient() {
+export default function AudioClient({ initialProducts = [] }: { initialProducts?: Product[] }) {
   return (
     <CategoryLandingClient
       title="أجهزة صوت و سماعات"
       emoji="🎧"
       subCategories={subCategories}
       filterFn={filterFn}
+      initialProducts={initialProducts}
     />
   );
 }

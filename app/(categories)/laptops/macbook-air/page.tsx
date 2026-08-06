@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "MacBook Air | لمسه للاجهزه الذكيه",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "MacBook Air خفيف بشكل مذهل وقوي بشكل لا يصدق مع شريحة Apple Silicon وبطارية تدوم طوال اليوم",
 };
 
-export default function MacBookAirPage() {
+export default async function MacBookAirPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="macbook-air"
@@ -21,6 +23,7 @@ export default function MacBookAirPage() {
         { icon: "chip", label: "شريحة Apple Silicon" },
         { icon: "design", label: "تصميم خفيف ونحيف" },
       ]}
+      initialProducts={products}
     />
   );
 }

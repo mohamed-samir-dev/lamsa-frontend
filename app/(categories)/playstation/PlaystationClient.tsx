@@ -17,13 +17,14 @@ const PS_CATEGORIES = ["ps5", "ps4", "xbox", "controller", "gaming-accessories"]
 const filterFn = (p: Product) =>
   PS_CATEGORIES.includes(p.category?.toLowerCase() ?? "");
 
-export default function PlaystationClient() {
+export default function PlaystationClient({ initialProducts = [] }: { initialProducts?: Product[] }) {
   return (
     <CategoryLandingClient
       title="أجهزة بلاي ستيشن"
       emoji="🎮"
       subCategories={subCategories}
       filterFn={filterFn}
+      initialProducts={initialProducts}
     />
   );
 }

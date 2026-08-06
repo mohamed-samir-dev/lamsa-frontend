@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../lib/productsCache";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://lamsah-aldhaqiah.com";
@@ -23,7 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function AudioPage() {
+export default async function AudioPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="audio"
@@ -37,6 +39,7 @@ export default function AudioPage() {
         { icon: "chip", label: "صوت نقي" },
         { icon: "battery", label: "بطارية طويلة" },
       ]}
+      initialProducts={products}
     />
   );
 }

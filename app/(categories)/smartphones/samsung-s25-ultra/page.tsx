@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "Samsung Galaxy S25 Ultra | لمسه للاجهزه الذكيه",
   description: "سامسونج جالكسي S25 الترا بأفضل سعر مع ضمان معتمد وتقسيط مريح",
 };
 
-export default function SamsungS25UltraPage() {
+export default async function SamsungS25UltraPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="samsung-s25-ultra"
@@ -20,6 +22,7 @@ export default function SamsungS25UltraPage() {
         { icon: "chip", label: "معالج Snapdragon 8 Elite" },
         { icon: "battery", label: "بطارية 5000mAh" },
       ]}
+      initialProducts={products}
     />
   );
 }

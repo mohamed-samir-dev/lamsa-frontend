@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../lib/productsCache";
+
+const SITE_URL = "https://lamsah-aldhaqiah.com";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://lamsah-aldhaqiah.com";
 
 async function getCompany() {
   try {
@@ -23,7 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function PlaystationPage() {
+export default async function PlaystationPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="ps5"
@@ -37,6 +40,7 @@ export default function PlaystationPage() {
         { icon: "design", label: "تصميم عصري" },
         { icon: "battery", label: "ترفيه بلا حدود" },
       ]}
+      initialProducts={products}
     />
   );
 }

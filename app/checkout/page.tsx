@@ -54,6 +54,7 @@ export default function CheckoutPage() {
     if (data.orderId) {
       localStorage.setItem("orderId", data.orderId);
       localStorage.setItem("customerName", customer?.name ?? "—");
+      if (data.dbOrderId) localStorage.setItem("dbOrderId", data.dbOrderId);
       clear();
     }
   };

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import SamsungOnlyClient from "./SamsungOnlyClient";
+import type { Product } from "../../../components/products/types";
+import { getAllProducts } from "../../../lib/productsCache";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 
@@ -21,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function SamsungOnlyPage() {
-  return <SamsungOnlyClient />;
+export default async function SamsungOnlyPage() {
+  const products = await getAllProducts() as Product[];
+  return <SamsungOnlyClient initialProducts={products} />;
 }

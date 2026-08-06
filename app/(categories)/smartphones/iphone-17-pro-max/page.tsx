@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPhone 17 Pro Max | لمسه للاجهزه الذكيه",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "iPhone 17 Pro Max يجمع بين تصميم التيتانيوم الأنيق والأداء الخرافي مع كاميرات احترافية من الجيل الجديد",
 };
 
-export default function IPhone17ProMaxPage() {
+export default async function IPhone17ProMaxPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="iphone-17-pro-max"
@@ -21,6 +23,7 @@ export default function IPhone17ProMaxPage() {
         { icon: "camera", label: "نظام كاميرات احترافي" },
         { icon: "chip", label: "معالج A19 Pro" },
       ]}
+      initialProducts={products}
     />
   );
 }

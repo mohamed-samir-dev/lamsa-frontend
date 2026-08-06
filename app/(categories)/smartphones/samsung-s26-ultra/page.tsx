@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "Samsung Galaxy S26 Ultra | لمسه للاجهزه الذكيه",
   description: "سامسونج جالكسي S26 الترا بأفضل سعر مع ضمان معتمد وتقسيط مريح",
 };
 
-export default function SamsungS26UltraPage() {
+export default async function SamsungS26UltraPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="samsung-s26-ultra"
@@ -20,6 +22,7 @@ export default function SamsungS26UltraPage() {
         { icon: "chip", label: "معالج Snapdragon الأحدث" },
         { icon: "battery", label: "بطارية 5000mAh" },
       ]}
+      initialProducts={products}
     />
   );
 }

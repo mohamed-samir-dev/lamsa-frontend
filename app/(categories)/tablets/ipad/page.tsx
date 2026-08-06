@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPad | لمسه للاجهزه الذكيه",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "iPad بشاشة رائعة وأداء قوي يناسب العمل والترفيه والإبداع",
 };
 
-export default function IPadPage() {
+export default async function IPadPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="ipad"
@@ -20,6 +22,7 @@ export default function IPadPage() {
         { icon: "chip", label: "معالج Apple فائق السرعة" },
         { icon: "battery", label: "بطارية تدوم طوال اليوم" },
       ]}
+      initialProducts={products}
     />
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   IoHomeOutline,
@@ -18,8 +18,6 @@ import ProductCard from "./products/ProductCard";
 import type { Product } from "./products/types";
 import { sortProducts } from "../lib/sortProducts";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
 export interface SubCategoryCard {
   slug: string;
   label: string;
@@ -32,6 +30,7 @@ interface Props {
   emoji: string;
   subCategories: SubCategoryCard[];
   filterFn: (p: Product) => boolean;
+  initialProducts?: Product[];
 }
 
 const features = [
@@ -68,23 +67,11 @@ function AnimatedHeroBg() {
   );
 }
 
-export default function CategoryLandingClient({ title, emoji, subCategories, filterFn }: Props) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function CategoryLandingClient({ title, emoji, subCategories, filterFn, initialProducts = [] }: Props) {
   const [page, setPage] = useState(1);
   const ITEMS_PER_PAGE = 12;
 
-  useEffect(() => {
-    fetch(`${API}/api/products?page=1&limit=100`)
-      .then((r) => r.json())
-      .then((data) => {
-        const list: Product[] = Array.isArray(data) ? data : (data.products ?? []);
-        setProducts(sortProducts(list.filter(filterFn)));
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [filterFn]);
-
+  const products = useMemo(() => sortProducts(initialProducts.filter(filterFn)), [initialProducts, filterFn]);
   const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
 
   return (
@@ -157,7 +144,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
                     {f.text}
                   </motion.div>
                 ))}
-                {!loading && products.length > 0 && (
+                {products.length > 0 && (
                   <motion.span
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -228,26 +215,13 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-black text-gray-900">جميع المنتجات</h2>
-              {!loading && products.length > 0 && (
+              {products.length > 0 && (
                 <p className="text-[11px] text-gray-400">صفحة {page} من {totalPages || 1}</p>
               )}
             </div>
           </motion.div>
 
-          {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                  <div className="w-full aspect-square bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse" />
-                  <div className="p-3 sm:p-4 space-y-2.5">
-                    <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-3/4" />
-                    <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-1/2" />
-                  </div>
-                  <div className="h-11 bg-gray-50 animate-pulse mx-3 mb-3 rounded-xl" />
-                </div>
-              ))}
-            </div>
-          ) : !products.length ? (
+          {!products.length ? (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

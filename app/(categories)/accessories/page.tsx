@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "اكسسوارات | لمسه للاجهزه الذكيه",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "تسوق أفضل الاكسسوارات من بطاريات متنقلة وكيابل وسماعات بأفضل الأسعار مع ضمان معتمد",
 };
 
-export default function AccessoriesPage() {
+export default async function AccessoriesPage() {
+  const products = await getAllProducts();
   return (
     <PhoneHeroPage
       slug="anker-batteries"
@@ -20,6 +22,7 @@ export default function AccessoriesPage() {
         { icon: "chip", label: "شحن سريع" },
         { icon: "design", label: "جودة عالية" },
       ]}
+      initialProducts={products}
     />
   );
 }

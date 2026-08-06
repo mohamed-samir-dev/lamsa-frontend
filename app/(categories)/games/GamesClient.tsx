@@ -17,13 +17,14 @@ const GAME_CATEGORIES = ["gaming", "mice-keyboards", "microphone", "figures", "r
 const filterFn = (p: Product) =>
   GAME_CATEGORIES.includes(p.category?.toLowerCase() ?? "");
 
-export default function GamesClient() {
+export default function GamesClient({ initialProducts = [] }: { initialProducts?: Product[] }) {
   return (
     <CategoryLandingClient
       title="ألعاب الفيديو"
       emoji="🎮"
       subCategories={subCategories}
       filterFn={filterFn}
+      initialProducts={initialProducts}
     />
   );
 }

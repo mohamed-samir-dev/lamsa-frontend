@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import ProductPageClient from "./ProductPageClient";
+import { getProductById } from "../../lib/productsCache";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://lamsah-aldhaqiah.com";
 
 async function getProduct(id: string) {
-  try {
-    const r = await fetch(`${BACKEND}/api/products/${id}`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : null;
-  } catch {
-    return null;
-  }
+  return getProductById(id);
 }
 
 async function getCompany() {
@@ -116,7 +112,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ProductPageClient id={id} />
+      <ProductPageClient id={id} initialProduct={product} />
     </>
   );
 }

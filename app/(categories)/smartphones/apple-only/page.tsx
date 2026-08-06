@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AppleOnlyClient from "./AppleOnlyClient";
 import type { Product } from "../../../components/products/types";
+import { getAllProducts } from "../../../lib/productsCache";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 
@@ -22,18 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function getProducts(): Promise<Product[]> {
-  try {
-    const r = await fetch(`${BACKEND}/api/products?page=1&limit=100`, { next: { revalidate: 300 } });
-    if (!r.ok) return [];
-    const data = await r.json();
-    return Array.isArray(data) ? data : (data.products ?? []);
-  } catch {
-    return [];
-  }
-}
-
 export default async function AppleOnlyPage() {
-  const products = await getProducts();
+  const products = await getAllProducts() as Product[];
   return <AppleOnlyClient initialProducts={products} />;
 }

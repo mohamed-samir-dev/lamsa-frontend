@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PhoneHeroPage from "../../../components/phones/PhoneHeroPage";
+import { getAllProducts } from "../../../lib/productsCache";
 
 export const metadata: Metadata = {
   title: "iPhone 15 Plus | لمسه للاجهزه الذكيه",
   description: "iPhone 15 Plus بشاشة كبيرة وبطارية قوية وكاميرا 48 ميجابكسل",
 };
 
-export default function IPhone15PlusPage() {
+export default async function IPhone15PlusPage() {
+  const products = await getAllProducts();
   return (
   <PhoneHeroPage
   slug="iphone-15-plus"
@@ -20,6 +22,7 @@ export default function IPhone15PlusPage() {
     { icon: "camera", label: "كاميرا مزدوجة 48MP" },
     { icon: "chip", label: "معالج A16 Bionic" },
   ]}
+  initialProducts={products}
 />
   );
 }
