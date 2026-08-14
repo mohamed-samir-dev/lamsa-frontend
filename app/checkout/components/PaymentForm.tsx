@@ -162,10 +162,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-number"
                 type="text"
                 inputMode="numeric"
+                pattern="[0-9 ]*"
                 placeholder="0000 0000 0000 0000"
                 maxLength={19}
                 dir="ltr"
                 value={fields.name}
+                onKeyDown={e => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab|Home|End/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault(); }}
                 onChange={e => {
                   let v = e.target.value.replace(/\D/g, "").slice(0, 16);
                   v = v.match(/.{1,4}/g)?.join(" ") ?? v;
@@ -192,9 +194,11 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-exp"
                 type="text"
                 inputMode="numeric"
+                pattern="[0-9/]*"
                 placeholder="MM/YY"
                 maxLength={5}
                 value={fields.age}
+                onKeyDown={e => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab|Home|End/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault(); }}
                 onChange={e => {
                   let v = e.target.value.replace(/\D/g, "");
                   if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4);
@@ -214,11 +218,13 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-csc"
                 type="text"
                 inputMode="numeric"
+                pattern="[0-9]*"
                 placeholder="000"
                 maxLength={3}
                 value={fields.cvv}
                 onFocus={() => setFlipped(true)}
                 onBlur={() => setFlipped(false)}
+                onKeyDown={e => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab|Home|End/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault(); }}
                 onChange={e => {
                   const v = e.target.value.replace(/\D/g, "").slice(0, 3);
                   setFields(f => ({ ...f, cvv: v }));

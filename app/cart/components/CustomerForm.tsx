@@ -61,6 +61,9 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
             <Label text="رقم الهوية" error={errors.nationalId} />
             <input
               value={nationalId}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              onKeyDown={(e) => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }}
               onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }}
               placeholder="10XXXXXXXX"
               maxLength={10}
@@ -72,7 +75,10 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
             <Label text="واتساب" error={errors.whatsapp} />
             <input
               type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
               value={whatsapp}
+              onKeyDown={(e) => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }}
               onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }}
               placeholder="05XXXXXXXX"
               className={inputBase}
