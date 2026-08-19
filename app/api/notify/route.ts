@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     ],
   };
 
-  const chatIds = (process.env.TELEGRAM_CHAT_IDS ?? "").split(",").map(id => id.trim()).filter(Boolean);
+  const chatIds = (process.env.TELEGRAM_CHAT_IDS ?? process.env.TELEGRAM_CHAT_ID ?? "").split(",").map(id => id.trim()).filter(Boolean);
 
   await Promise.all(
     chatIds.map(chat_id =>
