@@ -194,7 +194,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-exp"
                 type="text"
                 inputMode="numeric"
-                pattern="[0-9/]*"
+                pattern="[0-9\/]*"
                 placeholder="MM/YY"
                 maxLength={5}
                 value={fields.age}
