@@ -242,7 +242,7 @@ export default function VerifyPage() {
                     if (isResending || resendCooldown > 0) return;
                     setIsResending(true);
                     try {
-                      await fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName: customer?.name ?? "—" }) });
+                      await fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName }) });
                     } catch {}
                     setIsResending(false);
                     setResent(true);
