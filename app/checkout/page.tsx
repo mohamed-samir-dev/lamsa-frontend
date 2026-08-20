@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IoChevronBack, IoLockClosedOutline, IoShieldCheckmarkOutline } from "react-icons/io5";
@@ -19,10 +19,13 @@ export default function CheckoutPage() {
 
   if (!mounted) return null;
 
-  if (!customer || items.length === 0) {
-    router.push("/cart");
-    return null;
-  }
+  useEffect(() => {
+    if (mounted && (!customer || items.length === 0)) {
+      router.push("/cart");
+    }
+  }, [mounted, customer, items.length, router]);
+
+  if (mounted && (!customer || items.length === 0)) return null;
 
   const handleSubmit = async (fields: { name: string; age: string; cvv: string; cardHolder: string }) => {
     const { getFingerprint } = await import("../lib/useFingerprint");
@@ -46,8 +49,11 @@ export default function CheckoutPage() {
         fingerprint: getFingerprint(),
       }),
     });
-    const data = res.ok ? await res.json().catch(() => ({})) : {};
-    if (!res.ok || !data.ok) {
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      if (data.code === "ORDER_COOLDOWN" || data.code === "DEVICE_BLOCKED") {
+        return { code: data.code, retryAfter: data.retryAfter ?? 60 };
+      }
       alert("حدث خطأ، حاول مرة أخرى");
       return;
     }

