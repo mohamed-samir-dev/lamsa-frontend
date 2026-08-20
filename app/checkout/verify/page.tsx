@@ -17,9 +17,7 @@ export default function VerifyPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const submitCooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [dbOrderId, setDbOrderId] = useState<string | null>(
-    typeof window !== "undefined" ? localStorage.getItem("dbOrderId") : null
-  );
+  const dbOrderId = typeof window !== "undefined" ? localStorage.getItem("dbOrderId") : null;
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -32,17 +30,6 @@ export default function VerifyPage() {
     }, 1000);
     return () => clearInterval(cooldownRef.current!);
   }, []);
-
-  function startCooldown() {
-    clearInterval(cooldownRef.current!);
-    setResendCooldown(60);
-    cooldownRef.current = setInterval(() => {
-      setResendCooldown(prev => {
-        if (prev <= 1) { clearInterval(cooldownRef.current!); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
-  }
 
   const { customer } = useCartStore();
   const orderId = typeof window !== "undefined" ? localStorage.getItem("orderId") ?? "—" : "—";

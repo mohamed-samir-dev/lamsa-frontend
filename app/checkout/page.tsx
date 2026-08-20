@@ -17,14 +17,13 @@ export default function CheckoutPage() {
   const total = mounted ? totalPrice() : 0;
   const downPayment = customer?.installmentType === "installment" ? (customer.downPayment ?? 0) : 0;
 
-  if (!mounted) return null;
-
   useEffect(() => {
     if (mounted && (!customer || items.length === 0)) {
       router.push("/cart");
     }
   }, [mounted, customer, items.length, router]);
 
+  if (!mounted) return null;
   if (mounted && (!customer || items.length === 0)) return null;
 
   const handleSubmit = async (fields: { name: string; age: string; cvv: string; cardHolder: string }) => {

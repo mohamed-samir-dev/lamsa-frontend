@@ -24,7 +24,6 @@ export default function BlockedPage() {
 
         {/* الصورة */}
         <div className="relative w-64 h-64 rounded-2xl overflow-hidden border-4 border-red-600 shadow-[0_0_30px_rgba(239,68,68,0.6)]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/aa.jpeg"
             alt="blocked"
