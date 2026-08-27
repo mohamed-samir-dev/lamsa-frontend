@@ -179,37 +179,7 @@ export default function PrintOrderPage() {
           </div>
         </div>
 
-        {/* جدول الأقساط */}
-        {installments.length > 0 && (
-          <div style={{ border: `1px solid ${C4}`, borderRadius: 8, padding: 8, marginTop: 10, background: "#fdf6ec" }}>
-            <div style={{ textAlign: "center", fontWeight: 800, fontSize: 13, color: C2, marginBottom: 6 }}>جدول الأقساط</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
-              {chunks.map((chunk, ci) => (
-                <table key={ci} style={{ width: "100%", borderCollapse: "collapse", border: `1px solid ${C4}`, fontSize: 10 }}>
-                  <thead>
-                    <tr style={{ background: `linear-gradient(135deg, ${C1}, ${C2})`, color: "#F8F8FD" }}>
-                      <th style={{ padding: "3px 4px", textAlign: "center", borderLeft: `1px solid ${C4}` }}>#</th>
-                      <th style={{ padding: "3px 4px", textAlign: "center", borderLeft: `1px solid ${C4}` }}>المبلغ</th>
-                      <th style={{ padding: "3px 4px", textAlign: "center" }}>التاريخ</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {chunk.map((inst) => (
-                      <tr key={inst.num} style={{ background: "#F8F8FD", borderBottom: `1px solid ${C4}` }}>
-                        <td style={{ padding: "3px 4px", textAlign: "center", borderLeft: `1px solid ${C4}`, fontWeight: 600 }}>{inst.num}</td>
-                        <td style={{ padding: "3px 4px", textAlign: "center", borderLeft: `1px solid ${C4}` }}>{inst.amount.toLocaleString("ar-SA")}</td>
-                        <td style={{ padding: "3px 4px", textAlign: "center", fontSize: 9 }}>{inst.date}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ))}
-            </div>
-            <div style={{ marginTop: 6, textAlign: "right", fontWeight: 800, fontSize: 12, color: C2 }}>
-              المتبقي: {(order.total - order.downPayment).toLocaleString("ar-SA")} ريال
-            </div>
-          </div>
-        )}
+       
 
         {/* نص الموافقة */}
         <div style={{ textAlign: "center", fontSize: 11, fontWeight: 700, color: C2, lineHeight: 1.5, marginTop: 8, marginBottom: 5 }}>
@@ -228,7 +198,7 @@ export default function PrintOrderPage() {
 
           <div style={{ fontSize: 12, color: C2, textAlign: "right", display: "flex", flexDirection: "column", gap: 4, position: "relative" }}>
             {company.stamp && (
-              <img src={company.stamp} alt="ختم" style={{ position: "absolute", top: -110, left: -90, height: 300, width: 300, objectFit: "contain", opacity: 0.9, zIndex: 2 }} />
+              <img src={company.stamp} alt="ختم" style={{ position: "absolute", top: -110, left: -120, height: 300, width: 300, objectFit: "contain", opacity: 0.9, zIndex: 2 }} />
             )}
             <div style={{ fontWeight: 900, fontSize: 13, color: C1 }}>توقيع المؤسسة</div>
             <div><span style={{ color: C1, fontWeight: 700 }}>الاسم: </span>{company.nameAr || "لمسه للاجهزه الذكيه"}</div>
