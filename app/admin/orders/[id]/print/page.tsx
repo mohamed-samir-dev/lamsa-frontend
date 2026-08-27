@@ -79,7 +79,7 @@ export default function PrintOrderPage() {
           body { background: #f0f0f0; display: flex; justify-content: center; }
         }
       `}</style>
-      <div ref={contentRef} style={{ fontFamily: "'Segoe UI', Tahoma, sans-serif", padding: "6px 12px", width: "210mm", minHeight: "297mm", position: "relative", direction: "rtl", background: "#F8F8FD" }}>
+      <div ref={contentRef} style={{ fontFamily: "'Segoe UI', Tahoma, sans-serif", padding: "6px 12px", width: "210mm", minHeight: "297mm", position: "relative", direction: "rtl", background: "white" }}>
 
         {company.header && <img src={company.header} alt="header" style={{ width: "100%", marginBottom: 4 }} />}
 
