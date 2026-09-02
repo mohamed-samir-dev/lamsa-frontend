@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
   }
 
   const text = [
-    `🛒 طلب لـ متجر مؤسسة مدار التقنية`,
+    `🛒 طلب لـ متجر مؤسسة لمسه للاجهزة الذكيه `,
     `🔖 رقم الطلب: #${orderId}`,
     ``,
     `💲 Total Amount: ${total} SAR`,
