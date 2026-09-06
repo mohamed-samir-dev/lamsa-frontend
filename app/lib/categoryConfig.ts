@@ -28,7 +28,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "آيفون 14 برو",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 14 برو" },
+    filters: { category: "ابل ايفون 14 برو", nameExcludes: ["ماكس", "max"] },
   },
   "iphone-14-plus": {
     label: "آيفون 14 بلس",
@@ -40,7 +40,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "آيفون 14 عادي",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 14" },
+    filters: { category: "ابل ايفون 14", nameExcludes: ["برو", "pro", "بلس", "plus", "ماكس", "max"] },
   },
   "iphone-15-pro-max": {
     label: "آيفون 15 برو ماكس",
@@ -52,7 +52,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "آيفون 15 برو",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 15 برو" },
+    filters: { category: "ابل ايفون 15 برو", nameExcludes: ["ماكس", "max"] },
   },
   "iphone-15-plus": {
     label: "آيفون 15 بلس",
@@ -64,7 +64,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "آيفون 15 عادي",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 15" },
+    filters: { category: "ابل ايفون 15", nameExcludes: ["برو", "pro", "بلس", "plus", "ماكس", "max"] },
   },
   "iphone-16-pro-max": {
     label: "ابل ايفون 16 برو ماكس",
@@ -88,7 +88,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "ايفون 16 عادي",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ايفون 16" },
+    filters: { category: "ايفون 16", nameExcludes: ["برو", "pro", "بلس", "plus", "ماكس", "max"] },
   },
   "iphone-17-pro-max": {
     label: "ابل ايفون 17 برو ماكس",
@@ -100,13 +100,13 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "ابل ايفون 17 برو",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 17 برو" },
+    filters: { category: "ابل ايفون 17 برو", nameExcludes: ["ماكس", "max"] },
   },
   "iphone-17": {
     label: "ابل ايفون 17 عادي",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 17" },
+    filters: { category: "ابل ايفون 17", nameExcludes: ["برو", "pro", "اير", "air", "ماكس", "max"] },
   },
   "iphone-17-air": {
     label: "ابل ايفون 17 Air",
